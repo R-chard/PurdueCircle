@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import {Redirect, Route, Switch, useHistory} from "react-router-dom" 
+import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom" 
 
 import Login from './views/Login'
 import Home from './views/Home'
+import Profile from './views/Profile'
+
+import './styles/App.css'
 
 const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const history = useHistory()
-    
-    // console.log('render')
 
     const loginSubmit = (e) => {
         e.preventDefault()
@@ -30,12 +31,10 @@ const App = () => {
     }
 
     const usernameHandler = (e) => {
-        // console.log('username handler')
         setUsername(e.target.value)
     }
 
     const passwordHandler = (e) => {
-        // console.log('password handler')
         setPassword(e.target.value)
     }
 
@@ -49,15 +48,23 @@ const App = () => {
 
     return (
         <div className="App">
-                <Switch>
-                    <Route path='/login'>
-                        <Login inputFunctions = {inputFunctions}/>
-                    </Route>
+            <Link to='/' className="link">Home</Link>
+            <Link to={'/profile'} className="link">Profile</Link>
+            <button onClick={() => setUser(null)} className="logOutButton">log out</button>
 
-                    <Route path='/'>
-                        {user ? <Home /> : <Redirect to="/login" />}
-                    </Route>
-                </Switch>
+            <Switch>
+                <Route exact path='/'>
+                    {user ? <Home /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path='/login'>
+                    <Login inputFunctions = {inputFunctions}/>
+                </Route>
+
+                <Route path='/profile'>
+                    {user ? <Profile /> : <Redirect to="/login" />}
+                </Route>
+            </Switch>
         </div>
     )
 }

@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
-import Login from './components/Login'
+import {Redirect, Route, Switch, useHistory} from "react-router-dom" 
+
+import Login from './views/Login'
+import Home from './views/Home'
 
 const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    console.log('render')
+    const [user, setUser] = useState(null)
+    const history = useHistory()
+    
+    // console.log('render')
 
     const loginSubmit = (e) => {
         e.preventDefault()
@@ -16,8 +22,11 @@ const App = () => {
         }
 
         console.log(loginObject)
+        setUser(loginObject)
+
         setUsername('')
         setPassword('')
+        history.push('/')
     }
 
     const usernameHandler = (e) => {
@@ -30,16 +39,25 @@ const App = () => {
         setPassword(e.target.value)
     }
 
+    const inputFunctions = {
+        "submit": loginSubmit,
+        "usernameHandler": usernameHandler,
+        "passwordHandler": passwordHandler,
+        "username":username,
+        "password":password
+    }
+
     return (
         <div className="App">
-            <p>asdf</p>
-            <Login
-                submit={loginSubmit}
-                usernameHandler={usernameHandler}
-                passwordHandler={passwordHandler}
-                username={username}
-                password={password}
-            />
+                <Switch>
+                    <Route path='/login'>
+                        <Login inputFunctions = {inputFunctions}/>
+                    </Route>
+
+                    <Route path='/'>
+                        {user ? <Home /> : <Redirect to="/login" />}
+                    </Route>
+                </Switch>
         </div>
     )
 }

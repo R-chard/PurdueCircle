@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Login from './components/Login'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    console.log('render')
+
+    const loginSubmit = (e) => {
+        e.preventDefault()
+        console.log('submitted')
+
+        const loginObject = {
+            username: username,
+            password: password,
+        }
+
+        console.log(loginObject)
+        setUsername('')
+        setPassword('')
+    }
+
+    const usernameHandler = (e) => {
+        // console.log('username handler')
+        setUsername(e.target.value)
+    }
+
+    const passwordHandler = (e) => {
+        // console.log('password handler')
+        setPassword(e.target.value)
+    }
+
+    return (
+        <div className="App">
+            <p>asdf</p>
+            <Login
+                submit={loginSubmit}
+                usernameHandler={usernameHandler}
+                passwordHandler={passwordHandler}
+                username={username}
+                password={password}
+            />
+        </div>
+    )
 }
 
-export default App;
+export default App

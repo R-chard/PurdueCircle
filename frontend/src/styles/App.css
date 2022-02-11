@@ -1,18 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Nunito&display=swap');
-
 .link {
-    font-family: 'Nunito', sans-serif;
-    padding: 5px;
+    margin: 5px;
 }
 
-/* .logOutButton {
-    position: absolute;
-    top: 0;
-    right: 0;
-} */
+.logOutButton {
+    float: right;
+    margin: 5px;
+    background-color: #72dfbe; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* text-align: center; */
+    /* text-decoration: none; */
+}
+
+.logOutButton:hover {
+    background-color: #268f6f;
+}
 
 .App {
     border-style: double;
     border-color: black;
     border-width: 5px;
 }
+
+body {
+    font-family: Nunito, sans-serif;
+  }

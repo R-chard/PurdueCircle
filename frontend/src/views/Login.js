@@ -9,15 +9,15 @@ const Login = (props) => {
             <h1>Purdue Circle</h1>
             <div className="inputContainer">
                 <form onSubmit={submit}>
-                    <h3>Login</h3>
+                    {/* <h3>Login</h3> */}
                     <div className="field">
-                        <input value={username} onChange={usernameHandler} placeholder={'username'}/>
+                        <input value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
                     </div>
                     <div className="field">
-                        <input type={"password"} value={password} onChange={passwordHandler} placeholder={'password'}/>
+                        <input type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     </div>
-                    <div>
-                        <input type={"submit"} value={"login"}/>
+                    <div className="button">
+                        <input type={"submit"} value={"Login"}/>
                         {/* <button type="submit">login</button> */}
                     </div>
                 </form>

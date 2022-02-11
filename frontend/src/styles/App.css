@@ -4,27 +4,28 @@
 
 .logOutButton {
     float: right;
-    margin: 5px;
-    background-color: #72dfbe; /* Green */
-    border: none;
+    width: 100px;
+    background-color: #398fff;
+    transition: 250ms;
     color: white;
-    padding: 10px 10px;
-    border-radius: 5px;
+    padding: 10px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    /* text-align: center; */
-    /* text-decoration: none; */
 }
 
 .logOutButton:hover {
-    background-color: #268f6f;
+    background-color: #1770e6;
+    transition: 250ms;
 }
 
 .App {
-    border-style: double;
-    border-color: black;
+    /* border-style: double; */
+    /* border-color: black; */
     border-width: 5px;
 }
 
-body {
+* {
     font-family: Nunito, sans-serif;
-  }
+}

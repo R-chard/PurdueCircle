@@ -50,7 +50,7 @@ const App = () => {
         <div className="App">
             <Link to='/' className="link">Home</Link>
             <Link to={'/profile'} className="link">Profile</Link>
-            <button onClick={() => setUser(null)} className="logOutButton">log out</button>
+            {user ? <button onClick={() => setUser(null)} className="logOutButton">Log out</button> : ''}
 
             <Switch>
                 <Route exact path='/'>

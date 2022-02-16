@@ -4,6 +4,7 @@ import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom"
 import Login from './views/Login'
 import Home from './views/Home'
 import Profile from './views/Profile'
+import ProfileSettings from "./views/ProfileSettings"
 
 import './styles/App.css'
 
@@ -63,6 +64,10 @@ const App = () => {
 
                 <Route path='/profile'>
                     {user ? <Profile /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path='/settings'>
+                    {user ? <ProfileSettings /> : <Redirect to="/login" />}
                 </Route>
             </Switch>
         </div>

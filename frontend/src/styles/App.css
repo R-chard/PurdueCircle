@@ -1,4 +1,13 @@
-.link {
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Nunito:wght@400;700&display=swap');
+
+* {
+    font-family: Nunito, sans-serif;
+    font-size: 15px;
+    color: black;
+    box-sizing: border-box;
+}
+
+.headerLink {
     margin: 5px;
 }
 
@@ -18,14 +27,4 @@
 .logOutButton:hover {
     background-color: #1770e6;
     transition: 250ms;
-}
-
-.App {
-    /* border-style: double; */
-    /* border-color: black; */
-    border-width: 5px;
-}
-
-* {
-    font-family: Nunito, sans-serif;
 }

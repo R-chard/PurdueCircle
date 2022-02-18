@@ -4,8 +4,9 @@ const cors = require("cors")
 const bodyParser = require("body-parser")
 const app = express()
 const userRoutes = require("./routes/user-routes")
-const port = 5000
- 
+
+const port = 3001
+
 app.use(bodyParser.json())
 app.use(cors())
 

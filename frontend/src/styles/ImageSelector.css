@@ -1,0 +1,17 @@
+.image-selector-component{
+    width: 20%;
+}
+.image-selector-div{
+    height: 100%;
+    width: 100%;
+}
+
+.image-selector-div img{
+    height:100%;
+    width: 100%;
+    object-fit: scale-down;
+}
+
+.image-selector-uploader{
+    width: 100%;
+}

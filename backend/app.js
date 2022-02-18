@@ -7,12 +7,9 @@ const userRoutes = require("./routes/user-routes")
 
 const port = 3001
 
-app.use(bodyParser.json())
 app.use(cors())
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use(bodyParser.json())
+app.use("/images",express.static("images"))
 
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)

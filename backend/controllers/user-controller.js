@@ -3,7 +3,6 @@ const User = require("../schemas/users")
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email and password
     const {username,email,password} = req.body
-    console.log(req.body)
 
     // Creating a new row for the user table in the database
     // User({username,email,password}) is the same as 
@@ -24,5 +23,10 @@ const signup = async (req,res,next) => {
     res.status(201).json({signedIn: username + " has signed up"})
 }
 
+const uploadProfile = async (req,res,next) =>{
+    res.json({uploaded:true})
+}
+
 // export this function so another file can import it
 exports.signup = signup
+exports.uploadProfile = uploadProfile

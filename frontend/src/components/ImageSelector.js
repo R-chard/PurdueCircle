@@ -2,7 +2,7 @@ import React,{useState} from "react"
 import "../styles/ImageSelector.css"
 
 const ImageSelector = (props) => {
-    const [picURL,setPicURL] = useState("http://localhost:3001/images/default.png")
+    const [picURL,setPicURL] = useState("https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png")
     const [selectedFile, setSelectedFile] = useState(null)
     const fileSelectedHandler = (e) => {
         const reader = new FileReader()

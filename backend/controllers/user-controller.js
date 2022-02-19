@@ -1,4 +1,5 @@
 const User = require("../schemas/users")
+const cloudinary = require("../middleware/cloudinary")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email and password
@@ -24,7 +25,22 @@ const signup = async (req,res,next) => {
 }
 
 const uploadProfile = async (req,res,next) =>{
-    res.json({uploaded:true})
+    console.log(req.file)
+    try{
+        const result = await cloudinary.uploader.upload(req.file.path)
+        const newUser = new User({
+            username:"Tim",
+            email:"tim@gmail.com",
+            password:"123",
+            profile_img: result.secure_url,
+            cloudinary_id:result.public_id
+        })
+        await newUser.save()
+        res.json({uploaded:true})
+    } catch(err){
+        console.log(err)
+    }
+    
 }
 
 // export this function so another file can import it

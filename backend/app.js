@@ -2,9 +2,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require("cors")
 const bodyParser = require("body-parser")
-const app = express()
 const userRoutes = require("./routes/user-routes")
 
+require("dotenv").config()
+
+const app = express()
 const port = 3001
 
 app.use(cors())
@@ -19,9 +21,15 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+// Error handling
+app.use((err,req,res,next)=>{
+  const status = err.statusCode || 500
+  const message = err.message
+  res.status(status).json({message})
+})
+
 // Establish connection with database
-mongoose.connect(
-  "mongodb+srv://admin:P4rdue@cluster0.g5hjd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", 
+mongoose.connect(process.env.DB_KEY, 
   {
       useNewUrlParser: true,
       useUnifiedTopology: true

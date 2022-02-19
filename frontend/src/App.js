@@ -10,6 +10,7 @@ import SignUp from './views/SignUp'
 import {login, signUp} from './utils/login'
 
 import './styles/App.css'
+import NotFound from './views/NotFound'
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -137,6 +138,10 @@ const App = () => {
 
                 <Route path='/signup'>
                     <SignUp inputFunctions = {signUpProps}/>
+                </Route>
+
+                <Route path="">
+                    <NotFound />
                 </Route>
             </Switch>
         </div>

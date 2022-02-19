@@ -11,7 +11,6 @@ const port = 3001
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use("/images",express.static("images"))
 
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)
@@ -19,6 +18,12 @@ app.use("/api/user",userRoutes)
 // Indicate to the developer that the server is working. Doesn't really do much
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
+})
+
+app.use("/",()=>{
+  const err = new Error("Route not found")
+  err.status = 404
+  throw err
 })
 
 // Error handling

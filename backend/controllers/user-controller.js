@@ -24,8 +24,8 @@ const signup = async (req,res,next) => {
     res.status(201).json({signedIn: username + " has signed up"})
 }
 
+// TODO: Modify when we have cookies from login / signup
 const uploadProfile = async (req,res,next) =>{
-    console.log(req.file)
     try{
         const result = await cloudinary.uploader.upload(req.file.path)
         const newUser = new User({

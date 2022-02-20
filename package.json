@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "start": "cd backend && npm install && node app.js",
-        "heroku-postbuild": "cd ../frontend && npm install && npm run build"
+        "heroku-postbuild": "cd frontend && npm install && npm run build"
     },
     "dependencies": {
         "concurrently": "^7.0.0"

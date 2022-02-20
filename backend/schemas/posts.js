@@ -12,7 +12,8 @@ const postSchema = new mongoose.Schema({
         datePosted: Date,
         message: String
     }],
-    likes: Number
+    likes: Number,
+    usersLiked: [{type:mongoose.Types.ObjectId, ref: "User"}]
 })
 
 // Tell mongoDB this is a database schema

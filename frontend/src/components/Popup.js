@@ -1,6 +1,5 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
-import '../styles/Logout.css'
+import '../styles/Popup.css'
 
 import Divider from "@material-ui/core/Divider";
 
@@ -17,15 +16,18 @@ const Logout = (props) => {
     }
 
   return (
-      <div className='popup'>
+      <div className='popup cornerMenu'>
         <h3>INSERT USERNAME</h3>
+        <div className='divider'>
+          <Divider />
+        </div>
         {/* <div className='button'><Link className='link' to='/profile'>User Settings</Link></div> */}
         <button className='button' onClick={openProfile}>User Settings</button>
         <button className='button' onClick={logout}>Log out</button> 
         <div className='divider'>
           <Divider />
         </div>
-        <button className='button' onClick={() => setShowLogout(false)}>Cancel</button>
+        <button className='button cancel' onClick={() => setShowLogout(false)}>Cancel</button>
       </div>
   )
 }

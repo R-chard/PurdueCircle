@@ -1,4 +1,4 @@
-.contents {
+.contents.login {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -6,8 +6,7 @@
   padding: 40px 0 0;
 }
 
-.formContainer {
-
+.contents.login .formContainer {
   background: white;
   border-radius: 15px;
   box-shadow: 0px 0px 30px 10px #00000015;
@@ -16,7 +15,7 @@
   padding: 30px 40px; /* adds padding around content */
 }
 
-h1 {
+ .contents.login h1 {
   font-family: Lato, sans-serif;
   font-size: 30px;
   font-weight: 900;
@@ -25,70 +24,17 @@ h1 {
   text-align: left;
 }
 
-.formContainer form {
+.contents.login .formContainer form {
   text-align: center;
 }
 
-.formContainer .linkContainer {
+.contents.login .formContainer .linkContainer {
   text-align: center;
   padding-top: 20px;
 }
 
-.formContainer .link {
-  margin: 0px 5px;
-  color: #1770e6;
-  transition: 250ms;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.formContainer .link:hover {
-  color: #0c428a;
-  font-weight: 900;
-  transition: 250ms;
-}
-
-input {
-  width: 100%;
-  margin: auto auto 10px;
-  padding: 10px;
-  outline: none;
-  transition: 250ms;
-  color: rgb(77, 77, 77);
-  border: 2px solid #eeeeee;
-  border-radius: 7px;
-
-  font-size: 15px;
-
-  box-sizing: border-box;
-}
-
-input:focus {
-  border-color: #3574e9;
-  transition: 250ms;
-}
-
-.buttonContainer {
+.contents.login .buttonContainer {
   text-align: left;
-}
-
-/* login button */
-input[type=submit] {
-  width: 30%;
-  background-color: #398fff;
-  transition: 250ms;
-  color: white;
-  padding: 10px;
-  margin: 8px auto;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bolder;
-}
-
-input[type=submit]:hover {
-  background-color: #1770e6;
-  transition: 250ms;
 }
 
 

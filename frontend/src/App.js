@@ -141,6 +141,7 @@ const App = () => {
 
                 <Route path='/settings'>
                     {user ? <ProfileSettings /> : <Redirect to="/login" />}
+                </Route>
 
                 <Route exact path='/signup'>
                     <SignUp inputFunctions = {signUpProps}/>

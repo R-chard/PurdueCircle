@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
+import ImageSelector from "../components/ImageSelector"
+import Field from '../components/Field';
+import Button from "../components/Button"
 
-const ProfileSettings = () => {
+const ProfileSettings = (props) => {
+  const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
     console.log("settings");
   return (
     <div>
         <h1>ProfileSettings</h1>
+        <h2>Profile</h2>
+        <div style={{
+          display:"flex",
+          justifyContent:"space-around",
+          margin:"18px 0px",
+        }}>
+          <ImageSelector />
+          <div>
+            <Field type={username} onChange={usernameHandler} placeholder={'Edit Name'}/>
+            <Field type={username} onChange={usernameHandler} placeholder={'Edit Bio'}/>
+          </div>
+        </div>
+
+        <h2>Account</h2>
+        <div style={{
+          display:"block",
+          justifyContent:"space-around",
+          margin:"18px 0px",
+        }}>
+          
+          <Field type={username} onChange={usernameHandler} placeholder={'Edit Username'}/>
+          <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Change Password'}/>
+          <Field type={username} onChange={usernameHandler} placeholder={'Edit Email'}/>
+          <Field type={username} onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
+          <div style={{display:"flex", justifyContent:"space-around"}}>
+            <Button className={'link'} pathTo={'/signup'} text={'Delete Account'}/>
+            <Button className={'link'} pathTo={'/signup'} text={'Apply Changes'}/>
+            <Button className={'link'} pathTo={'/signup'} text={'Cancel'}/>
+          </div>
+        </div>
     </div>
   )
 }

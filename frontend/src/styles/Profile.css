@@ -1,0 +1,9 @@
+.timeline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.post {
+    width: 30%;
+}

@@ -11,6 +11,7 @@ import Logout from './components/Popup'
 import Login from './views/Login'
 import Home from './views/Home'
 import Profile from './views/Profile'
+import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
 
@@ -138,12 +139,16 @@ const App = () => {
                     {user ? <Profile /> : <Redirect to="/login" />}
                 </Route>
 
+                <Route path='/settings'>
+                    {user ? <ProfileSettings /> : <Redirect to="/login" />}
+
                 <Route exact path='/signup'>
                     <SignUp inputFunctions = {signUpProps}/>
                 </Route>
 
                 <Route path="">
                     <NotFound />
+
                 </Route>
             </Switch>
         </div>

@@ -1,13 +1,15 @@
 import React from "react"
 import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom" 
 import "../styles/Profile.css"
+import ImageSelector from "../components/ImageSelector"
 
 const Profile = () => {
     console.log("profile");
     return (
-        <div>
+        <div className={'profile'}>
             <Link to='/settings' className="link">Settings</Link>
             <h1>Profile</h1>
+            <ImageSelector />
             <div style={{maxWidth:"550px",margin:"0px auto"}}>
                 <div style={{
                     display:"flex",
@@ -42,7 +44,6 @@ const Profile = () => {
                     <img className="post" src="https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2012/06/wallpaper.png"/>
                 </div>
             </div>
-            
         </div>
     )
 }

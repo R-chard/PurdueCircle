@@ -1,29 +1,31 @@
 import React from "react"
+
 import '../styles/Login.css'
 
+import Field from "../components/Field"
+import Button from "../components/Button"
+
 const Login = (props) => {
-    const { submit, username, usernameHandler, password, passwordHandler } = props.inputFunctions
+    const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
 
     return (
-        <div className="loginModal">
-            <h1>Purdue Circle</h1>
-            <div className="inputContainer">
+        <div className="contents login">
+            <div className="formContainer">
                 <form onSubmit={submit}>
-                    {/* <h3>Login</h3> */}
-                    <div className="field">
-                        <input value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
+                    <h1>Log in</h1>
+                    <Field value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
+                    <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
+                    <div className="buttonContainer">
+                        <Button type={'formSubmit'} text={'Login'}/>
                     </div>
-                    <div className="field">
-                        <input type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'}/>
-                    </div>
-                    <div className="button">
-                        <input type={"submit"} value={"Login"}/>
-                        {/* <button type="submit">login</button> */}
+                    <div className="linkContainer">
+                        Don't have an account?
+                        <Button className={'link'} pathTo={'/signup'} text={'Sign up'}/>
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    ) //return
+} //Login
 
 export default Login

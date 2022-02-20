@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@400;700&display=swap');
+
+.popup.cornerMenu {
+    font-family: Lato, sans-serif;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 10px #00000015;
+    word-break: break-word;
+    width: 220px;
+    padding: 10px 0px; 
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    text-align: left;
+    color: #464646;
+}
+
+.popup.cornerMenu .button {
+    color: inherit;
+    font-family: inherit;
+    text-align: inherit;
+    width: 100%;
+    margin-top: 1px;
+    padding: 10px 0px 10px 30px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: 100ms;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.popup.cornerMenu .button:hover {
+    background-color: #ececec;
+    transition: 100ms;
+}
+
+.popup.cornerMenu .button.cancel {
+    font-weight: lighter;
+}
+
+.popup.cornerMenu .link {
+    text-decoration: inherit;
+}
+
+.popup.cornerMenu .divider {
+    padding: 10px 0px;
+}
+
+.popup.cornerMenu h3 {
+    color: inherit;
+    font-family: inherit;
+    margin: 10px 30px;
+}

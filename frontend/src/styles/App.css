@@ -1,31 +1,25 @@
-.link {
-    margin: 5px;
-}
-
-.logOutButton {
-    float: right;
-    width: 100px;
-    background-color: #398fff;
-    transition: 250ms;
-    color: white;
-    padding: 10px;
-    margin: 8px auto;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.logOutButton:hover {
-    background-color: #1770e6;
-    transition: 250ms;
-}
-
-.App {
-    /* border-style: double; */
-    /* border-color: black; */
-    border-width: 5px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Nunito:wght@400;700&display=swap');
 
 * {
     font-family: Nunito, sans-serif;
+    font-size: 15px;
+    color: black;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: Lato, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #3A8EFC;
+    margin: 0px 0px 30px 0px; /* overrides default margin */
+    text-align: left;
+  }
+
+.headerLink {
+    margin: 5px;
+}
+
+.button.logout {
+    float: right;
 }

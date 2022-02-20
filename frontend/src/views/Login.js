@@ -16,16 +16,16 @@ const Login = (props) => {
                     <Field value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
                     <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">
-                        <Button type={'formSubmit'} text={"Login"}/>
+                        <Button type={'formSubmit'} text={'Login'}/>
                     </div>
                     <div className="linkContainer">
                         Don't have an account?
-                        <Button className='link' pathTo='/signup' text='Sign up'/>
+                        <Button className={'link'} pathTo={'/signup'} text={'Sign up'}/>
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    ) //return
+} //Login
 
 export default Login

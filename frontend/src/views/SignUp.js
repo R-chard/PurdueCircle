@@ -32,7 +32,7 @@ const SignUp = (props) => {
                 </form>
             </div>
         </div>
-    )
-}
+    ) //return
+} //SignUp
 
 export default SignUp

@@ -15,10 +15,9 @@ app.use(bodyParser.json())
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)
 
-// Indicate to the developer that the server is working. Doesn't really do much
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.listen(process.env.PORT || 3001, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
 
 app.use("/",()=>{
   const err = new Error("Route not found")

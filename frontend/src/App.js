@@ -11,6 +11,9 @@ import Logout from './components/Popup'
 import Login from './views/Login'
 import Home from './views/Home'
 import Profile from './views/Profile'
+import Followers from './views/Followers'
+import Following from './views/Following'
+import Topics from './views/Topics'
 import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
@@ -139,8 +142,20 @@ const App = () => {
                     {user ? <Profile /> : <Redirect to="/login" />}
                 </Route>
 
-                <Route path='/settings'>
-                    {user ? <ProfileSettings /> : <Redirect to="/login" />}
+                <Route exact path='/profile/settings'>
+                    {user ? <ProfileSettings inputFunctions = {loginProps}/> : <Redirect to="/login" />}
+                </Route>
+
+                <Route exact path='/profile/followers'>
+                    {user ? <Followers /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route exact path='/profile/following'>
+                    {user ? <Following /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route exact path='/profile/topics'>
+                    {user ? <Topics /> : <Redirect to="/login" />}
                 </Route>
 
                 <Route exact path='/signup'>

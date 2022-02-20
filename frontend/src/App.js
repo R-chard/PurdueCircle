@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom" 
+import {Redirect, Route, Switch, useHistory} from "react-router-dom" 
+
+import './styles/App.css'
+
+import {login, signUp} from './utils/login'
+
+import Button from './components/Button'
+import Logout from './components/Popup'
 
 import Login from './views/Login'
 import Home from './views/Home'
 import Profile from './views/Profile'
-import Logout from './components/Logout'
 import SignUp from './views/SignUp'
-
-import {login, signUp} from './utils/login'
-
-import './styles/App.css'
 import NotFound from './views/NotFound'
 
 const App = () => {
@@ -48,7 +50,7 @@ const App = () => {
 
         setUsername('')
         setPassword('')
-    }
+    } //logInSubmit()
 
     const signUpSubmit = (e) => {
         e.preventDefault()
@@ -70,7 +72,7 @@ const App = () => {
         setPassword('')
         setName('')
         setEmail('')
-    }
+    } //signUpSubmit()
 
     const usernameHandler = (e) => {
         setUsername(e.target.value)
@@ -118,9 +120,9 @@ const App = () => {
 
     return (
         <div className="App">
-            <Link to='/' className="headerLink">Home</Link>
-            <Link to={'/profile'} className="headerLink">Profile</Link>
-            {user ? <button onClick={toggleLogout} className="logOutButton">Settings</button> : ''}
+            <Button className='headerLink' pathTo='/' text='Home'/>
+            <Button className='headerLink' pathTo='/profile' text='Profile'/>
+            {user ? <Button className='button primary logout' onClick={toggleLogout} text='Settings'/> : ''}
             {showLogout ? <Logout setUser={setUser} setShowLogout={setShowLogout} history={history}/> : ''}
 
             <Switch>
@@ -128,15 +130,15 @@ const App = () => {
                     {user ? <Home /> : <Redirect to="/login" />}
                 </Route>
 
-                <Route path='/login'>
+                <Route exact path='/login'>
                     <Login inputFunctions = {loginProps}/>
                 </Route>
 
-                <Route path='/profile'>
+                <Route exact path='/profile'>
                     {user ? <Profile /> : <Redirect to="/login" />}
                 </Route>
 
-                <Route path='/signup'>
+                <Route exact path='/signup'>
                     <SignUp inputFunctions = {signUpProps}/>
                 </Route>
 
@@ -145,7 +147,7 @@ const App = () => {
                 </Route>
             </Switch>
         </div>
-    )
-}
+    ) //return
+} //App
 
 export default App

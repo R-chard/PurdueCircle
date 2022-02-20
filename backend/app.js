@@ -3,12 +3,13 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 const bodyParser = require("body-parser")
 const userRoutes = require("./routes/user-routes")
+const path = require("path")
 
 require("dotenv").config()
 
 const app = express()
 
-app.use(express.static("../frontend/public"));
+app.use(express.static(path.join(__dirname,"../frontend/public")));
 app.use(cors())
 app.use(bodyParser.json())
 

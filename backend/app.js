@@ -7,8 +7,8 @@ const userRoutes = require("./routes/user-routes")
 require("dotenv").config()
 
 const app = express()
-const port = 3001
 
+app.use(express.static("../frontend/public"));
 app.use(cors())
 app.use(bodyParser.json())
 

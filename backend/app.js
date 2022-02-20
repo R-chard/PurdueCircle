@@ -9,7 +9,7 @@ require("dotenv").config()
 
 const app = express()
 
-app.use(express.static(path.join(__dirname,"../frontend/public")));
+app.use(express.static(path.join(__dirname,"../frontend/build")));
 app.use(cors())
 app.use(bodyParser.json())
 

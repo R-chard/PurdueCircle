@@ -42,6 +42,63 @@ const signup = async (req,res,next) => {
     res.status(201).json({signedIn: username + " has signed up"})
 }
 
+const login = async (req, res, next) => {
+    const {username, password} = req.body;
+
+    // validate whether username is email or username
+
+    let currUser;
+    let isValid;
+
+    try {
+        currUser = await User.findOne({ username });
+    } catch (err) {
+        // need to create error object to handle this
+        return next(err)
+    }
+
+
+    if (!currUser) {
+        try {
+            currUser = await User.findOne({ email: username })
+        } catch (err) {
+            return next(err)
+        }
+    }
+
+    if (!currUser) {
+        isValid = false;
+    } else {
+        let validPassword = false;
+
+        try {
+            // compare hashed password with users stored hashed password
+            validPassword = true //change
+        } catch (err) {
+            next(err)
+        }
+
+        if (!validPassword) {
+            isValid = false;
+        } else {
+
+            try {
+                await currUser.save();
+            } catch (err) {
+                return next(err) //change
+            }
+
+            // send cookie to user depending on id and username
+            res.send("cookie") //change
+            isValid = true;
+
+        }
+    }
+
+    res.json({ isValid });
+
+}
+
 // TODO: Modify when we have cookies from login / signup
 const uploadProfile = async (req,res,next) =>{
     try{
@@ -63,4 +120,5 @@ const uploadProfile = async (req,res,next) =>{
 
 // export this function so another file can import it
 exports.signup = signup
+exports.login = login
 exports.uploadProfile = uploadProfile

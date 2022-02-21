@@ -9,6 +9,7 @@
         "dev": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\""
     },
     "dependencies": {
+        "bcrypt": "^5.0.1",
         "concurrently": "^7.0.0"
     }
 }

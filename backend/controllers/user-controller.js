@@ -11,7 +11,25 @@ const signup = async (req,res,next) => {
     // if the username variable = "John", email = "john@gmail.com", password="123"
     // Basically you just need to fill up each field in the schema
     // with a variable
-    const newUser = new User({username,email,password})
+
+
+    // Password length validated in schema/users.js 
+    // Password then hashed using bcrypt
+    let hashpwd;
+    try {
+        const salt = await bcrypt.genSalt(15)
+        hashpwd = await bcrypt.hash(password, salt);
+    } catch (err) {
+        return next(new DatabaseError(err.message));
+    }
+
+    // Creating a new row for the user table in the database
+    // User({username,email,password}) is the same as 
+    // User({username:"John", email:"john@gmail.com", password:"123"})
+    // if the username variable = "John", email = "john@gmail.com", password="123"
+    // Basically you just need to fill up each field in the schema
+    // with a variable
+    const newUser = new User({username,email,password:hashpwd})
 
     try{
         // save in database

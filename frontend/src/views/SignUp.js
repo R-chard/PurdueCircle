@@ -6,7 +6,9 @@ import Field from "../components/Field"
 import Button from "../components/Button"
 
 const SignUp = (props) => {
-    const { submit, username, usernameHandler, password, passwordHandler, name, nameHandler, email, emailHandler, success, setSuccess
+    const { 
+        submit, username, usernameHandler, password, passwordHandler, confirmPassword, confirmPasswordHandler,
+        name, nameHandler, email, emailHandler, success, setSuccess
     } = props.inputFunctions
 
     const submitHandler = (e) => {
@@ -28,6 +30,7 @@ const SignUp = (props) => {
                     <Field value={email} onChange={emailHandler} placeholder={'Email'} />
                     <Field value={username} onChange={usernameHandler} placeholder={'Username'} />
                     <Field type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
+                    <Field type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
                     <div className="buttonContainer">
                         <Button type={'formSubmit'} text={"Sign up"}/>
                     </div>

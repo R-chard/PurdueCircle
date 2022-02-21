@@ -19,32 +19,32 @@ const login = (request, setUser, history) => {
     // console.log("Login: ", output);
 
     //TODO remove and use above API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
 
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    if (request.username === '' || request.password === '') {
+        return 'fail'
     }
-    //
-    
-    return output
+
+    setUser(request)
+    history.push('/')
+    return 'good'
 } //login()
 
 const signUp = (request, setUser, history) => {
-    //TODO replace with API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
+    //TODO add API call with proper checks?
 
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
+        request.confirmPassword === '') {
+
+        return 'fail'
     }
-    //
 
-    return output
+    if (request.password !== request.confirmPassword) {
+        return 'fail'
+    }
+
+    setUser(request)
+    history.push('/')
+    return 'good'
 }
 
-export {signUp, login}
+export { signUp, login }

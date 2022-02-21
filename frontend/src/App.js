@@ -21,6 +21,7 @@ import NotFound from './views/NotFound'
 const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [user, setUser] = useState(null)
@@ -41,7 +42,7 @@ const App = () => {
         const output = login(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'failed')
+        if (output === 'fail')
             return false
 
         console.log("Login object: ", formObject)
@@ -55,14 +56,15 @@ const App = () => {
     const signUpSubmit = (e) => {
         e.preventDefault()
 
+        //TODO do checks in real time?
         const formObject = {
-            username, email, password, name
+            username, email, password, confirmPassword, name
         }
 
         const output = signUp(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'failed')
+        if (output === 'fail')
             return false
 
         console.log("Sign up object: ", formObject)
@@ -80,6 +82,10 @@ const App = () => {
 
     const passwordHandler = (e) => {
         setPassword(e.target.value)
+    }
+
+    const confirmPasswordHandler = (e) => {
+        setConfirmPassword(e.target.value)
     }
 
     const nameHandler = (e) => {
@@ -106,10 +112,12 @@ const App = () => {
         "submit": signUpSubmit,
         username,
         password,
+        confirmPassword,
         name,
         email,
         usernameHandler,
         passwordHandler,
+        confirmPasswordHandler,
         nameHandler,
         emailHandler,
         success, 

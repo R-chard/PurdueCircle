@@ -23,7 +23,7 @@ const ImageSelector = (props) => {
         }
         let fd = new FormData()
         fd.append("image",selectedFile)
-        fetch("http://localhost:5000/api/user/upload",{
+        fetch("/api/user/upload",{
             method:"PATCH",
             body: fd
         })

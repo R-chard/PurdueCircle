@@ -12,7 +12,7 @@ const Logout = (props) => {
 
     const openProfile = () => {
       setShowLogout(false)
-      history.push('/profile')
+      history.push('/profile/settings')
     }
 
   return (

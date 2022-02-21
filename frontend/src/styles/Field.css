@@ -4,7 +4,6 @@ input.field {
     font-size: 15px;
     /* border & bounds */
     width: 100%;
-    margin: auto auto 10px;
     padding: 10px;
     border: 2px solid #eeeeee;
     border-radius: 7px;

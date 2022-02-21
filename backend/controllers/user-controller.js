@@ -20,7 +20,8 @@ const signup = async (req,res,next) => {
         // TODO: deal with errors
         console.log(err)
     }
-    // The frontend will receive {signedIn:"<username> has signed up}. 201 means you created something successfully
+    // Sets cookie
+    // res.cookie("sessionID",username)
     res.status(201).json({signedIn: username + " has signed up"})
 }
 

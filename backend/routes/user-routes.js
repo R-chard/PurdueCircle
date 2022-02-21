@@ -5,6 +5,7 @@ const upload = require("../middleware/image-upload")
 
 // redirect any URL ending with /signup to the signup function
 router.post("/signup",userController.signup)
+router.post("/login", userController.login)
 router.patch("/upload",upload.single("image"),userController.uploadProfile)
 
 // export this file so other files can import it

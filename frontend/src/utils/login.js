@@ -19,32 +19,35 @@ const login = (request, setUser, history) => {
     // console.log("Login: ", output);
 
     //TODO remove and use above API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
 
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    if (request.username === '' || request.password === '') {
+        return 'A field is empty'
     }
-    //
-    
-    return output
+
+    setUser(request)
+    history.push('/')
+    return 'allGood'
 } //login()
 
 const signUp = (request, setUser, history) => {
-    //TODO replace with API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
+    //TODO add API call with proper checks?
 
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
+        request.confirmPassword === '') {
+
+        return 'A field is empty'
     }
-    //
 
-    return output
+    if (request.password.length < 8)
+        return 'Password length is too short'
+
+    if (request.password !== request.confirmPassword) {
+        return "Passwords don't match"
+    }
+
+    setUser(request)
+    history.push('/')
+    return 'allGood'
 }
 
-export {signUp, login}
+export { signUp, login }

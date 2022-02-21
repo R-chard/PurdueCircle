@@ -21,11 +21,12 @@ import NotFound from './views/NotFound'
 const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [user, setUser] = useState(null)
     const [showLogout, setShowLogout] = useState(false)
-    const [success, setSuccess] = useState(true)
+    const [successMessage, setSuccessMessage] = useState(null)
     const history = useHistory()
 
     //handler for login page submission
@@ -41,8 +42,10 @@ const App = () => {
         const output = login(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'failed')
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
             return false
+        }
 
         console.log("Login object: ", formObject)
         setUsername('')
@@ -55,15 +58,18 @@ const App = () => {
     const signUpSubmit = (e) => {
         e.preventDefault()
 
+        //TODO do checks in real time?
         const formObject = {
-            username, email, password, name
+            username, email, password, confirmPassword, name
         }
 
         const output = signUp(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'failed')
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
             return false
+        }
 
         console.log("Sign up object: ", formObject)
         setUsername('')
@@ -82,6 +88,10 @@ const App = () => {
         setPassword(e.target.value)
     }
 
+    const confirmPasswordHandler = (e) => {
+        setConfirmPassword(e.target.value)
+    }
+
     const nameHandler = (e) => {
         setName(e.target.value)
     }
@@ -97,8 +107,8 @@ const App = () => {
         password,
         usernameHandler,
         passwordHandler,
-        success, 
-        setSuccess
+        successMessage, 
+        setSuccessMessage
     }
 
     //props for sign-up page
@@ -106,14 +116,16 @@ const App = () => {
         "submit": signUpSubmit,
         username,
         password,
+        confirmPassword,
         name,
         email,
         usernameHandler,
         passwordHandler,
+        confirmPasswordHandler,
         nameHandler,
         emailHandler,
-        success, 
-        setSuccess
+        successMessage, 
+        setSuccessMessage
     }
 
     //toggles showLogout state when logout button is clicked

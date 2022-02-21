@@ -26,7 +26,7 @@ const App = () => {
     const [email, setEmail] = useState('')
     const [user, setUser] = useState(null)
     const [showLogout, setShowLogout] = useState(false)
-    const [success, setSuccess] = useState(true)
+    const [successMessage, setSuccessMessage] = useState(null)
     const history = useHistory()
 
     //handler for login page submission
@@ -42,8 +42,10 @@ const App = () => {
         const output = login(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'fail')
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
             return false
+        }
 
         console.log("Login object: ", formObject)
         setUsername('')
@@ -64,8 +66,10 @@ const App = () => {
         const output = signUp(formObject, setUser, history)
 
         //TODO check if unsuccessful
-        if (output === 'fail')
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
             return false
+        }
 
         console.log("Sign up object: ", formObject)
         setUsername('')
@@ -103,8 +107,8 @@ const App = () => {
         password,
         usernameHandler,
         passwordHandler,
-        success, 
-        setSuccess
+        successMessage, 
+        setSuccessMessage
     }
 
     //props for sign-up page
@@ -120,8 +124,8 @@ const App = () => {
         confirmPasswordHandler,
         nameHandler,
         emailHandler,
-        success, 
-        setSuccess
+        successMessage, 
+        setSuccessMessage
     }
 
     //toggles showLogout state when logout button is clicked

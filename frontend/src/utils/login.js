@@ -21,12 +21,12 @@ const login = (request, setUser, history) => {
     //TODO remove and use above API call with proper checks
 
     if (request.username === '' || request.password === '') {
-        return 'fail'
+        return 'A field is empty'
     }
 
     setUser(request)
     history.push('/')
-    return 'good'
+    return 'allGood'
 } //login()
 
 const signUp = (request, setUser, history) => {
@@ -35,16 +35,19 @@ const signUp = (request, setUser, history) => {
     if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
         request.confirmPassword === '') {
 
-        return 'fail'
+        return 'A field is empty'
     }
 
+    if (request.password.length < 8)
+        return 'Password length is too short'
+
     if (request.password !== request.confirmPassword) {
-        return 'fail'
+        return "Passwords don't match"
     }
 
     setUser(request)
     history.push('/')
-    return 'good'
+    return 'allGood'
 }
 
 export { signUp, login }

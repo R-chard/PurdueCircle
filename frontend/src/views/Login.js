@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import '../styles/Login.css'
 
@@ -6,13 +6,23 @@ import Field from "../components/Field"
 import Button from "../components/Button"
 
 const Login = (props) => {
-    const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
+    const { submit, username, usernameHandler, password, passwordHandler, success, setSuccess} = props.inputFunctions
+
+    const submitHandler = (e) => {
+        setSuccess(submit(e))
+    }
+
+    // TODO change this?
+    useEffect(() => {
+        setSuccess(true)
+    }, [])
 
     return (
         <div className="contents login">
             <div className="formContainer">
-                <form onSubmit={submit}>
+                <form onSubmit={submitHandler}>
                     <h1>Log in</h1>
+                    {success ? '': <div className='message'>Login was unsuccessful</div>}
                     <Field value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
                     <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">

@@ -25,11 +25,12 @@ const App = () => {
     const [email, setEmail] = useState('')
     const [user, setUser] = useState(null)
     const [showLogout, setShowLogout] = useState(false)
+    const [success, setSuccess] = useState(true)
     const history = useHistory()
 
+    //handler for login page submission
     const loginSubmit = (e) => {
         e.preventDefault()
-        // login("hello")
 
         const formObject = {
             username,
@@ -37,45 +38,40 @@ const App = () => {
             password,
         }
 
-        // change
+        const output = login(formObject, setUser, history)
+
+        //TODO check if unsuccessful
+        if (output === 'failed')
+            return false
+
         console.log("Login object: ", formObject)
-
-        // login(loginObject)
-        // // set the response we received from the signUp function in user-controller on the backend
-        //     .then(response=>{
-        //         setUser(response.signedIn)
-        //         history.push('/')
-        //     })
-
-        //TODO replace with api call
-        login(formObject)
-        setUser(formObject)
-        history.push('/')
-
         setUsername('')
         setPassword('')
+
+        return true
     } //logInSubmit()
 
+    //handler for sign-up page submission
     const signUpSubmit = (e) => {
         e.preventDefault()
-        // login("hello")
 
         const formObject = {
             username, email, password, name
         }
 
-        // change
+        const output = signUp(formObject, setUser, history)
+
+        //TODO check if unsuccessful
+        if (output === 'failed')
+            return false
+
         console.log("Sign up object: ", formObject)
-
-        //TODO replace with api call
-        signUp(formObject)
-        setUser(formObject)
-        history.push('/')
-
         setUsername('')
         setPassword('')
         setName('')
         setEmail('')
+
+        return true
     } //signUpSubmit()
 
     const usernameHandler = (e) => {
@@ -94,14 +90,18 @@ const App = () => {
         setEmail(e.target.value)
     }
 
+    //props for login page
     const loginProps = {
         "submit": loginSubmit,
         username,
         password,
         usernameHandler,
         passwordHandler,
+        success, 
+        setSuccess
     }
 
+    //props for sign-up page
     const signUpProps = {
         "submit": signUpSubmit,
         username,
@@ -111,21 +111,20 @@ const App = () => {
         usernameHandler,
         passwordHandler,
         nameHandler,
-        emailHandler
+        emailHandler,
+        success, 
+        setSuccess
     }
 
-    // const logout = () => { 
-    //     setShowLogout(true)
-    //  }
-
+    //toggles showLogout state when logout button is clicked
     const toggleLogout = () => {
         setShowLogout(showLogout ? false : true)
     }
 
     return (
         <div className="App">
-            <Button className='headerLink' pathTo='/' text='Home'/>
-            <Button className='headerLink' pathTo='/profile' text='Profile'/>
+            <Button className='link headerLink' pathTo='/' text='Home'/>
+            <Button className='link headerLink' pathTo='/profile' text='Profile'/>
             {user ? <Button className='button primary logout' onClick={toggleLogout} text='Settings'/> : ''}
             {showLogout ? <Logout setUser={setUser} setShowLogout={setShowLogout} history={history}/> : ''}
 

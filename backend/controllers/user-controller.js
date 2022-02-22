@@ -4,25 +4,37 @@ const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
-    const {username,email,password} = req.body
+    const {credentials,emailAddress,password} = req.body
+    
+    // check if user/email exists
+    const userBool = await User.findOne({username: credentials});
+    const emailBool = await User.findOne({email: emailAddress});
+    if (userBool){
+        res.status(409).json({userBool:false});
+        return;
+    }
+    if (emailBool){
+        res.status(409).json({emailBool:false})
+        return;
+    }
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
     let hashpwd;
     try {
-        let salt = await bcrypt.genSalt(15)
-        hashpwd = await bcrypt.hash(password, salt);
+        //let salt = await bcrypt.genSalt(15)
+        hashpwd = await bcrypt.hash(password, 10);
     } catch (err) {
         return next(err)
     }
     
-    const newUser = new User({username,email,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
+    const newUser = new User({credentials,emailAddress,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
     
     try{
         // save in database
-        await newUser.save() 
+        await newUser.save(); 
     } catch(err){
-        return next(err)
+        return next(err);
     }
     req.session.userID = newUser._id.toString()
     res.status(201).json({isValid:true})
@@ -59,8 +71,8 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
-            
-            validPassword = true //change
+            validPassword = await bcrypt.compare(password, currUser.password);
+            //validPassword = true //change
         } catch (err) {
             next(err)
         }
@@ -87,7 +99,7 @@ const login = async (req, res, next) => {
 
 const editUserInfo = async (req, res, next) => {
     
-    const userID = req.userID;
+    const userID = req.session.userID;
     const {name, biography} = req.body;
     
     let currUser;
@@ -113,16 +125,17 @@ const editUserInfo = async (req, res, next) => {
         }
 
     } else {
-        return next("User not found in database")
+        res.status(404).json({isFound: false});
+        return;
     }
 
-    res.json({ dataUpdated: true });
+    res.status(200).json({ dataUpdated: true });
     
 }
 
 const retrieveFollowedTopics = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let topicList;
     let currUser;
@@ -130,20 +143,21 @@ const retrieveFollowedTopics = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     topicList = currUser.topics_followed;
     if (topicList.length = 0) {
-        return next("User does not currently follow any topics")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return topicList
+    //return topicList
+    res.status(200).json({topics_followed: topicList})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followedUsers;
     let currUser;
@@ -151,31 +165,37 @@ const retrieveFollowedUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     followedUsers = currUser.users_followed;
     if (topicList.length = 0) {
-        return next("User does not currently follow anyone")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return followedUsers
+    //return followedUsers
+    res.status(200).json({users_followed: followedUsers})
 }
 
 const getProfile = async(req,res,next)=>{
-    const userID = "6214522d9b6b6536171770c6"
-    let user
+    const userID = req.session.userID;
+    let currUser;
     try{
-        user = await User.findById(userID)
+        currUser = await User.findById(userID);
     } catch(err){
-        return next(err)
+        return next(err);
     }
-    res.json({user})
+    if (currUser) {
+        res.status(200).json({currUser});
+
+    } else {
+        res.status(404).json({ isFound: false });
+    }
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followingUsers;
     let currUser;
@@ -183,20 +203,21 @@ const retrieveFollowingUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next(new Error("User not found"));
+        return next(new Error(error));
     }
 
     followingUsers = currUser.users_following;
     if (topicList.length = 0) {
-        return next("User does not currently have any followers")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return followingUsers
+    //return followingUsers
+    res.status(200).json({users_following: followingUsers})
 }
 
 const deleteAccount = async (req, res, next) => {
 
-    const userID = req.userID;
+    const userID = req.session.userID;
 
     let currUser;
 
@@ -207,10 +228,10 @@ const deleteAccount = async (req, res, next) => {
     }
 
     if (!currUser) {
-        return next("User ID not found in database")
+        return next(error)
     }
 
-    res.json({ deleted: true });
+    res.status(200).json({ deleted: true });
 
 }
 // TODO: Modify when we have cookies from login / signup
@@ -225,11 +246,12 @@ const uploadProfile = async (req,res,next) =>{
         } catch(err){
             return next(err)
         }
-        res.json({uploaded:true})
+        res.status(200).json({uploaded:true})
     } catch(err){
         return next(err)
     }
 }
+
 
 exports.signup = signup
 exports.login = login

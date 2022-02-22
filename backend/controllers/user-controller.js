@@ -166,14 +166,19 @@ const retrieveFollowedUsers = async (req, res, next) => {
 }
 
 const getProfile = async(req,res,next)=>{
-    const userID = "6214522d9b6b6536171770c6"
-    let user
+    const userID = req.session.userID;
+    let currUser;
     try{
-        user = await User.findById(userID)
+        currUser = await User.findById(userID);
     } catch(err){
-        return next(err)
+        return next(err);
     }
-    res.json({user})
+    if (currUser) {
+        res.status(200).json({currUser});
+
+    } else {
+        res.status(404).json({ isFound: false });
+    }
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
@@ -234,6 +239,7 @@ const uploadProfile = async (req,res,next) =>{
         return next(err)
     }
 }
+
 
 exports.signup = signup
 exports.login = login

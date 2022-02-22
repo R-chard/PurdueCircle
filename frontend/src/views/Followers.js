@@ -1,6 +1,9 @@
 import React from 'react'
+import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
-export const Followers = () => {
+const Followers = () => {
+    redirectIfNotAuth()
+
     const followerList = [
         {
             username: 'follower1',

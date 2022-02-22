@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "fullInstall": "cd backend && npm install & cd frontend && npm install",
+        "fullInstall": "concurrently \"cd backend && npm install\"  \"cd frontend && npm install\"",
         "backend": "cd backend && npm run dev",
         "frontend": "cd frontend && npm start",
         "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""

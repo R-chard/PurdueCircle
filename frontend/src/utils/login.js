@@ -1,37 +1,24 @@
-const login = (request, setUser, history) => {
+const login = (request, history) => {
     const port = 3001
 
-    //TODO check if response is good
-    // const output = fetch(`http://localhost:3001/api/user/signup`,{
-    //         method:"POST",
-    //         // means the contents we are sending is in JSON
-    //         headers:{
-    //             "Content-Type":"application/json"
-    //         },
-    //         // converts request to json
-    //         body:JSON.stringify(request)
-    //     })
-    //     .then(response=>response.json())
-    //     .then(response=>{
-    //         setUser(response.signedIn)
-    //         history.push('/')
-    //     })
-    // console.log("Login: ", output);
-
-    //TODO remove and use above API call with proper checks
-
+    //input validation
     if (request.username === '' || request.password === '') {
         return 'A field is empty'
     }
 
-    setUser(request)
+
+    //TODO add api call, check if response is good
+
+    //TODO replace with cookie?
     history.push('/')
+
     return 'allGood'
 } //login()
 
-const signUp = (request, setUser, history) => {
-    //TODO add API call with proper checks?
+const signUp = (request, history) => {
+    const port = 3001
 
+    //input validation
     if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
         request.confirmPassword === '') {
 
@@ -45,8 +32,12 @@ const signUp = (request, setUser, history) => {
         return "Passwords don't match"
     }
 
-    setUser(request)
+
+    //TODO add API call, check if successful
+
+    //TODO replace with cookie?
     history.push('/')
+
     return 'allGood'
 }
 

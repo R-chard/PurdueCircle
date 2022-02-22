@@ -4,11 +4,20 @@ const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
-    const {username,email,password} = req.body
+    const {credentials,emailAddress,password} = req.body
+    
+    // check if user/email exists
+    const userBool = await User.findOne({username: credentials});
+    const emailBool = await User.findOne({email: emailAddress});
+    if (userBool){
+        res.status(409).json({userBool:false});
+    }
+    if (emailBool){
+        res.status(409).json({emailBool:false})
+    }
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
-    //TODO check if user/email exists
     let hashpwd;
     try {
         let salt = await bcrypt.genSalt(15)
@@ -17,16 +26,16 @@ const signup = async (req,res,next) => {
         return next(err)
     }
     
-    const newUser = new User({username,email,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
+    const newUser = new User({credentials,emailAddress,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
     
     try{
         // save in database
-        await newUser.save() 
+        await newUser.save(); 
     } catch(err){
-        return next(err)
+        return next(err);
     }
-    req.session.userID = newUser._id.toString()
-    res.status(201).json({isValid:True})
+    req.session.userID = newUser._id.toString();
+    res.status(201).json({isValid:True});
 }
 
 const login = async (req, res, next) => {
@@ -166,14 +175,19 @@ const retrieveFollowedUsers = async (req, res, next) => {
 }
 
 const getProfile = async(req,res,next)=>{
-    const userID = "6214522d9b6b6536171770c6"
-    let user
+    const userID = req.session.userID;
+    let currUser;
     try{
-        user = await User.findById(userID)
+        currUser = await User.findById(userID);
     } catch(err){
-        return next(err)
+        return next(err);
     }
-    res.json({user})
+    if (currUser) {
+        res.status(200).json({currUser});
+
+    } else {
+        res.status(404).json({ isFound: false });
+    }
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
@@ -234,6 +248,7 @@ const uploadProfile = async (req,res,next) =>{
         return next(err)
     }
 }
+
 
 exports.signup = signup
 exports.login = login

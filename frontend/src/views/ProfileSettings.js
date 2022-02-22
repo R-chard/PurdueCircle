@@ -3,9 +3,11 @@ import Field from '../components/Field';
 import Button from "../components/Button"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const ProfileSettings = (props) => {
-	redirectIfNotAuth()
+	const history = useHistory()
+    redirectIfNotAuth(history)
 
     console.log("settings");
 

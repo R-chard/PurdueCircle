@@ -5,7 +5,8 @@ import { Button } from "@material-ui/core"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = () => {
-    redirectIfNotAuth()
+    const history = useHistory()
+    redirectIfNotAuth(history)
 
     console.log("profile");
     

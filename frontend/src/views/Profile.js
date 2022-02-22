@@ -2,9 +2,13 @@ import React from "react"
 import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom" 
 import "../styles/Profile.css"
 import { Button } from "@material-ui/core"
+import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = () => {
+    redirectIfNotAuth()
+
     console.log("profile");
+    
     return (
         <div className={'profile'}>
             <Link to='/profile/settings' className="link">Settings</Link>

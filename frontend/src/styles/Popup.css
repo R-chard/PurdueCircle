@@ -12,7 +12,7 @@
     top: 70px;
     right: 10px;
     text-align: left;
-    color: #464646;
+    color: var(--dark-gray);
 }
 
 .popup.cornerMenu .button {

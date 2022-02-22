@@ -16,6 +16,6 @@ input.field {
 
 /* outline with transition when in focus */
 input.field:focus {
-    border-color: #3574e9;
+    border-color: var(--blue);
     transition: 250ms;
 }

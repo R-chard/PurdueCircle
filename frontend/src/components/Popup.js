@@ -2,16 +2,21 @@ import React from 'react'
 import '../styles/Popup.css'
 
 import Divider from "@material-ui/core/Divider";
+import { useHistory } from 'react-router-dom';
 
 const Logout = (props) => {
-    const { setUser, setShowLogout, history }  = props
+    const { setShowPopup }  = props
+    const history = useHistory()
+
     const logout = () => {
-        setUser(false)
-        setShowLogout(false)
+        //TODO replace with remove cookie?
+        history.push('/login')
+
+        setShowPopup(false)
     }
 
     const openProfile = () => {
-      setShowLogout(false)
+      setShowPopup(false)
       history.push('/profile/settings')
     }
 
@@ -21,13 +26,12 @@ const Logout = (props) => {
         <div className='divider'>
           <Divider />
         </div>
-        {/* <div className='button'><Link className='link' to='/profile'>User Settings</Link></div> */}
         <button className='button' onClick={openProfile}>User Settings</button>
         <button className='button' onClick={logout}>Log out</button> 
         <div className='divider'>
           <Divider />
         </div>
-        <button className='button cancel' onClick={() => setShowLogout(false)}>Cancel</button>
+        <button className='button cancel' onClick={() => setShowPopup(false)}>Cancel</button>
       </div>
   )
 }

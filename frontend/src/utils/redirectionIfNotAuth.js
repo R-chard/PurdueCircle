@@ -1,4 +1,4 @@
-const RedirectIfNotAuth = (history) => {
+const redirectIfNotAuth = (history) => {
     fetch("http://localhost:3001/api/user/validate")
         .then(function(response){
             if (response.status == 403){
@@ -7,4 +7,4 @@ const RedirectIfNotAuth = (history) => {
         })
 }
 
-export default RedirectIfNotAuth
+export default redirectIfNotAuth

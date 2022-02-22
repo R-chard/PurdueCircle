@@ -9,6 +9,7 @@ const login = (request, history) => {
 
     //TODO add api call, check if response is good
 
+
     //TODO replace with cookie?
     history.push('/')
 
@@ -34,9 +35,24 @@ const signUp = (request, history) => {
 
 
     //TODO add API call, check if successful
+    fetch("http://localhost:3001/api/user/signup", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                "username":"tom",
+                "email": "asdf@gmail.com",
+                "password":"1233"
+            })
+        }).then(response=>response.json()).then(response => {
+            console.log("response", response)
+            if (response.isValid) {
+                history.push('/')
+            }
+        }) 
 
     //TODO replace with cookie?
-    history.push('/')
 
     return 'allGood'
 }

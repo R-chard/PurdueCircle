@@ -49,7 +49,7 @@ const login = async (req, res, next) => {
     let isValid;
 
     try {
-        currUser = await User.findOne({ credentials });
+        currUser = await User.findOne({ username: credentials });
     } catch (err) {
         // need to create error object to handle this
         return next(err)
@@ -252,6 +252,28 @@ const uploadProfile = async (req,res,next) =>{
     }
 }
 
+const searchUser = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -262,3 +284,4 @@ exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
+exports.searchUser = searchUser

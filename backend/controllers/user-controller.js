@@ -4,11 +4,11 @@ const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
-    const {credentials,emailAddress,password} = req.body
+    const {username,email,password} = req.body
     
     // check if user/email exists
-    const userBool = await User.findOne({username: credentials});
-    const emailBool = await User.findOne({email: emailAddress});
+    const userBool = await User.findOne({username: username});
+    const emailBool = await User.findOne({email: email});
     if (userBool){
         res.status(409).json({userBool:false});
         return;
@@ -28,7 +28,7 @@ const signup = async (req,res,next) => {
         return next(err)
     }
     
-    const newUser = new User({credentials,emailAddress,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
+    const newUser = new User({username,email,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
     
     try{
         // save in database
@@ -147,9 +147,9 @@ const retrieveFollowedTopics = async (req, res, next) => {
     }
 
     topicList = currUser.topics_followed;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return topicList
     res.status(200).json({topics_followed: topicList})
@@ -169,9 +169,9 @@ const retrieveFollowedUsers = async (req, res, next) => {
     }
 
     followedUsers = currUser.users_followed;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return followedUsers
     res.status(200).json({users_followed: followedUsers})
@@ -207,9 +207,9 @@ const retrieveFollowingUsers = async (req, res, next) => {
     }
 
     followingUsers = currUser.users_following;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return followingUsers
     res.status(200).json({users_following: followingUsers})

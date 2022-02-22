@@ -5,7 +5,7 @@ const RedirectIfNotAuth = () => {
     fetch("http://localhost:3001/api/user/validate")
         .then(function(response){
             if (response.status == 403){
-                history.push("/")
+                history.push("/login")
             }
         })
 }

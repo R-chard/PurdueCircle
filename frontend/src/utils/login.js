@@ -1,3 +1,4 @@
+import axios from "axios"
 const login = (request, history) => {
     const port = 3001
 
@@ -35,19 +36,16 @@ const signUp = (request, history) => {
 
 
     //TODO add API call, check if successful
-    fetch("http://localhost:3001/api/user/signup", {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
+    axios.post("http://localhost:3001/api/user/signup", {
                 "username":"tom",
                 "email": "asdf@gmail.com",
                 "password":"1233"
-            })
-        }).then(response=>response.json()).then(response => {
+            },{
+                withCredentials: true, credentials:"include"
+            }
+        ).then(response => {
             console.log("response", response)
-            if (response.isValid) {
+            if (response.data.isValid) {
                 history.push('/')
             }
         }) 

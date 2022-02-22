@@ -4,11 +4,11 @@ const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
-    const {credentials,emailAddress,password} = req.body
+    const {username,email,password} = req.body
     
     // check if user/email exists
-    const userBool = await User.findOne({username: credentials});
-    const emailBool = await User.findOne({email: emailAddress});
+    const userBool = await User.findOne({username});
+    const emailBool = await User.findOne({email});
     if (userBool){
         res.status(409).json({userBool:false});
         return;

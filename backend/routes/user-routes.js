@@ -5,15 +5,15 @@ const upload = require("../middleware/image-upload")
 const validation = require("../middleware/validatation")
 
 // redirect any URL ending with /signup to the signup function
-router.post("/signup",userController.signup)
+router.post("/signup", userController.signup)
 router.post("/login", userController.login)
-router.patch("/update", userController.editUserInfo)
-router.get("/getFollowedTopics", userController.retrieveFollowedTopics)
-router.get("/getFollowedUsers", userController.retrieveFollowedUsers)
-router.get("/getFollowingUser", userController.retrieveFollowingUsers)
-router.get("/getProfile",userController.getProfile)
-router.patch("/upload",upload.single("image"),userController.uploadProfile)
-router.delete("/delete", userController.deleteAccount)
+router.patch("/update", validation,  userController.editUserInfo)
+router.get("/getFollowedTopics", validation, userController.retrieveFollowedTopics)
+router.get("/getFollowedUsers", validation, userController.retrieveFollowedUsers)
+router.get("/getFollowingUser", validation, userController.retrieveFollowingUsers)
+router.get("/getProfile", validation, userController.getProfile)
+router.patch("/upload", validation, upload.single("image"),userController.uploadProfile)
+router.delete("/delete", validation, userController.deleteAccount)
 
 router.get("/validate",validation,(req,res,next)=>{
     res.send(true)

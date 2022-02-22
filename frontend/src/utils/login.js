@@ -2,7 +2,7 @@ const login = (request, setUser, history) => {
     const port = 3001
 
     //TODO check if response is good
-    // const output = fetch(`http://localhost:${port}/api/user/signup`,{
+    // const output = fetch(`http://localhost:3001/api/user/signup`,{
     //         method:"POST",
     //         // means the contents we are sending is in JSON
     //         headers:{

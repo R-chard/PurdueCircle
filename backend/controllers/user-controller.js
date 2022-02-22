@@ -3,7 +3,7 @@ const cloudinary = require("../middleware/cloudinary")
 const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
-    // Expecting the frontend to send username, email and password
+    // Expecting the frontend to send username, email, and password
     const {username,email,password} = req.body
 
     // Password length validated in schema/users.js 
@@ -59,6 +59,7 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
+            
             validPassword = true //change
         } catch (err) {
             next(err)
@@ -84,7 +85,125 @@ const login = async (req, res, next) => {
 
 }
 
-// TODO: Testing
+const editUserInfo = async (req, res, next) => {
+    
+    const userID = req.userID;
+    const {name, biography} = req.body;
+    
+    let currUser;
+    
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    if (currUser) {
+        if (name) {
+            currUser.name = name;
+        }
+        if (biography) {
+            currUser.biography = biography;
+        }
+
+        try {
+            await currUser.save();
+        } catch (error) {
+            return next(error);
+        }
+
+    } else {
+        return next("User not found in database")
+    }
+
+    res.json({ dataUpdated: true });
+    
+}
+
+const retrieveFollowedTopics = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let topicList;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    topicList = currUser.topics_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow any topics")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return topicList
+}
+
+const retrieveFollowedUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followedUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    followedUsers = currUser.users_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow anyone")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followedUsers
+}
+
+
+const retrieveFollowingUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followingUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(new Error("User not found"));
+    }
+
+    followingUsers = currUser.users_following;
+    if (topicList.length = 0) {
+        return next("User does not currently have any followers")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followingUsers
+}
+
+const deleteAccount = async (req, res, next) => {
+
+    const userID = req.userID;
+
+    let currUser;
+
+    try {
+        currUser = await User.findOneAndDelete(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    if (!currUser) {
+        return next("User ID not found in database")
+    }
+
+    res.json({ deleted: true });
+
+}
+// TODO: Modify when we have cookies from login / signup
 const uploadProfile = async (req,res,next) =>{
     try{
         const cloud = await cloudinary.uploader.upload(req.file.path)
@@ -104,4 +223,9 @@ const uploadProfile = async (req,res,next) =>{
 
 exports.signup = signup
 exports.login = login
+exports.editUserInfo = editUserInfo;
+exports.retrieveFollowedTopics = retrieveFollowedTopics
+exports.retrieveFollowedUsers = retrieveFollowedUsers
+exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
+exports.deleteAccount = deleteAccount

@@ -123,7 +123,8 @@ const editUserInfo = async (req, res, next) => {
         }
 
     } else {
-        return next(error)
+        res.status(404).json({isFound: false});
+        return;
     }
 
     res.status(200).json({ dataUpdated: true });

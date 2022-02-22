@@ -1,5 +1,6 @@
 import React,{useState} from "react"
 import "../styles/ImageSelector.css"
+import axios from "axios"
 
 const ImageSelector = (props) => {
     const [picURL,setPicURL] = useState("https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png")
@@ -23,12 +24,16 @@ const ImageSelector = (props) => {
         }
         let fd = new FormData()
         fd.append("image",selectedFile)
-        fetch("http://localhost:3001/api/user/upload",{
-            method:"PATCH",
-            body: fd
-        })
-        .then(response=>response.json())
-        .then(response=> {if (response.uploaded){
+        axios({
+            method:"post",
+            url:"http://localhost:3001/api/user/upload",
+            data:fd,
+            withCredentials: true, 
+            credentials:"include",
+            headers:{"Content-Type": "multipart/form-data"}})
+        .then(response=>{
+            console.log(response)
+            if (response.data.uploaded){
             alert("Profile picture updated successfully")
         }})
     }

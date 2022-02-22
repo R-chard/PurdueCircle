@@ -16,7 +16,7 @@ router.patch("/upload",upload.single("image"),userController.uploadProfile)
 router.delete("/delete", userController.deleteAccount)
 
 router.get("/validate",validation,(req,res,next)=>{
-    res.send(true)
+    res.status(200).send(true)
 })
 
 // export this file so other files can import it

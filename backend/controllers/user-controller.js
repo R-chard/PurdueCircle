@@ -87,7 +87,7 @@ const login = async (req, res, next) => {
 
 const editUserInfo = async (req, res, next) => {
     
-    const userID = req.userID;
+    const userID = req.session.userID;
     const {name, biography} = req.body;
     
     let currUser;
@@ -116,7 +116,7 @@ const editUserInfo = async (req, res, next) => {
         return next("User not found in database")
     }
 
-    res.json({ dataUpdated: true });
+    res.status(200).json({ dataUpdated: true });
     
 }
 
@@ -163,7 +163,7 @@ const retrieveFollowedUsers = async (req, res, next) => {
 }
 
 const getProfile = async(req,res,next)=>{
-    const userID = "6214522d9b6b6536171770c6"
+    const userID = req.session.userID
     let user
     try{
         user = await User.findById(userID)

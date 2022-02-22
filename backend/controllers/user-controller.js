@@ -11,17 +11,19 @@ const signup = async (req,res,next) => {
     const emailBool = await User.findOne({email: emailAddress});
     if (userBool){
         res.status(409).json({userBool:false});
+        return;
     }
     if (emailBool){
         res.status(409).json({emailBool:false})
+        return;
     }
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
     let hashpwd;
     try {
-        let salt = await bcrypt.genSalt(15)
-        hashpwd = await bcrypt.hash(password, salt);
+        //let salt = await bcrypt.genSalt(15)
+        hashpwd = await bcrypt.hash(password, 10);
     } catch (err) {
         return next(err)
     }
@@ -69,8 +71,8 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
-            
-            validPassword = true //change
+            validPassword = await bcrypt.compare(password, currUser.password);
+            //validPassword = true //change
         } catch (err) {
             next(err)
         }

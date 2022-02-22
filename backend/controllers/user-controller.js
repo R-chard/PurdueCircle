@@ -274,6 +274,33 @@ const searchUser = async (req, res, next) => {
     }
 }
 
+const searchUserLogged = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img,
+            users_followed: searchUser.users_followed,
+            users_following: searchUser.users_following,
+            posts: searchUser.posts,
+            biography: searchUser.biography,
+            topics_followed: searchUser.topics_followed
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -285,3 +312,4 @@ exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
 exports.searchUser = searchUser
+exports.searchUserLogged = searchUserLogged

@@ -1,44 +1,30 @@
 const User = require("../schemas/users")
 const cloudinary = require("../middleware/cloudinary")
+const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
-    // Expecting the frontend to send username, email and password
+    // Expecting the frontend to send username, email, and password
     const {username,email,password} = req.body
-
-    // Creating a new row for the user table in the database
-    // User({username,email,password}) is the same as 
-    // User({username:"John", email:"john@gmail.com", password:"123"})
-    // if the username variable = "John", email = "john@gmail.com", password="123"
-    // Basically you just need to fill up each field in the schema
-    // with a variable
-
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
     let hashpwd;
     try {
-        const salt = await bcrypt.genSalt(15)
+        let salt = await bcrypt.genSalt(15)
         hashpwd = await bcrypt.hash(password, salt);
     } catch (err) {
-        return next(new DatabaseError(err.message));
+        return next(err)
     }
-
-    // Creating a new row for the user table in the database
-    // User({username,email,password}) is the same as 
-    // User({username:"John", email:"john@gmail.com", password:"123"})
-    // if the username variable = "John", email = "john@gmail.com", password="123"
-    // Basically you just need to fill up each field in the schema
-    // with a variable
+    
     const newUser = new User({username,email,password:hashpwd})
-
+    
     try{
         // save in database
-        await newUser.save()
+        await newUser.save() 
     } catch(err){
-        // TODO: deal with errors
-        console.log(err)
+        return next(err)
     }
-    // The frontend will receive {signedIn:"<username> has signed up}. 201 means you created something successfully
+    req.session.userID = newUser._id.toString()
     res.status(201).json({signedIn: username + " has signed up"})
 }
 
@@ -73,6 +59,7 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
+            
             validPassword = true //change
         } catch (err) {
             next(err)
@@ -88,37 +75,157 @@ const login = async (req, res, next) => {
                 return next(err) //change
             }
 
-            // send cookie to user depending on id and username
-            res.send("cookie") //change
             isValid = true;
 
         }
     }
 
+    req.session.userID = newUser._id.toString()
     res.json({ isValid });
 
 }
 
-// TODO: Modify when we have cookies from login / signup
-const uploadProfile = async (req,res,next) =>{
-    try{
-        const result = await cloudinary.uploader.upload(req.file.path)
-        const newUser = new User({
-            username:"Tim",
-            email:"tim@gmail.com",
-            password:"123",
-            profile_img: result.secure_url,
-            cloudinary_id:result.public_id
-        })
-        await newUser.save()
-        res.json({uploaded:true})
-    } catch(err){
-        console.log(err)
+const editUserInfo = async (req, res, next) => {
+    
+    const userID = req.userID;
+    const {name, biography} = req.body;
+    
+    let currUser;
+    
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
     }
+
+    if (currUser) {
+        if (name) {
+            currUser.name = name;
+        }
+        if (biography) {
+            currUser.biography = biography;
+        }
+
+        try {
+            await currUser.save();
+        } catch (error) {
+            return next(error);
+        }
+
+    } else {
+        return next("User not found in database")
+    }
+
+    res.json({ dataUpdated: true });
     
 }
 
-// export this function so another file can import it
+const retrieveFollowedTopics = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let topicList;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    topicList = currUser.topics_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow any topics")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return topicList
+}
+
+const retrieveFollowedUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followedUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    followedUsers = currUser.users_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow anyone")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followedUsers
+}
+
+
+const retrieveFollowingUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followingUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(new Error("User not found"));
+    }
+
+    followingUsers = currUser.users_following;
+    if (topicList.length = 0) {
+        return next("User does not currently have any followers")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followingUsers
+}
+
+const deleteAccount = async (req, res, next) => {
+
+    const userID = req.userID;
+
+    let currUser;
+
+    try {
+        currUser = await User.findOneAndDelete(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    if (!currUser) {
+        return next("User ID not found in database")
+    }
+
+    res.json({ deleted: true });
+
+}
+// TODO: Modify when we have cookies from login / signup
+const uploadProfile = async (req,res,next) =>{
+    try{
+        const cloud = await cloudinary.uploader.upload(req.file.path)
+
+        try{
+            const user = await User.findById(req.session.userID)
+            user.profile_img = cloud.secure_url
+            await user.save()
+        } catch(err){
+            return next(err)
+        }
+        res.json({uploaded:true})
+    } catch(err){
+        return next(err)
+    }
+}
+
 exports.signup = signup
 exports.login = login
+exports.editUserInfo = editUserInfo;
+exports.retrieveFollowedTopics = retrieveFollowedTopics
+exports.retrieveFollowedUsers = retrieveFollowedUsers
+exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
+exports.deleteAccount = deleteAccount

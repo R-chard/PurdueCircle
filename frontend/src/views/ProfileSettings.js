@@ -2,10 +2,28 @@ import React, {} from 'react'
 import ImageSelector from "../components/ImageSelector"
 import Field from '../components/Field';
 import Button from "../components/Button"
+import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
+import { useState } from "react";
 
 const ProfileSettings = (props) => {
+  redirectIfNotAuth()
   const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
 
+  /*
+  const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
+
+    const usernameHandler = (e) => {
+        setUsername(e.target.value)
+    }
+
+    const passwordHandler = (e) => {
+        setPassword(e.target.value)
+    }*/
+
+    //TODO add submit handler & make button call it
+  
   const deleteAccount = () => {
     console.log("deleteAccount")
   }

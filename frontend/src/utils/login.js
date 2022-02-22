@@ -1,50 +1,44 @@
-const login = (request, setUser, history) => {
+const login = (request, history) => {
     const port = 3001
 
-    //TODO check if response is good
-    // const output = fetch(`http://localhost:${port}/api/user/signup`,{
-    //         method:"POST",
-    //         // means the contents we are sending is in JSON
-    //         headers:{
-    //             "Content-Type":"application/json"
-    //         },
-    //         // converts request to json
-    //         body:JSON.stringify(request)
-    //     })
-    //     .then(response=>response.json())
-    //     .then(response=>{
-    //         setUser(response.signedIn)
-    //         history.push('/')
-    //     })
-    // console.log("Login: ", output);
-
-    //TODO remove and use above API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
-
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    //input validation
+    if (request.username === '' || request.password === '') {
+        return 'A field is empty'
     }
-    //
-    
-    return output
+
+
+    //TODO add api call, check if response is good
+
+    //TODO replace with cookie?
+    history.push('/')
+
+    return 'allGood'
 } //login()
 
-const signUp = (request, setUser, history) => {
-    //TODO replace with API call with proper checks
-    var output = 'failed'
-    if (request.username !== '' && request.username !== 'failed')
-        output = 'good'
+const signUp = (request, history) => {
+    const port = 3001
 
-    if (output !== 'failed') {
-        setUser(request)
-        history.push('/')
+    //input validation
+    if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
+        request.confirmPassword === '') {
+
+        return 'A field is empty'
     }
-    //
 
-    return output
+    if (request.password.length < 8)
+        return 'Password length is too short'
+
+    if (request.password !== request.confirmPassword) {
+        return "Passwords don't match"
+    }
+
+
+    //TODO add API call, check if successful
+
+    //TODO replace with cookie?
+    history.push('/')
+
+    return 'allGood'
 }
 
-export {signUp, login}
+export { signUp, login }

@@ -1,16 +1,38 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require("cors")
-const bodyParser = require("body-parser")
 const userRoutes = require("./routes/user-routes")
-
+const session = require("express-session")
+const MongoDBSession = require("connect-mongodb-session")(session)
 require("dotenv").config()
 
 const app = express()
-const port = 3001
+
+// Establish connection with database
+mongoose.connect(process.env.DB_KEY, 
+  {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+  },
+  () => {
+    var status = mongoose.connection.readyState == 1 ? "connected" : "disconnected"
+    console.log("Database is " + status)
+  }
+);
+
+const store = new MongoDBSession({
+  uri: process.env.DB_KEY,
+  collection: "mySessions"
+})
 
 app.use(cors())
-app.use(bodyParser.json())
+app.use(express.json())
+app.use(session({
+  secret: process.env.SESSION_KEY,
+  resave:false,
+  saveUninitialized:false,
+  store
+}))
 
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)
@@ -32,14 +54,3 @@ app.use((err,req,res,next)=>{
   res.status(status).json({message})
 })
 
-// Establish connection with database
-mongoose.connect(process.env.DB_KEY, 
-  {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-  },
-  () => {
-    var status = mongoose.connection.readyState == 1 ? "connected" : "disconnected"
-    console.log("Database is " + status)
-  }
-);

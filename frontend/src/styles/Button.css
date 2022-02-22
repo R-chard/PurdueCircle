@@ -4,7 +4,7 @@
 
     /* border & bounds */
     width: 100px;
-    background-color: #398fff;
+    background-color: var(--blue);
     padding: 10px;
     margin: 8px auto;
     border: none;
@@ -16,7 +16,7 @@
 }
 
 .button.primary:hover {
-    background-color: #1770e6;
+    background-color: var(--blue-hover);
     transition: 250ms;
 }
 
@@ -44,22 +44,23 @@
 }
 
 .link {
-    color: #1770e6;
+    color: var(--blue);
     transition: 250ms;
     /* text-decoration: none; */
     font-weight: bold;
 }
 
 .link:hover {
-    color: #0c428a;
+    color: var(--dark-blue);
     font-weight: 900;
     transition: 250ms;
 }
 
 /* form submission button */
 input.field.button[type='submit'] {
-    width: 30%;
-    background-color: #398fff;
+    width: 100px;
+    min-width: 50px;
+    background-color: var(--blue);
     padding: 10px;
     border: none;
     border-radius: 4px;
@@ -72,6 +73,6 @@ input.field.button[type='submit'] {
 }
 
 input.field.button[type='submit']:hover {
-    background-color: #1770e6;
+    background-color: var(--blue-hover);
     transition: 250ms;
 }

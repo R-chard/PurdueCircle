@@ -3,13 +3,12 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "full_install": "cd backend && npm install & cd frontend && npm install",
-        "backend": "cd backend && npm start",
+        "fullInstall": "concurrently \"cd backend && npm install\"  \"cd frontend && npm install\"",
+        "backend": "cd backend && npm run dev",
         "frontend": "cd frontend && npm start",
-        "dev": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\""
+        "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
     },
     "dependencies": {
-        "bcrypt": "^5.0.1",
         "concurrently": "^7.0.0"
     }
 }

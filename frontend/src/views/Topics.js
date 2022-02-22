@@ -1,6 +1,9 @@
 import React from 'react'
+import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
-export const Topics = () => {
+const Topics = () => {
+    redirectIfNotAuth()
+
     const topicList = [
         {
             name: 'Topic1',

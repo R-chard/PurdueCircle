@@ -1,33 +1,81 @@
-import React, { useEffect } from "react"
+import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 
 import '../styles/Login.css'
+
+import { signUp } from '../utils/login'
 
 import Field from "../components/Field"
 import Button from "../components/Button"
 
-const SignUp = (props) => {
-    const { submit, username, usernameHandler, password, passwordHandler, name, nameHandler, email, emailHandler, success, setSuccess
-    } = props.inputFunctions
+const SignUp = () => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
+    const history = useHistory()
 
-    const submitHandler = (e) => {
-        setSuccess(submit(e))
+    const signUpSubmit = (e) => {
+        e.preventDefault()
+
+        //TODO replace with correct object
+        const formObject = {
+            name, username, email, password, confirmPassword
+        }
+
+        //uses util to validate & send to api
+        const output = signUp(formObject, history)
+
+        //CHECK if unsuccessful
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
+            return false
+        }
+
+        //REMOVE?
+        console.log("Sign up object: ", formObject)
+        setUsername('')
+        setPassword('')
+        setConfirmPassword('')
+        setName('')
+        setEmail('')
+
+        return true
+    } //signUpSubmit()
+
+    const usernameHandler = (e) => {
+        setUsername(e.target.value)
     }
 
-    // TODO change this?
-    useEffect(() => {
-        setSuccess(true)
-    }, [])
+    const passwordHandler = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const confirmPasswordHandler = (e) => {
+        setConfirmPassword(e.target.value)
+    }
+
+    const nameHandler = (e) => {
+        setName(e.target.value)
+    }
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+    }
 
     return (
         <div className="contents login">
             <div className="formContainer">
-                <form onSubmit={submitHandler}>
+                <form onSubmit={signUpSubmit}>
                     <h1>Sign up</h1>
-                    {success ? '': <div className='message'>Sign up was unsuccessful</div>}
+                    {!successMessage ? '': <div className='message'>{successMessage}</div>}
                     <Field value={name} onChange={nameHandler} placeholder={'Name'} />
                     <Field value={email} onChange={emailHandler} placeholder={'Email'} />
                     <Field value={username} onChange={usernameHandler} placeholder={'Username'} />
                     <Field type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
+                    <Field type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
                     <div className="buttonContainer">
                         <Button type={'formSubmit'} text={"Sign up"}/>
                     </div>

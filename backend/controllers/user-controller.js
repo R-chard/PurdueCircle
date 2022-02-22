@@ -8,6 +8,7 @@ const signup = async (req,res,next) => {
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
+    //TODO check if user/email exists
     let hashpwd;
     try {
         let salt = await bcrypt.genSalt(15)
@@ -87,7 +88,7 @@ const login = async (req, res, next) => {
 
 const editUserInfo = async (req, res, next) => {
     
-    const userID = req.userID;
+    const userID = req.session.userID;
     const {name, biography} = req.body;
     
     let currUser;
@@ -116,13 +117,13 @@ const editUserInfo = async (req, res, next) => {
         return next(error)
     }
 
-    res.json({ dataUpdated: true });
+    res.status(200).json({ dataUpdated: true });
     
 }
 
 const retrieveFollowedTopics = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let topicList;
     let currUser;
@@ -139,12 +140,12 @@ const retrieveFollowedTopics = async (req, res, next) => {
     }
     //not sure if this is the correct way of sending info to frontend
     //return topicList
-    res.json({topics_followed: topicList})
+    res.status(200).json({topics_followed: topicList})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followedUsers;
     let currUser;
@@ -161,7 +162,7 @@ const retrieveFollowedUsers = async (req, res, next) => {
     }
     //not sure if this is the correct way of sending info to frontend
     //return followedUsers
-    res.json({users_followed: followedUsers})
+    res.status(200).json({users_followed: followedUsers})
 }
 
 const getProfile = async(req,res,next)=>{
@@ -177,7 +178,7 @@ const getProfile = async(req,res,next)=>{
 
 const retrieveFollowingUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followingUsers;
     let currUser;
@@ -194,12 +195,12 @@ const retrieveFollowingUsers = async (req, res, next) => {
     }
     //not sure if this is the correct way of sending info to frontend
     //return followingUsers
-    res.json({users_following: followingUsers})
+    res.status(200).json({users_following: followingUsers})
 }
 
 const deleteAccount = async (req, res, next) => {
 
-    const userID = req.userID;
+    const userID = req.session.userID;
 
     let currUser;
 
@@ -213,7 +214,7 @@ const deleteAccount = async (req, res, next) => {
         return next(error)
     }
 
-    res.json({ deleted: true });
+    res.status(200).json({ deleted: true });
 
 }
 // TODO: Modify when we have cookies from login / signup
@@ -228,7 +229,7 @@ const uploadProfile = async (req,res,next) =>{
         } catch(err){
             return next(err)
         }
-        res.json({uploaded:true})
+        res.status(200).json({uploaded:true})
     } catch(err){
         return next(err)
     }

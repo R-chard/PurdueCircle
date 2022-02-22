@@ -11,6 +11,7 @@ router.patch("/update", userController.editUserInfo)
 router.get("/getFollowedTopics", userController.retrieveFollowedTopics)
 router.get("/getFollowedUsers", userController.retrieveFollowedUsers)
 router.get("/getFollowingUser", userController.retrieveFollowingUsers)
+router.get("/getProfile",userController.getProfile)
 router.patch("/upload",upload.single("image"),userController.uploadProfile)
 router.delete("/delete", userController.deleteAccount)
 

@@ -16,7 +16,7 @@ const signup = async (req,res,next) => {
         return next(err)
     }
     
-    const newUser = new User({username,email,password:hashpwd})
+    const newUser = new User({username,email,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
     
     try{
         // save in database
@@ -25,19 +25,19 @@ const signup = async (req,res,next) => {
         return next(err)
     }
     req.session.userID = newUser._id.toString()
-    res.status(201).json({signedIn: username + " has signed up"})
+    res.status(201).json({isValid:True})
 }
 
 const login = async (req, res, next) => {
-    const {username, password} = req.body;
+    const {credentials, password} = req.body;
 
-    // validate whether username is email or username
+    // validate whether credentials is email or username
 
     let currUser;
     let isValid;
 
     try {
-        currUser = await User.findOne({ username });
+        currUser = await User.findOne({ credentials });
     } catch (err) {
         // need to create error object to handle this
         return next(err)
@@ -46,7 +46,7 @@ const login = async (req, res, next) => {
 
     if (!currUser) {
         try {
-            currUser = await User.findOne({ email: username })
+            currUser = await User.findOne({ email: credentials })
         } catch (err) {
             return next(err)
         }
@@ -81,7 +81,7 @@ const login = async (req, res, next) => {
     }
 
     req.session.userID = newUser._id.toString()
-    res.json({ isValid });
+    res.status(200).json({ isValid });
 
 }
 
@@ -162,6 +162,16 @@ const retrieveFollowedUsers = async (req, res, next) => {
     return followedUsers
 }
 
+const getProfile = async(req,res,next)=>{
+    const userID = "6214522d9b6b6536171770c6"
+    let user
+    try{
+        user = await User.findById(userID)
+    } catch(err){
+        return next(err)
+    }
+    res.json({user})
+}
 
 const retrieveFollowingUsers = async (req, res, next) => {
 
@@ -229,3 +239,4 @@ exports.retrieveFollowedUsers = retrieveFollowedUsers
 exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
+exports.getProfile = getProfile

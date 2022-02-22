@@ -9,6 +9,10 @@ const redirectIfNotAuth = (history) => {
                 history.push("/login")
             }
         })
+        .catch(function(response){
+            console.log("axios error", response);
+            history.push("/login")
+        })
 }
 
 export default redirectIfNotAuth

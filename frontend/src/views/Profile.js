@@ -1,11 +1,13 @@
 import React,{useEffect,useState} from "react"
-import {Link} from "react-router-dom" 
+import {Link, useHistory} from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = (props) => {
-    redirectIfNotAuth()
+    const history = useHistory()
+    redirectIfNotAuth(history)
+    
     const [data, setData] = useState(null)
     useEffect(()=>{
         axios.get("http://localhost:3001/api/user/getProfile",{

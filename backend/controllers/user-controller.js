@@ -2,7 +2,7 @@ const User = require("../schemas/users")
 const cloudinary = require("../middleware/cloudinary")
 
 const signup = async (req,res,next) => {
-    // Expecting the frontend to send username, email and password
+    // Expecting the frontend to send username, email, and password
     const {username,email,password} = req.body
 
     // Creating a new row for the user table in the database
@@ -12,7 +12,7 @@ const signup = async (req,res,next) => {
     // Basically you just need to fill up each field in the schema
     // with a variable
 
-
+    
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
     let hashpwd;
@@ -29,14 +29,27 @@ const signup = async (req,res,next) => {
     // if the username variable = "John", email = "john@gmail.com", password="123"
     // Basically you just need to fill up each field in the schema
     // with a variable
-    const newUser = new User({username,email,password:hashpwd})
+    const newUser = new User({
+        username,
+        email,
+        password: hashpwd,
+        name: "",
+        phone: -1,
+        profile_img: "",
+        topics_followed: [],
+        biography: "",
+        users_followed: [],
+        users_following: [],
+        posts: [],
+        saved_posts: []
+    })
 
     try{
         // save in database
         await newUser.save()
     } catch(err){
         // TODO: deal with errors
-        console.log(err)
+        return next(err)
     }
     // The frontend will receive {signedIn:"<username> has signed up}. 201 means you created something successfully
     res.status(201).json({signedIn: username + " has signed up"})
@@ -73,6 +86,7 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
+            
             validPassword = true //change
         } catch (err) {
             next(err)
@@ -99,6 +113,127 @@ const login = async (req, res, next) => {
 
 }
 
+const editUserInfo = async (req, res, next) => {
+    
+    const userID = req.userID;
+    const {name, biography} = req.body;
+    
+    let currUser;
+    
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    if (currUser) {
+        if (name) {
+            currUser.name = name;
+        }
+        if (biography) {
+            currUser.biography = biography;
+        }
+
+        try {
+            await currUser.save();
+        } catch (error) {
+            return next(error);
+        }
+
+    } else {
+        return next("User not found in database")
+    }
+
+    res.json({ dataUpdated: true });
+    
+}
+
+const retrieveFollowedTopics = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let topicList;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    topicList = currUser.topics_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow any topics")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return topicList
+}
+
+const retrieveFollowedUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followedUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    followedUsers = currUser.users_followed;
+    if (topicList.length = 0) {
+        return next("User does not currently follow anyone")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followedUsers
+}
+
+
+const retrieveFollowingUsers = async (req, res, next) => {
+
+    const userID = req.userID
+
+    let followingUsers;
+    let currUser;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next("User not found");
+    }
+
+    followingUsers = currUser.users_following;
+    if (topicList.length = 0) {
+        return next("User does not currently have any followers")
+    }
+    //not sure if this is the correct way of sending info to frontend
+    return followingUsers
+}
+
+const deleteAccount = async (req, res, next) => {
+
+    const userID = req.userID;
+
+    let currUser;
+
+    try {
+        currUser = await User.findOneAndDelete(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    if (!currUser) {
+        return next("User ID not found in database")
+    }
+
+    res.json({ deleted: true });
+
+}
+
+const logout = as
+
 // TODO: Modify when we have cookies from login / signup
 const uploadProfile = async (req,res,next) =>{
     try{
@@ -121,4 +256,9 @@ const uploadProfile = async (req,res,next) =>{
 // export this function so another file can import it
 exports.signup = signup
 exports.login = login
+exports.editUserInfo = editUserInfo;
+exports.retrieveFollowedTopics = retrieveFollowedTopics
+exports.retrieveFollowedUsers = retrieveFollowedUsers
+exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
+exports.deleteAccount = deleteAccount

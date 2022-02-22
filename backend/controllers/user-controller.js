@@ -113,7 +113,7 @@ const editUserInfo = async (req, res, next) => {
         }
 
     } else {
-        return next("User not found in database")
+        return next(error)
     }
 
     res.json({ dataUpdated: true });
@@ -130,15 +130,16 @@ const retrieveFollowedTopics = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     topicList = currUser.topics_followed;
     if (topicList.length = 0) {
-        return next("User does not currently follow any topics")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
     return topicList
+    res.json({topics_followed: topicList})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
@@ -151,15 +152,16 @@ const retrieveFollowedUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     followedUsers = currUser.users_followed;
     if (topicList.length = 0) {
-        return next("User does not currently follow anyone")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return followedUsers
+    //return followedUsers
+    res.json({users_followed: followedUsers})
 }
 
 const getProfile = async(req,res,next)=>{
@@ -183,15 +185,16 @@ const retrieveFollowingUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next(new Error("User not found"));
+        return next(new Error(error));
     }
 
     followingUsers = currUser.users_following;
     if (topicList.length = 0) {
-        return next("User does not currently have any followers")
+        return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return followingUsers
+    //return followingUsers
+    res.json({users_following: followingUsers})
 }
 
 const deleteAccount = async (req, res, next) => {
@@ -207,7 +210,7 @@ const deleteAccount = async (req, res, next) => {
     }
 
     if (!currUser) {
-        return next("User ID not found in database")
+        return next(error)
     }
 
     res.json({ deleted: true });

@@ -138,7 +138,7 @@ const retrieveFollowedTopics = async (req, res, next) => {
         return next(error)
     }
     //not sure if this is the correct way of sending info to frontend
-    return topicList
+    //return topicList
     res.json({topics_followed: topicList})
 }
 

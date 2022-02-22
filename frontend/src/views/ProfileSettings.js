@@ -1,11 +1,23 @@
-import React, { StrictMode } from 'react'
+import React, {} from 'react'
 import ImageSelector from "../components/ImageSelector"
 import Field from '../components/Field';
 import Button from "../components/Button"
 
 const ProfileSettings = (props) => {
   const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
-    console.log("settings");
+
+  const deleteAccount = () => {
+    console.log("deleteAccount")
+  }
+
+  const apply = () => {
+    console.log("apply")
+  }
+
+  const cancel = () => {
+    console.log("cancel")
+  }
+
   return (
     <div>
         <h1>ProfileSettings</h1>
@@ -17,8 +29,10 @@ const ProfileSettings = (props) => {
         }}>
           <ImageSelector />
           <div>
-            <Field type={username} onChange={usernameHandler} placeholder={'Edit Name'}/>
-            <Field type={username} onChange={usernameHandler} placeholder={'Edit Bio'}/>
+            <label htmlFor="name">Name</label>
+            <Field id="name" onChange={usernameHandler} placeholder={'Edit Name'}/>
+            <label htmlFor="bio">Bio</label>
+            <Field id="bio" onChange={usernameHandler} placeholder={'Edit Bio'}/>
           </div>
         </div>
 
@@ -28,15 +42,18 @@ const ProfileSettings = (props) => {
           justifyContent:"space-around",
           margin:"18px 0px",
         }}>
-          
-          <Field type={username} onChange={usernameHandler} placeholder={'Edit Username'}/>
-          <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Change Password'}/>
-          <Field type={username} onChange={usernameHandler} placeholder={'Edit Email'}/>
-          <Field type={username} onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
+          <label htmlFor="username">Username</label>
+          <Field id="username" value={username} onChange={usernameHandler}/>
+          <label htmlFor="password">Password</label>
+          <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
+          <label htmlFor="email">Email Address</label>
+          <Field id="email" onChange={usernameHandler} placeholder={'Edit Email'}/>
+          <label htmlFor="phone">Phone Number</label>
+          <Field id="phone" onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
-            <Button className={'link'} pathTo={'/signup'} text={'Delete Account'}/>
-            <Button className={'link'} pathTo={'/signup'} text={'Apply Changes'}/>
-            <Button className={'link'} pathTo={'/signup'} text={'Cancel'}/>
+            <Button className='button primary' onClick={deleteAccount} text={'Delete Account'}/>
+            <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>
+            <Button className='button primary' onClick={cancel}  text={'Cancel'}/>
           </div>
         </div>
     </div>

@@ -17,7 +17,7 @@ import '../styles/Field.css'
  */
 
 const Field = (props) => {
-    const {type, value, onChange, placeholder} = props
+    const {id, type, value, onChange, placeholder} = props
     var className = props.className
 
     if (className === undefined)
@@ -26,7 +26,7 @@ const Field = (props) => {
 		className = 'field ' + className
 
     return (
-    	<input type={type} value={value} onChange={onChange} placeholder={placeholder} className={className}/>
+    	<input id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} className={className}/>
   	)
 } //Field
 

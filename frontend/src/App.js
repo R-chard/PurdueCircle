@@ -45,8 +45,8 @@ const App = () => {
             return false
 
         console.log("Login object: ", formObject)
-        setUsername('')
-        setPassword('')
+        setUsername(formObject.username)
+        setPassword(formObject.password)
 
         return true
     } //logInSubmit()
@@ -116,6 +116,11 @@ const App = () => {
         setSuccess
     }
 
+    //props for profile
+    const profileProps = {
+        username
+    }
+
     //toggles showLogout state when logout button is clicked
     const toggleLogout = () => {
         setShowLogout(showLogout ? false : true)
@@ -138,7 +143,7 @@ const App = () => {
                 </Route>
 
                 <Route exact path='/profile'>
-                    {user ? <Profile /> : <Redirect to="/login" />}
+                    {user ? <Profile inputFunctions = {profileProps}/> : <Redirect to="/login" />}
                 </Route>
 
                 <Route exact path='/profile/settings'>

@@ -3,8 +3,9 @@ import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom"
 import "../styles/Profile.css"
 import { Button } from "@material-ui/core"
 
-const Profile = () => {
-    console.log("profile");
+const Profile = (props) => {
+    const {username} = props.inputFunctions
+    console.log("username: " + username);
     return (
         <div className={'profile'}>
             <Link to='/profile/settings' className="link">Settings</Link>
@@ -17,7 +18,7 @@ const Profile = () => {
                     margin:"18px 0px",
                     borderBottom:"1px solid grey"
                 }}>
-                    <h2>Username</h2>
+                    <h2>{username}</h2>
                     {/* Profile Picture */}
                     <div>
                         <img style={{width:"160px", height:"160px", borderRadius:"80px"}}

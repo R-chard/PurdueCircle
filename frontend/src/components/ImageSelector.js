@@ -24,13 +24,11 @@ const ImageSelector = (props) => {
         }
         let fd = new FormData()
         fd.append("image",selectedFile)
-        axios({
-            method:"post",
-            url:"http://localhost:3001/api/user/upload",
+        axios("http://localhost:3001/api/user/upload",{
             data:fd,
-            withCredentials: true, 
-            credentials:"include",
-            headers:{"Content-Type": "multipart/form-data"}})
+            method:"patch",
+            withCredentials:true ,
+            headers:{"Content-Type":"multipart/form-data","boundary":fd.boundary}})
         .then(response=>{
             console.log(response)
             if (response.data.uploaded){

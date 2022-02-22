@@ -59,6 +59,7 @@ app.use("/",()=>{
 app.use((err,req,res,next)=>{
   const status = err.statusCode || 500
   const message = err.message
+  console.log(err.message)
   res.status(status).json({message})
 })
 

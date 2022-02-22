@@ -13,7 +13,6 @@ const Profile = (props) => {
             setData(response.user)})
     },[])
     
-    
     return (
         (data && <div className={'profile'}>
         <Link to='/profile/settings' className="link">Settings</Link>

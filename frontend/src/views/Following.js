@@ -1,8 +1,10 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import redirectIfNotAuth from '../utils/redirectionIfNotAuth'
 
 const Following = () => {
-    redirectIfNotAuth()
+    const history = useHistory()
+    redirectIfNotAuth(history)
 
     const followerList = [
         {

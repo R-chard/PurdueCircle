@@ -1,7 +1,4 @@
-import {useHistory} from "react-router-dom"
-
-const RedirectIfNotAuth = () => {
-    const history = useHistory()
+const RedirectIfNotAuth = (history) => {
     fetch("http://localhost:3001/api/user/validate")
         .then(function(response){
             if (response.status == 403){

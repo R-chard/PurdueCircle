@@ -4,12 +4,12 @@ import Field from '../components/Field';
 import Button from "../components/Button"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const ProfileSettings = (props) => {
-  redirectIfNotAuth()
-  const { submit, username, usernameHandler, password, passwordHandler} = props.inputFunctions
+	const history = useHistory()
+    redirectIfNotAuth(history)
 
-  /*
   const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState(null)
@@ -20,7 +20,7 @@ const ProfileSettings = (props) => {
 
     const passwordHandler = (e) => {
         setPassword(e.target.value)
-    }*/
+    }
 
     //TODO add submit handler & make button call it
   

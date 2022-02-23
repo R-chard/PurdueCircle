@@ -1,16 +1,19 @@
 import React,{useEffect,useState} from "react"
-import {Link} from "react-router-dom" 
+import {Link, useHistory} from "react-router-dom" 
 import "../styles/Profile.css"
+import axios from "axios"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
-const Profile = () => {
-    //redirectIfNotAuth()
+const Profile = (props) => {
+    const history = useHistory()
+    redirectIfNotAuth(history)
+    
     const [data, setData] = useState(null)
     useEffect(()=>{
-        fetch("http://localhost:3001/api/user/getProfile")
-        .then(response=>response.json())
-        .then(response=> {
-            setData(response.user)})
+        axios.get("http://localhost:3001/api/user/getProfile",{
+            withCredentials: true, credentials:"include"
+        })
+        .then(response=>setData(response.data.user))
     },[])
     
     return (

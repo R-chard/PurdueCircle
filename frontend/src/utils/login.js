@@ -1,3 +1,4 @@
+import axios from "axios"
 const login = (request, history) => {
     const port = 3001
 
@@ -8,6 +9,7 @@ const login = (request, history) => {
 
 
     //TODO add api call, check if response is good
+
 
     //TODO replace with cookie?
     history.push('/')
@@ -34,9 +36,21 @@ const signUp = (request, history) => {
 
 
     //TODO add API call, check if successful
+    axios.post("http://localhost:3001/api/user/signup", {
+                "username":"tom",
+                "email": "asdf@gmail.com",
+                "password":"1233"
+            },{
+                withCredentials: true, credentials:"include"
+            }
+        ).then(response => {
+            console.log("response", response)
+            if (response.data.isValid) {
+                history.push('/')
+            }
+        }) 
 
     //TODO replace with cookie?
-    history.push('/')
 
     return 'allGood'
 }

@@ -36,8 +36,8 @@ const signup = async (req,res,next) => {
     } catch(err){
         return next(err);
     }
-    req.session.userID = newUser._id.toString();
-    res.status(201).json({isValid:True});
+    req.session.userID = newUser._id.toString()
+    res.status(201).json({isValid:true})
 }
 
 const login = async (req, res, next) => {

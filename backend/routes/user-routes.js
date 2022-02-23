@@ -18,7 +18,7 @@ router.get("/getUser", userController.searchUser)
 router.get("/getUserLogged", validation, userController.searchUserLogged)
 
 router.get("/validate",validation,(req,res,next)=>{
-    res.send(true)
+    res.status(200).send(true)
 })
 
 // export this file so other files can import it

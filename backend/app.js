@@ -25,14 +25,22 @@ const store = new MongoDBSession({
   collection: "mySessions"
 })
 
-app.use(cors())
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json())
-app.use(session({
-  secret: process.env.SESSION_KEY,
-  resave:false,
-  saveUninitialized:false,
-  store
-}))
+
+app.use(
+  session({
+    name: "id",
+    secret: process.env.SESSION_KEY,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+      sameSite: "lax",
+    },
+    store: store,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)
@@ -51,6 +59,7 @@ app.use("/",()=>{
 app.use((err,req,res,next)=>{
   const status = err.statusCode || 500
   const message = err.message
+  console.log(err.message)
   res.status(status).json({message})
 })
 

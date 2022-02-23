@@ -1,143 +1,80 @@
 import React, { useState } from 'react'
-import {Link, Redirect, Route, Switch, useHistory} from "react-router-dom" 
+import { Route, Switch, useLocation } from "react-router-dom" 
+
+import './styles/App.css'
+
+import Button from './components/Button'
+import Popup from './components/Popup'
 
 import Login from './views/Login'
 import Home from './views/Home'
 import Profile from './views/Profile'
-import Logout from './components/Logout'
+import Followers from './views/Followers'
+import Following from './views/Following'
+import Topics from './views/Topics'
+import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
-
-import {login, signUp} from './utils/login'
-
-import './styles/App.css'
 import NotFound from './views/NotFound'
 
 const App = () => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [user, setUser] = useState(null)
-    const [showLogout, setShowLogout] = useState(false)
-    const history = useHistory()
+    const [showPopup, setShowPopup] = useState(false)
 
-    const loginSubmit = (e) => {
-        e.preventDefault()
-        // login("hello")
-
-        const formObject = {
-            username,
-            email: 'asdf@gmail.com',
-            password,
-        }
-
-        // change
-        console.log("Login object: ", formObject)
-
-        // login(loginObject)
-        // // set the response we received from the signUp function in user-controller on the backend
-        //     .then(response=>{
-        //         setUser(response.signedIn)
-        //         history.push('/')
-        //     })
-
-        //TODO replace with api call
-        login(formObject)
-        setUser(formObject)
-        history.push('/')
-
-        setUsername('')
-        setPassword('')
+    //CHECK change this?
+    const page = useLocation()
+    // console.log("page", page);
+    let showButton = true
+    
+    if (page.pathname === '/login' || page.pathname === '/signup') {
+        showButton = false
     }
 
-    const signUpSubmit = (e) => {
-        e.preventDefault()
-        // login("hello")
-
-        const formObject = {
-            username, email, password, name
-        }
-
-        // change
-        console.log("Sign up object: ", formObject)
-
-        //TODO replace with api call
-        signUp(formObject)
-        setUser(formObject)
-        history.push('/')
-
-        setUsername('')
-        setPassword('')
-        setName('')
-        setEmail('')
-    }
-
-    const usernameHandler = (e) => {
-        setUsername(e.target.value)
-    }
-
-    const passwordHandler = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const nameHandler = (e) => {
-        setName(e.target.value)
-    }
-
-    const emailHandler = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const loginProps = {
-        "submit": loginSubmit,
-        username,
-        password,
-        usernameHandler,
-        passwordHandler,
-    }
-
-    const signUpProps = {
-        "submit": signUpSubmit,
-        username,
-        password,
-        name,
-        email,
-        usernameHandler,
-        passwordHandler,
-        nameHandler,
-        emailHandler
-    }
-
-    // const logout = () => { 
-    //     setShowLogout(true)
-    //  }
-
+    //toggles showLogout state when logout button is clicked
     const toggleLogout = () => {
-        setShowLogout(showLogout ? false : true)
+        setShowPopup(showPopup ? false : true)
     }
 
     return (
         <div className="App">
-            <Link to='/' className="headerLink">Home</Link>
-            <Link to={'/profile'} className="headerLink">Profile</Link>
-            {user ? <button onClick={toggleLogout} className="logOutButton">Settings</button> : ''}
-            {showLogout ? <Logout setUser={setUser} setShowLogout={setShowLogout} history={history}/> : ''}
+            <Button className='link headerLink' pathTo='/' text='Home'/>
+            <Button className='link headerLink' pathTo='/profile' text='Profile'/>
+            {showButton ? <Button className='button primary logout' onClick={toggleLogout} text='Settings'/> : ''}
+            {showPopup ? <Popup setShowPopup={setShowPopup} /> : ''}
 
             <Switch>
                 <Route exact path='/'>
-                    {user ? <Home /> : <Redirect to="/login" />}
+                    <Home />
                 </Route>
 
-                <Route path='/login'>
-                    <Login inputFunctions = {loginProps}/>
+                <Route exact path='/login'>
+                    <Login />
                 </Route>
 
-                <Route path='/profile'>
-                    {user ? <Profile /> : <Redirect to="/login" />}
+                <Route exact path='/signup'>
+                    <SignUp />
                 </Route>
 
-                <Route path='/signup'>
-                    <SignUp inputFunctions = {signUpProps}/>
+                <Route exact path='/profile'>
+                    <Profile />
+                </Route>
+
+                <Route exact path='/profile/settings'>
+                    {/* {user ? <ProfileSettings inputFunctions = {null}/> : <Redirect to="/login" />} */}
+                    <ProfileSettings />
+                </Route>
+
+                <Route exact path='/profile/followers'>
+                    {/* {user ? <Followers /> : <Redirect to="/login" />} */}
+                    <Followers />
+                </Route>
+
+                <Route exact path='/profile/following'>
+                    {/* {user ? <Following /> : <Redirect to="/login" />} */}
+                    <Following />
+                </Route>
+
+                <Route exact path='/profile/topics'>
+                    {/* {user ? <Topics /> : <Redirect to="/login" />} */}
+                    <Topics />
                 </Route>
 
                 <Route path="">
@@ -145,7 +82,7 @@ const App = () => {
                 </Route>
             </Switch>
         </div>
-    )
-}
+    ) //return
+} //App
 
 export default App

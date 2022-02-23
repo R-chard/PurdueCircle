@@ -1,27 +1,64 @@
-const login = (request) => {
-    const port = 3001
+import axios from "axios"
+const login = (request, history) => {
 
-    const output = request
-    console.log("Login: ", output);
-    // const output = fetch(`http://localhost:${port}/api/user/signup`,{
-    //         method:"POST",
-    //         // means the contents we are sending is in JSON
-    //         headers:{
-    //             "Content-Type":"application/json"
-    //         },
-    //         // converts request to json
-    //         body:JSON.stringify(request)
-    //     })
-    //     .then(response=>response.json())
+    //input validation
+    if (request.username === '' || request.password === '') {
+        return 'A field is empty'
+    }
+    //TODO add api call, check if response is good
+    axios.post("/api/user/login", {
+                "credentials":request.username,
+                "password":request.password
+            },{
+                withCredentials: true, credentials:"include"
+            }
+        ).then(response => {
+            if (response.data.isValid) {
+                history.push('/')
+            }
+        }) 
+        .catch(error => {
+            console.log("axios login error", error);
+        })
 
-        return output
-} //login()
-
-const signUp = (request) => {
-    const output = request
-    console.log("sign up: ", output);
-
-    return output
+    return 'allGood'
 }
 
-export {signUp, login}
+const signUp = (request, history) => {
+
+    //input validation
+    if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
+        request.confirmPassword === '') {
+
+        return 'A field is empty'
+    }
+
+    if (request.password.length < 8)
+        return 'Password length is too short'
+
+    if (request.password !== request.confirmPassword) {
+        return "Passwords don't match"
+    }
+
+    axios.post("/api/user/signup", {
+                "name":request.name,
+                "username":request.username,
+                "email": request.email,
+                "password":request.password
+            },{
+                withCredentials: true, credentials:"include"
+            }
+        ).then(response => {
+            if (response.data.isValid) {
+                history.push('/')
+            }
+        }).catch(error => {
+            console.log("axios signup error", error);
+        })
+
+    //TODO replace with cookie?
+
+    return 'allGood'
+}
+
+export { signUp, login }

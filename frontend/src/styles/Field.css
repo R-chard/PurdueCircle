@@ -1,0 +1,21 @@
+input.field {
+    /* text */
+    color: rgb(77, 77, 77);
+    font-size: 15px;
+    /* border & bounds */
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 7px;
+    outline: none; /* prevents default browser outline */
+
+    /* other */
+    box-sizing: border-box;
+    transition: 250ms;
+}
+
+/* outline with transition when in focus */
+input.field:focus {
+    border-color: var(--blue);
+    transition: 250ms;
+}

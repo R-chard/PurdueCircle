@@ -1,37 +1,91 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 
 import '../styles/Login.css'
 
-const SignUp = (props) => {
-    const { submit, 
-        username, usernameHandler, 
-        password, passwordHandler,
-        name, nameHandler,
-        email, emailHandler
-    } = props.inputFunctions
+import { signUp } from '../utils/login'
+
+import Field from "../components/Field"
+import Button from "../components/Button"
+
+const SignUp = () => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
+    const history = useHistory()
+
+    const signUpSubmit = (e) => {
+        e.preventDefault()
+
+        //TODO replace with correct object
+        const formObject = {
+            name, username, email, password, confirmPassword
+        }
+
+        //uses util to validate & send to api
+        const output = signUp(formObject, history)
+
+        //CHECK if unsuccessful
+        if (output !== 'allGood') {
+            setSuccessMessage(output)
+            return false
+        }
+
+        //REMOVE?
+        setUsername('')
+        setPassword('')
+        setConfirmPassword('')
+        setName('')
+        setEmail('')
+
+        return true
+    } //signUpSubmit()
+
+    const usernameHandler = (e) => {
+        setUsername(e.target.value)
+    }
+
+    const passwordHandler = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const confirmPasswordHandler = (e) => {
+        setConfirmPassword(e.target.value)
+    }
+
+    const nameHandler = (e) => {
+        setName(e.target.value)
+    }
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+    }
 
     return (
-        <div className="contents">
+        <div className="contents login">
             <div className="formContainer">
-                <form onSubmit={submit}>
+                <form onSubmit={signUpSubmit}>
                     <h1>Sign up</h1>
-                    <input value={name} onChange={nameHandler} placeholder={'Name'} className='field'/>
-                    <input value={email} onChange={emailHandler} placeholder={'Email'} className='field'/>
-                    <input value={username} onChange={usernameHandler} placeholder={'Username'} className='field'/>
-                    <input type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} className='field'/>
+                    {!successMessage ? '': <div className='message'>{successMessage}</div>}
+                    <Field value={name} onChange={nameHandler} placeholder={'Name'} />
+                    <Field value={email} onChange={emailHandler} placeholder={'Email'} />
+                    <Field value={username} onChange={usernameHandler} placeholder={'Username'} />
+                    <Field type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
+                    <Field type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
                     <div className="buttonContainer">
-                        <input type={"submit"} value={"Sign up"}/>
+                        <Button type={'formSubmit'} text={"Sign up"}/>
                     </div>
                     <div className="linkContainer">
-                        {/* <button onClick={changeViewHandler}>Sign up</button> */}
                         Have an account?
-                        <Link to='/login' className='link'>Log in</Link>
+                        <Button className='link' pathTo='/login' text='Log in'/>
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    ) //return
+} //SignUp
 
 export default SignUp

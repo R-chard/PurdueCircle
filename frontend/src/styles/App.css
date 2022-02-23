@@ -7,24 +7,28 @@
     box-sizing: border-box;
 }
 
+:root {
+    --placeholder-color: rgb(77, 77, 77);
+    --blue: #3a8efc;
+    --blue-hover: #1770e6;
+    --dark-blue: #0c428a;
+    --dark-gray: #464646;
+    --error-red: red;
+}
+
+h1 {
+    font-family: Lato, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--blue);
+    margin: 0px 0px 30px 0px; /* overrides default margin */
+    text-align: left;
+  }
+
 .headerLink {
     margin: 5px;
 }
 
-.logOutButton {
+.button.logout {
     float: right;
-    width: 100px;
-    background-color: #398fff;
-    transition: 250ms;
-    color: white;
-    padding: 10px;
-    margin: 8px auto;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.logOutButton:hover {
-    background-color: #1770e6;
-    transition: 250ms;
 }

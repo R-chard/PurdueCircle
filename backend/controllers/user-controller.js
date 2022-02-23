@@ -236,11 +236,12 @@ const deleteAccount = async (req, res, next) => {
         return next(error);
     }
 
-    if (!currUser) {
-        return next(error)
-    }
-
-    res.status(200).json({ deleted: true });
+    req.session.destroy(err=>{
+        if(err){
+            return next(err)
+        }
+    })
+    res.status(200).json({isValid:true})
 
 }
 // TODO: Modify when we have cookies from login / signup

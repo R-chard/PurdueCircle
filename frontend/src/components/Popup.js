@@ -10,7 +10,7 @@ const Logout = (props) => {
     const history = useHistory()
 
     const logout = () => {
-      axios.delete("http://localhost:3001/api/user/logout",{
+      axios.delete("/api/user/logout",{
         withCredentials: true, credentials:"include"
       }).then(response => {
         console.log(response)

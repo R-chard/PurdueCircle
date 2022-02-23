@@ -24,7 +24,7 @@ const ImageSelector = (props) => {
         }
         let fd = new FormData()
         fd.append("image",selectedFile)
-        axios("http://localhost:3001/api/user/upload",{
+        axios("/api/user/upload",{
             data:fd,
             method:"patch",
             withCredentials:true ,

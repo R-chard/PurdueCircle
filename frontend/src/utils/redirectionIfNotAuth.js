@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const redirectIfNotAuth = (history) => {
-    axios.get("http://localhost:3001/api/user/validate",{
+    axios.get("/api/user/validate",{
         withCredentials: true, credentials:"include"
     })
         .then(function(response){

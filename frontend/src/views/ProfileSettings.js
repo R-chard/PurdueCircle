@@ -79,7 +79,7 @@ const ProfileSettings = (props) => {
           justifyContent:"space-around",
           margin:"18px 0px",
         }}>
-          <ImageSelector />
+          <ImageSelector profPic={data.profile_img}/>
           <div>
             <label htmlFor="name">Name</label>
             <label htmlFor="name" style={{color:'red'}}>{nameError}</label>

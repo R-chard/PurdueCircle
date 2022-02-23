@@ -5,13 +5,25 @@ const bcrypt = require("bcryptjs")
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
     const {username,email,password} = req.body
+    
+    // check if user/email exists
+    const userBool = await User.findOne({username: username});
+    const emailBool = await User.findOne({email: email});
+    if (userBool){
+        res.status(409).json({userBool:false});
+        return;
+    }
+    if (emailBool){
+        res.status(409).json({emailBool:false})
+        return;
+    }
 
     // Password length validated in schema/users.js 
     // Password then hashed using bcrypt
     let hashpwd;
     try {
-        let salt = await bcrypt.genSalt(15)
-        hashpwd = await bcrypt.hash(password, salt);
+        //let salt = await bcrypt.genSalt(15)
+        hashpwd = await bcrypt.hash(password, 10);
     } catch (err) {
         return next(err)
     }
@@ -20,9 +32,9 @@ const signup = async (req,res,next) => {
     
     try{
         // save in database
-        await newUser.save() 
+        await newUser.save(); 
     } catch(err){
-        return next(err)
+        return next(err);
     }
     req.session.userID = newUser._id.toString()
     res.status(201).json({isValid:true})
@@ -37,7 +49,7 @@ const login = async (req, res, next) => {
     let isValid;
 
     try {
-        currUser = await User.findOne({ credentials });
+        currUser = await User.findOne({ username: credentials });
     } catch (err) {
         // need to create error object to handle this
         return next(err)
@@ -59,8 +71,8 @@ const login = async (req, res, next) => {
 
         try {
             // compare hashed password with users stored hashed password
-            
-            validPassword = true //change
+            validPassword = await bcrypt.compare(password, currUser.password);
+            //validPassword = true //change
         } catch (err) {
             next(err)
         }
@@ -113,7 +125,8 @@ const editUserInfo = async (req, res, next) => {
         }
 
     } else {
-        return next("User not found in database")
+        res.status(404).json({isFound: false});
+        return;
     }
 
     res.status(200).json({ dataUpdated: true });
@@ -122,7 +135,7 @@ const editUserInfo = async (req, res, next) => {
 
 const retrieveFollowedTopics = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let topicList;
     let currUser;
@@ -130,20 +143,21 @@ const retrieveFollowedTopics = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     topicList = currUser.topics_followed;
-    if (topicList.length = 0) {
-        return next("User does not currently follow any topics")
-    }
+    /*if (topicList.length = 0) {
+        return next(error)
+    }*/
     //not sure if this is the correct way of sending info to frontend
-    return topicList
+    //return topicList
+    res.status(200).json({topics_followed: topicList})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followedUsers;
     let currUser;
@@ -151,31 +165,37 @@ const retrieveFollowedUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next("User not found");
+        return next(error);
     }
 
     followedUsers = currUser.users_followed;
-    if (topicList.length = 0) {
-        return next("User does not currently follow anyone")
-    }
+    /*if (topicList.length = 0) {
+        return next(error)
+    }*/
     //not sure if this is the correct way of sending info to frontend
-    return followedUsers
+    //return followedUsers
+    res.status(200).json({users_followed: followedUsers})
 }
 
 const getProfile = async(req,res,next)=>{
-    const userID = req.session.userID
-    let user
+    const userID = req.session.userID;
+    let currUser;
     try{
-        user = await User.findById(userID)
+        currUser = await User.findById(userID);
     } catch(err){
-        return next(err)
+        return next(err);
     }
-    res.json({user})
+    if (currUser) {
+        res.status(200).json({currUser});
+
+    } else {
+        res.status(404).json({ isFound: false });
+    }
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
 
-    const userID = req.userID
+    const userID = req.session.userID
 
     let followingUsers;
     let currUser;
@@ -183,20 +203,21 @@ const retrieveFollowingUsers = async (req, res, next) => {
     try {
         currUser = await User.findById(userID);
     } catch (error) {
-        return next(new Error("User not found"));
+        return next(new Error(error));
     }
 
     followingUsers = currUser.users_following;
-    if (topicList.length = 0) {
-        return next("User does not currently have any followers")
-    }
+    /*if (topicList.length = 0) {
+        return next(error)
+    }*/
     //not sure if this is the correct way of sending info to frontend
-    return followingUsers
+    //return followingUsers
+    res.status(200).json({users_following: followingUsers})
 }
 
 const deleteAccount = async (req, res, next) => {
 
-    const userID = req.userID;
+    const userID = req.session.userID;
 
     let currUser;
 
@@ -207,10 +228,10 @@ const deleteAccount = async (req, res, next) => {
     }
 
     if (!currUser) {
-        return next("User ID not found in database")
+        return next(error)
     }
 
-    res.json({ deleted: true });
+    res.status(200).json({ deleted: true });
 
 }
 // TODO: Modify when we have cookies from login / signup
@@ -225,11 +246,61 @@ const uploadProfile = async (req,res,next) =>{
         } catch(err){
             return next(err)
         }
-        res.json({uploaded:true})
+        res.status(200).json({uploaded:true})
     } catch(err){
         return next(err)
     }
 }
+
+const searchUser = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
+const searchUserLogged = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img,
+            users_followed: searchUser.users_followed,
+            users_following: searchUser.users_following,
+            posts: searchUser.posts,
+            biography: searchUser.biography,
+            topics_followed: searchUser.topics_followed
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -240,3 +311,5 @@ exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
+exports.searchUser = searchUser
+exports.searchUserLogged = searchUserLogged

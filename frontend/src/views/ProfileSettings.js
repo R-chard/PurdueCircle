@@ -37,6 +37,12 @@ const ProfileSettings = (props) => {
       })
     },[])
 
+    const bioHandler = (e) => {
+      setBio(e.target.value)
+    }
+    const phoneHandler = (e) => {
+      setPhone(e.target.value)
+    }
     const usernameHandler = (e) => {
         setUsername(e.target.value)
     }
@@ -55,16 +61,13 @@ const ProfileSettings = (props) => {
       }
   }
 
-    //TODO add submit handler & make button call it
-  
+  //TODO add submit handler & make button call it
   const deleteAccount = () => {
     console.log("deleteAccount")
   }
-
   const apply = () => {
     console.log("apply")
   }
-
   const cancel = () => {
     console.log("cancel")
   }
@@ -85,7 +88,7 @@ const ProfileSettings = (props) => {
             <label htmlFor="name" style={{color:'red'}}>{nameError}</label>
             <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
-            <Field id="bio" onChange={usernameHandler} placeholder={'Edit Bio'}/>
+            <Field id="bio" value={bio} onChange={bioHandler} placeholder={'Edit Bio'}/>
           </div>
         </div>
 
@@ -102,7 +105,7 @@ const ProfileSettings = (props) => {
           <label htmlFor="email">Email Address</label>
           <Field id="email" value={email} onChange={emailHandler} placeholder={'Edit Email'}/>
           <label htmlFor="phone">Phone Number</label>
-          <Field id="phone" onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
+          <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
             <Button className='button primary' onClick={deleteAccount} text={'Delete Account'}/>
             <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>

@@ -30,7 +30,11 @@ const Profile = (props) => {
                 margin:"18px 0px",
                 borderBottom:"1px solid grey"
             }}>
-                <h2>{data.username}</h2>
+                <div>
+                    <h2>{data.username}</h2>
+                    <h4>bio</h4>
+                </div>
+                
                 {/* Profile Picture */}
                 <div>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}}

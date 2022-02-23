@@ -1,13 +1,10 @@
 import axios from "axios"
 const login = (request, history) => {
-    const port = 3001
 
     //input validation
     if (request.username === '' || request.password === '') {
         return 'A field is empty'
     }
-
-
     //TODO add api call, check if response is good
     axios.post("http://localhost:3001/api/user/login", {
                 "credentials":request.username,
@@ -16,7 +13,6 @@ const login = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
-            console.log("response", response)
             if (response.data.isValid) {
                 history.push('/')
             }
@@ -25,14 +21,10 @@ const login = (request, history) => {
             console.log("axios login error", error);
         })
 
-    //TODO replace with cookie?
-    history.push('/')
-
     return 'allGood'
-} //login()
+}
 
 const signUp = (request, history) => {
-    const port = 3001
 
     //input validation
     if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
@@ -49,6 +41,7 @@ const signUp = (request, history) => {
     }
 
     axios.post("http://localhost:3001/api/user/signup", {
+                "name":request.name,
                 "username":request.username,
                 "email": request.email,
                 "password":request.password
@@ -56,8 +49,7 @@ const signUp = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
-            console.log("response", response)
-            if (response.isValid) {
+            if (response.data.isValid) {
                 history.push('/')
             }
         }).catch(error => {

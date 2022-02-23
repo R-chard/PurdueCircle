@@ -35,7 +35,6 @@ const SignUp = () => {
         }
 
         //REMOVE?
-        console.log("Sign up object: ", formObject)
         setUsername('')
         setPassword('')
         setConfirmPassword('')

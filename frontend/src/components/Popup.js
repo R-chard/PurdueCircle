@@ -13,7 +13,8 @@ const Logout = (props) => {
       axios.delete("http://localhost:3001/api/user/logout",{
         withCredentials: true, credentials:"include"
       }).then(response => {
-          if (response.isValid) {
+        console.log(response)
+          if (response.data.isValid) {
               setShowPopup(false)
               history.push('/login')
           }

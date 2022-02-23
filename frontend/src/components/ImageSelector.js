@@ -30,7 +30,6 @@ const ImageSelector = (props) => {
             withCredentials:true ,
             headers:{"Content-Type":"multipart/form-data","boundary":fd.boundary}})
         .then(response=>{
-            console.log(response)
             if (response.data.uploaded){
             alert("Profile picture updated successfully")
         }})

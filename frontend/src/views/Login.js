@@ -20,7 +20,6 @@ const Login = () => {
         //TODO replace with correct object
         const formObject = {
             username,
-            email: 'asdf@gmail.com',
             password,
         }
 

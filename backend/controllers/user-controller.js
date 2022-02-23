@@ -10,12 +10,10 @@ const signup = async (req,res,next) => {
     const userBool = await User.findOne({username});
     const emailBool = await User.findOne({email});
     if (userBool){
-        console.log(userBool)
         res.status(409).json({userBool:false});
         return;
     }
     if (emailBool){
-        console.log(emailBool)
         res.status(409).json({emailBool:false})
         return;
     }
@@ -99,8 +97,12 @@ const login = async (req, res, next) => {
 }
 
 const logout = async(req,res,next) => {
-    req.session = null
-    res.status(200).json({isVaid:true})
+    req.session.destroy(err=>{
+        if(err){
+            return next(err)
+        }
+    })
+    res.status(200).json({isValid:true})
 }
 
 const editUserInfo = async (req, res, next) => {

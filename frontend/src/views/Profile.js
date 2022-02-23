@@ -13,11 +13,14 @@ const Profile = (props) => {
         axios.get("http://localhost:3001/api/user/getProfile",{
             withCredentials: true, credentials:"include"
         })
-        .then(response=>setData(response.data.user))
+        .then(response=>{
+            setData(response.data.currUser)
+        })
     },[])
     
     return (
-        (data && <div className={'profile'}>
+        <div>
+            {data && (<div className={'profile'}>
         <h1>Profile</h1>
         <div style={{maxWidth:"900px",margin:"0px auto"}}>
             <div style={{
@@ -30,7 +33,7 @@ const Profile = (props) => {
                 {/* Profile Picture */}
                 <div>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
-                        src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5cdc8468-88cf-4472-9d66-44c7d166408e/de7hzn7-35d8732c-6522-40c5-8388-68940198cc8d.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzVjZGM4NDY4LTg4Y2YtNDQ3Mi05ZDY2LTQ0YzdkMTY2NDA4ZVwvZGU3aHpuNy0zNWQ4NzMyYy02NTIyLTQwYzUtODM4OC02ODk0MDE5OGNjOGQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.SzAxp5Gzy5KOTOjcacaCJeg9-hTfBiOpRct5lF5jY5M"
+                        src={data.profile_img}
                     />
                 </div>
                 {/* Right Side Info */}
@@ -54,9 +57,11 @@ const Profile = (props) => {
                 <img className="post" src="https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2012/06/wallpaper.png"/>
             </div>
         </div>
-    </div>)
+    </div>)}
+        </div>
         
-    )
+        
+    ) 
 }
 
 export default Profile

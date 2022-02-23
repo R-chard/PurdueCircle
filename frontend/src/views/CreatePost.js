@@ -53,7 +53,7 @@ const CreatePost = () => {
                     <label>Topic</label>
                     <Field className={'singleLine'} value={topic} onChange={topicHandler} placeholder={'Enter some text'}/>
                     <div className="buttonContainer">
-                        <Button type={'formSubmit'} text={'Post'}/>
+                        <Button className={'formSubmit'} text={'Post'}/>
                     </div>
                 </form>
             </div>

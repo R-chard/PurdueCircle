@@ -5,6 +5,13 @@ const login = (request, history) => {
     if (request.username === '' || request.password === '') {
         return 'A field is empty'
     }
+
+    if (!(request.username.includes('@') && request.username.includes('.'))) {
+        //is email
+    } else {
+        //is username
+    }
+
     //TODO add api call, check if response is good
     axios.post("http://localhost:3001/api/user/login", {
                 "credentials":request.username,
@@ -38,6 +45,10 @@ const signUp = (request, history) => {
 
     if (request.password !== request.confirmPassword) {
         return "Passwords don't match"
+    }
+
+    if (!(request.email.includes('@') && request.email.includes('.'))) {
+        return 'Invalid email format'
     }
 
     axios.post("http://localhost:3001/api/user/signup", {

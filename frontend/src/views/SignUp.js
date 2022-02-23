@@ -76,7 +76,7 @@ const SignUp = () => {
                     <Field className={'singleLine'} type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
                     <Field className={'singleLine'} type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
                     <div className="buttonContainer">
-                        <Button type={'formSubmit'} text={"Sign up"}/>
+                        <Button className={'formSubmit'} text={"Sign up"}/>
                     </div>
                     <div className="linkContainer">
                         Have an account?

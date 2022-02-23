@@ -62,7 +62,7 @@ const Login = () => {
                     <Field className={`singleLine ${fieldMod}`} value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
                     <Field className={`singleLine ${fieldMod}`} type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">
-                        <Button type={'formSubmit'} text={'Login'}/>
+                        <Button className={'formSubmit'} text={'Login'}/>
                     </div>
                     <div className="linkContainer">
                         Don't have an account?

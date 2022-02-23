@@ -20,6 +20,10 @@
     transition: 250ms;
 }
 
+.field.button {
+    width: auto;
+}
+
 .multiLine {
     resize: none;
 }

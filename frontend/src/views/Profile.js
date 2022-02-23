@@ -15,9 +15,8 @@ const Profile = (props) => {
     
     return (
         (data && <div className={'profile'}>
-        <Link to='/profile/settings' className="link">Settings</Link>
         <h1>Profile</h1>
-        
+        {console.log(data)}
         <div style={{maxWidth:"900px",margin:"0px auto"}}>
             <div style={{
                 display:"flex",
@@ -34,12 +33,12 @@ const Profile = (props) => {
                 </div>
                 {/* Right Side Info */}
                 <div>
-                    <h2>FirstName LastName</h2>
+                    <h2>{data.name}</h2>
                     <div style={{display:"flex",justifyContent:"space-between",width:"130%"}}>
-                        <h6>40 posts</h6>
-                        <Link to='/profile/followers' className="link">40 followers</Link>
-                        <Link to='/profile/following' className="link">40 following</Link>
-                        <Link to='/profile/topics' className="link">40 topics</Link>
+                        <h6>{data.posts.length} posts</h6>
+                        <Link to='/profile/followers' className="link">{data.users_followed.length} followers</Link>
+                        <Link to='/profile/following' className="link">{data.users_following.length} following</Link>
+                        <Link to='/profile/topics' className="link">{data.topics_followed.length} topics</Link>
                     </div>
                 </div>
             </div>

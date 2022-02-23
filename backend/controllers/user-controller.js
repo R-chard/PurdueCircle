@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
-    const {username,email,password} = req.body
+    const {username,email,password,name} = req.body
     
     // check if user/email exists
     const userBool = await User.findOne({username});
@@ -28,7 +28,7 @@ const signup = async (req,res,next) => {
         return next(err)
     }
     
-    const newUser = new User({credentials,emailAddress,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
+    const newUser = new User({name,username,email,password:hashpwd,profile_img:"https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png"})
     
     try{
         // save in database
@@ -49,7 +49,7 @@ const login = async (req, res, next) => {
     let isValid;
 
     try {
-        currUser = await User.findOne({ credentials });
+        currUser = await User.findOne({ username: credentials });
     } catch (err) {
         // need to create error object to handle this
         return next(err)
@@ -147,9 +147,9 @@ const retrieveFollowedTopics = async (req, res, next) => {
     }
 
     topicList = currUser.topics_followed;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return topicList
     res.status(200).json({topics_followed: topicList})
@@ -169,9 +169,9 @@ const retrieveFollowedUsers = async (req, res, next) => {
     }
 
     followedUsers = currUser.users_followed;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return followedUsers
     res.status(200).json({users_followed: followedUsers})
@@ -207,9 +207,9 @@ const retrieveFollowingUsers = async (req, res, next) => {
     }
 
     followingUsers = currUser.users_following;
-    if (topicList.length = 0) {
+    /*if (topicList.length = 0) {
         return next(error)
-    }
+    }*/
     //not sure if this is the correct way of sending info to frontend
     //return followingUsers
     res.status(200).json({users_following: followingUsers})
@@ -252,6 +252,55 @@ const uploadProfile = async (req,res,next) =>{
     }
 }
 
+const searchUser = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
+const searchUserLogged = async (req, res, next) => {
+    const username = req.body;
+
+    let searchUser;
+
+    try {
+        searchUser = await User.findOne({username: username});
+    } catch (error) {
+        next(error);
+    }
+
+    if (searchUser) {
+        res.status(200).json({
+            username: searchUser.username,
+            name: searchUser.name,
+            profile_img: searchUser.profile_img,
+            users_followed: searchUser.users_followed,
+            users_following: searchUser.users_following,
+            posts: searchUser.posts,
+            biography: searchUser.biography,
+            topics_followed: searchUser.topics_followed
+        });
+    } else {
+        res.status(404).json({ isFound: false });
+    }
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -262,3 +311,5 @@ exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
+exports.searchUser = searchUser
+exports.searchUserLogged = searchUserLogged

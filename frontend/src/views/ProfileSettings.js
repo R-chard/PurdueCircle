@@ -17,6 +17,13 @@ const ProfileSettings = (props) => {
     const [bio, setBio] = useState('')
     const [phone, setPhone] = useState('')
     const [successMessage, setSuccessMessage] = useState(null)
+
+    const [usernameError, setUsernameError] = useState('')
+    const [nameError, setNameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [bioError, setBioError] = useState('')
+    const [phoneError, setPhoneError] = useState('')
     
     useEffect(()=>{
       axios.get("http://localhost:3001/api/user/getProfile",{
@@ -41,6 +48,11 @@ const ProfileSettings = (props) => {
     }
     const nameHandler = (e) => {
       setName(e.target.value)
+      if(e.target.value == '') {
+        setNameError(" - Please enter a name")
+      } else {
+        setNameError('')
+      }
   }
 
     //TODO add submit handler & make button call it
@@ -70,6 +82,7 @@ const ProfileSettings = (props) => {
           <ImageSelector />
           <div>
             <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{color:'red'}}>{nameError}</label>
             <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
             <Field id="bio" onChange={usernameHandler} placeholder={'Edit Bio'}/>

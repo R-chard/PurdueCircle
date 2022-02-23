@@ -14,7 +14,7 @@ const Logout = (props) => {
         withCredentials: true, credentials:"include"
       }).then(response => {
         console.log(response)
-          if (response.data.isValid) {
+          if (response.data.success) {
               setShowPopup(false)
               history.push('/login')
           }

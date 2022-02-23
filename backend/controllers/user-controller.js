@@ -37,7 +37,7 @@ const signup = async (req,res,next) => {
         return next(err);
     }
     req.session.userID = newUser._id.toString()
-    res.status(201).json({isValid:true})
+    res.status(201).json({success:true})
 }
 
 const login = async (req, res, next) => {
@@ -46,7 +46,7 @@ const login = async (req, res, next) => {
     // validate whether credentials is email or username
 
     let currUser;
-    let isValid;
+    let success;
 
     try {
         currUser = await User.findOne({ username: credentials });
@@ -64,7 +64,7 @@ const login = async (req, res, next) => {
     }
 
     if (!currUser) {
-        isValid = false;
+        success = false;
     } else {
         let validPassword = false;
 
@@ -77,7 +77,7 @@ const login = async (req, res, next) => {
         }
 
         if (!validPassword) {
-            isValid = false;
+            success = false;
         } else {
 
             try {
@@ -86,13 +86,13 @@ const login = async (req, res, next) => {
                 return next(err) //change
             }
 
-            isValid = true;
+            success = true;
 
         }
     }
 
     req.session.userID = currUser._id.toString()
-    res.status(200).json({ isValid });
+    res.status(200).json({ success });
 
 }
 
@@ -102,14 +102,13 @@ const logout = async(req,res,next) => {
             return next(err)
         }
     })
-    res.status(200).json({isValid:true})
+    res.status(200).json({success:true})
 }
 
 const editUserInfo = async (req, res, next) => {
     
     const userID = req.session.userID;
-    const {name, biography} = req.body;
-    
+    const {name, biography,username,password,email,phone} = req.body;
     let currUser;
     
     try {
@@ -119,25 +118,26 @@ const editUserInfo = async (req, res, next) => {
     }
 
     if (currUser) {
-        if (name) {
-            currUser.name = name;
-        }
-        if (biography) {
-            currUser.biography = biography;
-        }
+        currUser.name = name
+        currUser.biography = biography
+        currUser.username = username
+        currUser.email = email
+        currUser.phone = phone
 
-        try {
+        try{
+            hashpwd = await bcrypt.hash(password, 10);
+            currUser.password = hashpwd
             await currUser.save();
         } catch (error) {
             return next(error);
         }
 
     } else {
-        res.status(404).json({isFound: false});
+        res.status(404).json({success: false});
         return;
     }
 
-    res.status(200).json({ dataUpdated: true });
+    res.status(200).json({ success: true });
     
 }
 
@@ -226,10 +226,8 @@ const deleteAccount = async (req, res, next) => {
 
     const userID = req.session.userID;
 
-    let currUser;
-
     try {
-        currUser = await User.findOneAndDelete(userID);
+        await User.findOneAndDelete(userID);
     } catch (error) {
         return next(error);
     }
@@ -239,10 +237,10 @@ const deleteAccount = async (req, res, next) => {
             return next(err)
         }
     })
-    res.status(200).json({isValid:true})
+    res.status(200).json({success:true})
 
 }
-// TODO: Modify when we have cookies from login / signup
+
 const uploadProfile = async (req,res,next) =>{
     try{
         const cloud = await cloudinary.uploader.upload(req.file.path)

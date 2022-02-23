@@ -13,7 +13,7 @@ const login = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
-            if (response.data.isValid) {
+            if (response.data.success) {
                 history.push('/')
             }
         }) 
@@ -49,7 +49,7 @@ const signUp = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
-            if (response.data.isValid) {
+            if (response.data.success) {
                 history.push('/')
             }
         }).catch(error => {

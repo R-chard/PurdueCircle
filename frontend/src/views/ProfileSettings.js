@@ -62,21 +62,37 @@ const ProfileSettings = (props) => {
   }
 
   //TODO add submit handler & make button call it
-  const deleteAccount = () => {
+  const deleteAccount = e => {
+    e.preventDefault()
     axios.delete("/api/user/delete",{
       withCredentials: true, credentials:"include"
     }).then(response => {
-        if (response.data.isValid) {
+        if (response.data.success) {
             history.push('/login')
             alert("account deleted")
         }
     }) 
   }
-  const apply = () => {
-    console.log("apply")
+  const apply = e => {
+    e.preventDefault()
+    axios.patch("/api/user/update",{
+      name,
+      biography:bio,
+      username,
+      password,
+      email,
+      phone
+    },{
+      withCredentials: true, credentials:"include"
+    }).then(response => {
+      if(response.data.success){
+        alert("Changes successful")
+      }
+    })
   }
-  const cancel = () => {
-    console.log("cancel")
+  const cancel = e => {
+    e.preventDefault()
+    history.push("/profile")
   }
   
   return (

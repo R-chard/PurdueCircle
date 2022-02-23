@@ -1,4 +1,4 @@
-input.field {
+.field {
     /* text */
     color: rgb(77, 77, 77);
     font-size: 15px;
@@ -14,8 +14,16 @@ input.field {
     transition: 250ms;
 }
 
-/* outline with transition when in focus */
-input.field:focus {
+/* outline with transition delay when in focus */
+.field:focus {
     border-color: var(--blue);
     transition: 250ms;
+}
+
+.multiLine {
+    resize: none;
+}
+
+.fieldError {
+    border: 2px solid var(--error-red);
 }

@@ -15,6 +15,7 @@ import Topics from './views/Topics'
 import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
+import CreatePost from './views/CreatePost.js'
 
 const App = () => {
     const [showPopup, setShowPopup] = useState(false)
@@ -75,6 +76,10 @@ const App = () => {
                 <Route exact path='/profile/topics'>
                     {/* {user ? <Topics /> : <Redirect to="/login" />} */}
                     <Topics />
+                </Route>
+
+                <Route exact path='/create'>
+                    <CreatePost />
                 </Route>
 
                 <Route path="">

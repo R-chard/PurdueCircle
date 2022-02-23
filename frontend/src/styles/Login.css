@@ -1,7 +1,7 @@
 .contents.login {
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
     /* flex-direction: column; */
     /* flex: 1; */
     padding: 40px 0 0;
@@ -24,12 +24,6 @@
     color: var(--blue);
     margin: 0px 0px 30px 0px; /* overrides default margin */
     text-align: left;
-}
-
-.contents.login .message {
-	color: var(--error-red);
-	text-align: left;
-	margin-left: 12px;
 }
 
 .contents.login .formContainer form {

@@ -69,12 +69,12 @@ const SignUp = () => {
             <div className="formContainer">
                 <form onSubmit={signUpSubmit}>
                     <h1>Sign up</h1>
-                    {!successMessage ? '': <div className='message'>{successMessage}</div>}
-                    <Field value={name} onChange={nameHandler} placeholder={'Name'} />
-                    <Field value={email} onChange={emailHandler} placeholder={'Email'} />
-                    <Field value={username} onChange={usernameHandler} placeholder={'Username'} />
-                    <Field type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
-                    <Field type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
+                    {!successMessage ? '': <div className='message error'>{successMessage}</div>}
+                    <Field className={'singleLine'} value={name} onChange={nameHandler} placeholder={'Name'} />
+                    <Field className={'singleLine'} value={email} onChange={emailHandler} placeholder={'Email'} />
+                    <Field className={'singleLine'} value={username} onChange={usernameHandler} placeholder={'Username'} />
+                    <Field className={'singleLine'} type={"password"} value={password} onChange={passwordHandler} placeholder={'Password'} />
+                    <Field className={'singleLine'} type={"password"} value={confirmPassword} onChange={confirmPasswordHandler} placeholder={'Confirm password'} />
                     <div className="buttonContainer">
                         <Button type={'formSubmit'} text={"Sign up"}/>
                     </div>

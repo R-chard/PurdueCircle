@@ -25,9 +25,11 @@ const Field = (props) => {
     else
 		className = 'field ' + className
 
-    return (
-    	<input id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} className={className}/>
-  	)
+    if (className.includes('multiLine')) {
+        return <textarea className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
+    } else {
+        return <input className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
+    }
 } //Field
 
 export default Field

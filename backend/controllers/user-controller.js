@@ -51,7 +51,8 @@ const login = async (req, res, next) => {
     try {
         currUser = await User.findOne({ username: credentials });
     } catch (err) {
-        return next(err)
+        //return next(err)
+        res.status(404).json({ isValid: false }); //change to show 404 error instead of return
     }
 
 
@@ -59,7 +60,8 @@ const login = async (req, res, next) => {
         try {
             currUser = await User.findOne({ email: credentials })
         } catch (err) {
-            return next(err)
+            //return next(err)
+            res.status(404).json({ isValid: false }); //change to show 404 error instead of return
         }
     }
 

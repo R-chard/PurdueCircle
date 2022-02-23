@@ -10,10 +10,12 @@ const signup = async (req,res,next) => {
     const userBool = await User.findOne({username});
     const emailBool = await User.findOne({email});
     if (userBool){
+        console.log(userBool)
         res.status(409).json({userBool:false});
         return;
     }
     if (emailBool){
+        console.log(emailBool)
         res.status(409).json({emailBool:false})
         return;
     }
@@ -51,7 +53,6 @@ const login = async (req, res, next) => {
     try {
         currUser = await User.findOne({ username: credentials });
     } catch (err) {
-        // need to create error object to handle this
         return next(err)
     }
 
@@ -92,9 +93,14 @@ const login = async (req, res, next) => {
         }
     }
 
-    req.session.userID = newUser._id.toString()
+    req.session.userID = currUser._id.toString()
     res.status(200).json({ isValid });
 
+}
+
+const logout = async(req,res,next) => {
+    req.session = null
+    res.status(200).json({isVaid:true})
 }
 
 const editUserInfo = async (req, res, next) => {
@@ -185,12 +191,11 @@ const getProfile = async(req,res,next)=>{
     } catch(err){
         return next(err);
     }
-    if (currUser) {
-        res.status(200).json({currUser});
 
-    } else {
+    if(!currUser) {
         res.status(404).json({ isFound: false });
     }
+    res.status(200).json({currUser});
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
@@ -313,3 +318,4 @@ exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
 exports.searchUser = searchUser
 exports.searchUserLogged = searchUserLogged
+exports.logout = logout

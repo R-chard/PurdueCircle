@@ -33,7 +33,7 @@ app.use(
     name: "id",
     secret: process.env.SESSION_KEY,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+      maxAge: 1000 * 60 * 60, // 1hr
       sameSite: "lax",
     },
     store: store,

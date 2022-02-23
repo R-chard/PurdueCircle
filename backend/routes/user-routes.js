@@ -4,9 +4,11 @@ const userController = require("../controllers/user-controller")
 const upload = require("../middleware/image-upload")
 const validation = require("../middleware/validatation")
 
-// redirect any URL ending with /signup to the signup function
+// --Authentication
 router.post("/signup", userController.signup)
 router.post("/login", userController.login)
+router.delete("/logout",validation, userController.logout)
+
 router.patch("/update", validation,  userController.editUserInfo)
 router.get("/getFollowedTopics", validation, userController.retrieveFollowedTopics)
 router.get("/getFollowedUsers", validation, userController.retrieveFollowedUsers)
@@ -16,6 +18,7 @@ router.patch("/upload", validation, upload.single("image"),userController.upload
 router.delete("/delete", validation, userController.deleteAccount)
 router.get("/getUser", userController.searchUser)
 router.get("/getUserLogged", validation, userController.searchUserLogged)
+
 
 router.get("/validate",validation,(req,res,next)=>{
     res.status(200).send(true)

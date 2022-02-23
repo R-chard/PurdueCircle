@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/Popup.css'
+import axios from "axios"
 
 import Divider from "@material-ui/core/Divider";
 import { useHistory } from 'react-router-dom';
@@ -9,10 +10,14 @@ const Logout = (props) => {
     const history = useHistory()
 
     const logout = () => {
-        //TODO replace with remove cookie?
-        history.push('/login')
-
-        setShowPopup(false)
+      axios.delete("http://localhost:3001/api/user/logout",{
+        withCredentials: true, credentials:"include"
+      }).then(response => {
+          if (response.isValid) {
+              setShowPopup(false)
+              history.push('/login')
+          }
+      }) 
     }
 
     const openProfile = () => {

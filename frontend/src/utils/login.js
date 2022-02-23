@@ -34,8 +34,6 @@ const signUp = (request, history) => {
         return "Passwords don't match"
     }
 
-
-    //TODO add API call, check if successful
     axios.post("http://localhost:3001/api/user/signup", {
                 "username":"tom",
                 "email": "asdf@gmail.com",
@@ -45,7 +43,7 @@ const signUp = (request, history) => {
             }
         ).then(response => {
             console.log("response", response)
-            if (response.data.isValid) {
+            if (response.isValid) {
                 history.push('/')
             }
         }) 

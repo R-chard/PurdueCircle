@@ -6,7 +6,7 @@ import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = (props) => {
     const history = useHistory()
-    redirectIfNotAuth(history)
+    //redirectIfNotAuth(history)
     
     const [data, setData] = useState(null)
     useEffect(()=>{
@@ -21,6 +21,7 @@ const Profile = (props) => {
     return (
         <div>
             {data && (<div className={'profile'}>
+        {console.log(data)}
         <h1>Profile</h1>
         <div style={{maxWidth:"900px",margin:"0px auto"}}>
             <div style={{

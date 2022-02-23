@@ -39,7 +39,7 @@ const Profile = (props) => {
                 </div>
                 {/* Right Side Info */}
                 <div>
-                    <h2>{data.username}</h2>
+                    <h1>{data.username}</h1>
                     <div style={{display:"flex",justifyContent:"space-between",width:"120%"}}>
                         <h6>{data.posts.length} posts</h6>
                         <Link to='/profile/followers' className="link">{data.users_followed.length} followers</Link>

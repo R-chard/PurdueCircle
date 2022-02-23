@@ -92,7 +92,7 @@ const login = async (req, res, next) => {
         }
     }
 
-    req.session.userID = newUser._id.toString()
+    req.session.userID = currUser._id.toString()
     res.status(200).json({ isValid });
 
 }

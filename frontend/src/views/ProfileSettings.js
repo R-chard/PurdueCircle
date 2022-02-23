@@ -11,6 +11,7 @@ const ProfileSettings = (props) => {
     redirectIfNotAuth(history)
     const [data, setData] = useState(null)
     const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [bio, setBio] = useState('')
@@ -25,6 +26,7 @@ const ProfileSettings = (props) => {
           setData(response.data.currUser)
           setUsername(response.data.currUser.username)
           setEmail(response.data.currUser.email)
+          setName(response.data.currUser.name)
       })
     },[])
 
@@ -37,6 +39,9 @@ const ProfileSettings = (props) => {
     const emailHandler = (e) => {
         setEmail(e.target.value)
     }
+    const nameHandler = (e) => {
+      setName(e.target.value)
+  }
 
     //TODO add submit handler & make button call it
   
@@ -65,7 +70,7 @@ const ProfileSettings = (props) => {
           <ImageSelector />
           <div>
             <label htmlFor="name">Name</label>
-            <Field id="name" onChange={usernameHandler} placeholder={'Edit Name'}/>
+            <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
             <Field id="bio" onChange={usernameHandler} placeholder={'Edit Bio'}/>
           </div>

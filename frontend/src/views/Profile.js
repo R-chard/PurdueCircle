@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import "../styles/Profile.css"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
-const Profile = (props) => {
+const Profile = () => {
     //redirectIfNotAuth()
     const [data, setData] = useState(null)
     useEffect(()=>{

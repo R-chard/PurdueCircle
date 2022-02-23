@@ -8,27 +8,34 @@ import { useHistory } from "react-router-dom";
 
 const ProfileSettings = (props) => {
 	const history = useHistory()
-    //redirectIfNotAuth(history)
+    redirectIfNotAuth(history)
     const [data, setData] = useState(null)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const [bio, setBio] = useState('')
+    const [phone, setPhone] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
+    
     useEffect(()=>{
       axios.get("http://localhost:3001/api/user/getProfile",{
           withCredentials: true, credentials:"include"
       })
       .then(response=>{
           setData(response.data.currUser)
+          setUsername(response.data.currUser.username)
+          setEmail(response.data.currUser.email)
       })
     },[])
 
-  const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [successMessage, setSuccessMessage] = useState(null)
-
     const usernameHandler = (e) => {
-        //setUsername(e.target.value)
+        setUsername(e.target.value)
     }
-
     const passwordHandler = (e) => {
         setPassword(e.target.value)
+    }
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
     }
 
     //TODO add submit handler & make button call it
@@ -44,7 +51,7 @@ const ProfileSettings = (props) => {
   const cancel = () => {
     console.log("cancel")
   }
-
+  
   return (
     <div>
       {data && (<div>
@@ -71,11 +78,11 @@ const ProfileSettings = (props) => {
           margin:"18px 0px",
         }}>
           <label htmlFor="username">Username</label>
-          <Field id="username" value={data.username} onChange={usernameHandler}/>
+          <Field id="username" value={username} onChange={usernameHandler}/>
           <label htmlFor="password">Password</label>
           <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
           <label htmlFor="email">Email Address</label>
-          <Field id="email" onChange={usernameHandler} placeholder={'Edit Email'}/>
+          <Field id="email" value={email} onChange={emailHandler} placeholder={'Edit Email'}/>
           <label htmlFor="phone">Phone Number</label>
           <Field id="phone" onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>

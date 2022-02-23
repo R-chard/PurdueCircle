@@ -6,7 +6,7 @@ import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = (props) => {
     const history = useHistory()
-    //redirectIfNotAuth(history)
+    redirectIfNotAuth(history)
     
     const [data, setData] = useState(null)
     useEffect(()=>{
@@ -15,6 +15,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             setData(response.data.currUser)
+            
         })
     },[])
     
@@ -23,18 +24,13 @@ const Profile = (props) => {
             {data && (<div className={'profile'}>
         {console.log(data)}
         <h1>Profile</h1>
-        <div style={{maxWidth:"900px",margin:"0px auto"}}>
+        <div style={{maxWidth:"800px",margin:"0px auto"}}>
             <div style={{
                 display:"flex",
                 justifyContent:"space-around",
                 margin:"18px 0px",
                 borderBottom:"1px solid grey"
             }}>
-                <div>
-                    <h2>{data.username}</h2>
-                    <h4>bio</h4>
-                </div>
-                
                 {/* Profile Picture */}
                 <div>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
@@ -43,13 +39,15 @@ const Profile = (props) => {
                 </div>
                 {/* Right Side Info */}
                 <div>
-                    <h2>{data.name}</h2>
-                    <div style={{display:"flex",justifyContent:"space-between",width:"130%"}}>
+                    <h2>{data.username}</h2>
+                    <div style={{display:"flex",justifyContent:"space-between",width:"120%"}}>
                         <h6>{data.posts.length} posts</h6>
                         <Link to='/profile/followers' className="link">{data.users_followed.length} followers</Link>
                         <Link to='/profile/following' className="link">{data.users_following.length} following</Link>
                         <Link to='/profile/topics' className="link">{data.topics_followed.length} topics</Link>
                     </div>
+                    <h2>{data.name}</h2>
+                    <h4>bio</h4>
                 </div>
             </div>
 

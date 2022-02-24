@@ -14,7 +14,6 @@ const SettingsPopup = (props) => {
       axios.delete("/api/user/logout",{
         withCredentials: true, credentials:"include"
       }).then(response => {
-        console.log(response)
           if (response.data.success) {
               setShowPopup(false)
               history.push('/login')

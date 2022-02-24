@@ -12,49 +12,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const history = useHistory()
 
-    const login = (request) => {
-        //TODO change this?
-        let output = 'Invalid email / password combination'
-    
-        //input validation
-        if (request.username === '' || request.password === '') {
-            setErrorMessage('A field is empty')
-            return
-        }
-    
-        if (!(request.username.includes('@') && request.username.includes('.'))) {
-            //is email
-        } else {
-            //is username
-        }
-    
-        axios.post("/api/user/login", {
-                    "credentials":request.username,
-                    "password":request.password
-                },{
-                    withCredentials: true, credentials:"include"
-                }
-            ).then(response => {
-                output = 'allGood'
-                console.log("login response", response);
-                if (response.data.success) {
-                    console.log("login success");
-                    history.push('/')
-                } else {
-                    setErrorMessage('Invalid email / password combination')
-                }
-            }) 
-            .catch(error => {
-                //TODO change this?
-                output = 
-                setErrorMessage('Invalid email / password combination')
-                console.log("axios login error", error)
-            })
-    
-            console.log("login.js output:", output);
-        // return output
-    } //login()
-
     const loginSubmit = (e) => {
         e.preventDefault()
 

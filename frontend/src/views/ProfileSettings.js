@@ -131,7 +131,6 @@ const ProfileSettings = (props) => {
   const apply = e => {
     e.preventDefault()
     //console.log(nameError=='' && phoneError=='')
-    console.log('errors:', checkError());
     if(checkError()) {
       axios.patch("/api/user/update",{
         name,

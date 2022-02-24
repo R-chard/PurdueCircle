@@ -47,7 +47,6 @@ const CreatePost = () => {
         },{withCredentials:true})
         .then(response=> {if(response.data.success){
             setErrorMessage('success')
-            console.log('post successfully created');
             history.push('/')
             // alert("Post successfully created")
         }})

@@ -15,57 +15,6 @@ const SignUp = () => {
     const [successMessage, setSuccessMessage] = useState(null)
     const history = useHistory()
 
-    const signUp = (request) => {
-        //TODO change this?
-        let output = 'Username/email already in use, do you want to login?'
-    
-        //input validation
-        if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
-            request.confirmPassword === '') {
-    
-            setSuccessMessage('A field is empty')
-            return
-        }
-    
-        if (request.password.length < 8) {
-            setSuccessMessage('Password length is too short')
-            return
-        }
-    
-        if (request.password !== request.confirmPassword) {
-            setSuccessMessage("Passwords don't match")
-            return
-        }
-    
-        if (!(request.email.includes('@') && request.email.includes('.'))) {
-            setSuccessMessage('Invalid email format')
-            return
-        }
-      
-        axios.post("/api/user/signup", {
-                    "name":request.name,
-                    "username":request.username,
-                    "email": request.email,
-                    "password":request.password
-                },{
-                    withCredentials: true, credentials:"include"
-                }
-            ).then(response => {
-                output = 'allGood'
-                if (response.data.success) {
-                    history.push('/')
-                }
-            }).catch(error => {
-                //TODO change this
-                console.log("axios signup error", error);
-                setSuccessMessage('Username/email already in use')
-            })
-    
-        //TODO replace with cookie?
-    
-        return output
-    } //signUp()
-
     const signUpSubmit = (e) => {
         e.preventDefault()
 

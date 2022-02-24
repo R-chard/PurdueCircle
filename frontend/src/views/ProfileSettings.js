@@ -22,8 +22,6 @@ const ProfileSettings = (props) => {
     const [nameError, setNameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [emailError, setEmailError] = useState('')
-    const [bioError, setBioError] = useState('')
-    const [phoneError, setPhoneError] = useState('')
     
     useEffect(()=>{
       axios.get("/api/user/getProfile",{

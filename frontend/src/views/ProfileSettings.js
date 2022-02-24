@@ -22,7 +22,6 @@ const ProfileSettings = (props) => {
     const [nameError, setNameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [emailError, setEmailError] = useState('')
-    const [bioError, setBioError] = useState('')
     const [phoneError, setPhoneError] = useState('')
     
     useEffect(()=>{
@@ -34,6 +33,8 @@ const ProfileSettings = (props) => {
           setUsername(response.data.currUser.username)
           setEmail(response.data.currUser.email)
           setName(response.data.currUser.name)
+          setBio(response.data.currUser.biography)
+          setPhone(response.data.currUser.phone)
       })
     },[])
 
@@ -42,6 +43,12 @@ const ProfileSettings = (props) => {
     }
     const phoneHandler = (e) => {
       setPhone(e.target.value)
+      const regex = new RegExp(/\D+/);
+      if(regex.test(e.target.value)) {
+        setPhoneError(" - Should only contain numbers")
+      } else {
+        setPhoneError('')
+      }
     }
     const usernameHandler = (e) => {
         setUsername(e.target.value)
@@ -62,6 +69,9 @@ const ProfileSettings = (props) => {
   }
 
   //TODO add submit handler & make button call it
+  const checkError = () => {
+    return (nameError=='' && phoneError=='')
+  }
   const deleteAccount = e => {
     e.preventDefault()
     axios.delete("/api/user/delete",{
@@ -75,20 +85,23 @@ const ProfileSettings = (props) => {
   }
   const apply = e => {
     e.preventDefault()
-    axios.patch("/api/user/update",{
-      name,
-      biography:bio,
-      username,
-      password,
-      email,
-      phone
-    },{
-      withCredentials: true, credentials:"include"
-    }).then(response => {
-      if(response.data.success){
-        alert("Changes successful")
-      }
-    })
+    //console.log(nameError=='' && phoneError=='')
+    if(nameError=='' && phoneError=='') {
+      axios.patch("/api/user/update",{
+        name,
+        biography:bio,
+        username,
+        password,
+        email,
+        phone
+      },{
+        withCredentials: true, credentials:"include"
+      }).then(response => {
+        if(response.data.success){
+          alert("Changes successful")
+        }
+      })
+    }
   }
   const cancel = e => {
     e.preventDefault()
@@ -128,6 +141,7 @@ const ProfileSettings = (props) => {
           <label htmlFor="email">Email Address</label>
           <Field id="email" value={email} onChange={emailHandler} placeholder={'Edit Email'}/>
           <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone" style={{color:'red'}}>{phoneError}</label>
           <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
             <Button className='button primary' onClick={deleteAccount} text={'Delete Account'}/>

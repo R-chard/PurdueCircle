@@ -47,7 +47,7 @@ const Profile = (props) => {
                         <Link to='/profile/topics' className="link">{data.topics_followed.length} topics</Link>
                     </div>
                     <h2>{data.name}</h2>
-                    <h4>bio</h4>
+                    <h4>{data.biography}</h4>
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ const ProfileSettings = (props) => {
     //redirectIfNotAuth(history)
     const [data, setData] = useState(null)
     useEffect(()=>{
-      axios.get("http://localhost:3001/api/user/getProfile",{
+      axios.get("/api/user/getProfile",{
           withCredentials: true, credentials:"include"
       })
       .then(response=>{
@@ -34,7 +34,14 @@ const ProfileSettings = (props) => {
     //TODO add submit handler & make button call it
   
   const deleteAccount = () => {
-    console.log("deleteAccount")
+    axios.delete("/api/user/delete",{
+      withCredentials: true, credentials:"include"
+    }).then(response => {
+        if (response.data.isValid) {
+            history.push('/login')
+            alert("account deleted")
+        }
+    }) 
   }
 
   const apply = () => {

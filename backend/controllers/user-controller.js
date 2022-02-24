@@ -53,7 +53,8 @@ const login = async (req, res, next) => {
     try {
         currUser = await User.findOne({ username: credentials });
     } catch (err) {
-        return next(err)
+        //return next(err)
+        res.status(404).json({ isValid: false }); //change to show 404 error instead of return
     }
 
 
@@ -61,7 +62,8 @@ const login = async (req, res, next) => {
         try {
             currUser = await User.findOne({ email: credentials })
         } catch (err) {
-            return next(err)
+            //return next(err)
+            res.status(404).json({ isValid: false }); //change to show 404 error instead of return
         }
     }
 
@@ -236,11 +238,12 @@ const deleteAccount = async (req, res, next) => {
         return next(error);
     }
 
-    if (!currUser) {
-        return next(error)
-    }
-
-    res.status(200).json({ deleted: true });
+    req.session.destroy(err=>{
+        if(err){
+            return next(err)
+        }
+    })
+    res.status(200).json({isValid:true})
 
 }
 // TODO: Modify when we have cookies from login / signup

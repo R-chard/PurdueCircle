@@ -8,6 +8,7 @@ require("dotenv").config()
 
 const app = express()
 
+app.use(express.static("../frontend/build"));
 // Establish connection with database
 mongoose.connect(process.env.DB_KEY, 
   {

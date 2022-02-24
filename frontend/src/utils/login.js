@@ -6,7 +6,7 @@ const login = (request, history) => {
         return 'A field is empty'
     }
     //TODO add api call, check if response is good
-    axios.post("http://localhost:3001/api/user/login", {
+    axios.post("/api/user/login", {
                 "credentials":request.username,
                 "password":request.password
             },{
@@ -40,7 +40,7 @@ const signUp = (request, history) => {
         return "Passwords don't match"
     }
 
-    axios.post("http://localhost:3001/api/user/signup", {
+    axios.post("/api/user/signup", {
                 "name":request.name,
                 "username":request.username,
                 "email": request.email,

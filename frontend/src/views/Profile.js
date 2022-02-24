@@ -10,7 +10,7 @@ const Profile = (props) => {
     
     const [data, setData] = useState(null)
     useEffect(()=>{
-        axios.get("http://localhost:3001/api/user/getProfile",{
+        axios.get("/api/user/getProfile",{
             withCredentials: true, credentials:"include"
         })
         .then(response=>{

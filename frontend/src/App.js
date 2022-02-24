@@ -15,6 +15,7 @@ import Topics from './views/Topics'
 import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
+import CreatePost from './views/CreatePost.js'
 
 const App = () => {
     const [showPopup, setShowPopup] = useState(false)
@@ -34,53 +35,61 @@ const App = () => {
     }
 
     return (
-        <div className="App">
-            <Button className='link headerLink' pathTo='/' text='Home'/>
-            <Button className='link headerLink' pathTo='/profile' text='Profile'/>
-            {showButton ? <Button className='button primary logout' onClick={toggleLogout} text='Settings'/> : ''}
-            {showPopup ? <Popup setShowPopup={setShowPopup} /> : ''}
+        <div className="app">
+            <nav className='header'>
+                <Button className='button primary headerButton' pathTo='/' text='Home'/>
+                <Button className='button headerButton' pathTo='/profile' text='Profile'/>
+                {showButton ? <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/> : ''}
+                {showPopup ? <Popup setShowPopup={setShowPopup} /> : ''}
+            </nav>
 
-            <Switch>
-                <Route exact path='/'>
-                    <Home />
-                </Route>
+            <div className='body'>
+                <Switch>
+                    <Route exact path='/'>
+                        <Home />
+                    </Route>
 
-                <Route exact path='/login'>
-                    <Login />
-                </Route>
+                    <Route exact path='/login'>
+                        <Login />
+                    </Route>
 
-                <Route exact path='/signup'>
-                    <SignUp />
-                </Route>
+                    <Route exact path='/signup'>
+                        <SignUp />
+                    </Route>
 
-                <Route exact path='/profile'>
-                    <Profile />
-                </Route>
+                    <Route exact path='/profile'>
+                        <Profile />
+                    </Route>
 
-                <Route exact path='/profile/settings'>
-                    {/* {user ? <ProfileSettings inputFunctions = {null}/> : <Redirect to="/login" />} */}
-                    <ProfileSettings />
-                </Route>
+                    <Route exact path='/profile/settings'>
+                        {/* {user ? <ProfileSettings inputFunctions = {null}/> : <Redirect to="/login" />} */}
+                        <ProfileSettings />
+                    </Route>
 
-                <Route exact path='/profile/followers'>
-                    {/* {user ? <Followers /> : <Redirect to="/login" />} */}
-                    <Followers />
-                </Route>
+                    <Route exact path='/profile/followers'>
+                        {/* {user ? <Followers /> : <Redirect to="/login" />} */}
+                        <Followers />
+                    </Route>
 
-                <Route exact path='/profile/following'>
-                    {/* {user ? <Following /> : <Redirect to="/login" />} */}
-                    <Following />
-                </Route>
+                    <Route exact path='/profile/following'>
+                        {/* {user ? <Following /> : <Redirect to="/login" />} */}
+                        <Following />
+                    </Route>
 
-                <Route exact path='/profile/topics'>
-                    {/* {user ? <Topics /> : <Redirect to="/login" />} */}
-                    <Topics />
-                </Route>
+                    <Route exact path='/profile/topics'>
+                        {/* {user ? <Topics /> : <Redirect to="/login" />} */}
+                        <Topics />
+                    </Route>
 
-                <Route path="">
-                    <NotFound />
-                </Route>
-            </Switch>
+                    <Route exact path='/create'>
+                        <CreatePost />
+                    </Route>
+
+                    <Route path="">
+                        <NotFound />
+                    </Route>
+                </Switch>
+            </div>
         </div>
     ) //return
 } //App

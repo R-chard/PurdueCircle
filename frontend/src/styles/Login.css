@@ -1,9 +1,7 @@
 .contents.login {
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
-    /* flex-direction: column; */
-    /* flex: 1; */
     padding: 40px 0 0;
 }
 
@@ -26,14 +24,8 @@
     text-align: left;
 }
 
-.contents.login .message {
-	color: var(--error-red);
-	text-align: left;
-	margin-left: 12px;
-}
-
 .contents.login .formContainer form {
-    text-align: center;
+    /* text-align: center; */
 }
 
 .contents.login input.field {
@@ -41,7 +33,7 @@
 }
 
 .contents.login .formContainer .linkContainer {
-    text-align: center;
+    /* text-align: center; */
     padding-top: 20px;
 }
 
@@ -50,8 +42,7 @@
 }
 
 .contents.login .buttonContainer {
-    margin: 8px auto;
-    text-align: left;
+    /* text-align: left; */
 }
 /* @media(max-width: 768px) {
   .landingModal .buttonContainer {

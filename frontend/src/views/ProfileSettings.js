@@ -6,6 +6,8 @@ import Button from "../components/Button"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import { useHistory } from "react-router-dom";
 
+import '../styles/ProfileSettings.css'
+
 const ProfileSettings = (props) => {
 	const history = useHistory()
     redirectIfNotAuth(history)
@@ -109,10 +111,9 @@ const ProfileSettings = (props) => {
   }
   
   return (
-    <div>
+    <div className='contents profileSettings'>
       {data && (<div>
         <h1>ProfileSettings</h1>
-        <h2>Profile</h2>
         <div style={{
           display:"flex",
           justifyContent:"space-around",

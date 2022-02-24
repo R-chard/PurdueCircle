@@ -54,7 +54,6 @@ const login = async (req, res, next) => {
         return next(err)
     }
 
-
     if (!currUser) {
         try {
             currUser = await User.findOne({ email: credentials })

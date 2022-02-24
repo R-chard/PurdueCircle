@@ -34,6 +34,8 @@ const ProfileSettings = (props) => {
           setUsername(response.data.currUser.username)
           setEmail(response.data.currUser.email)
           setName(response.data.currUser.name)
+          setBio(response.data.currUser.biography)
+          setPhone(response.data.currUser.phone)
       })
     },[])
 

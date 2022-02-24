@@ -191,8 +191,11 @@ const retrieveFollowedUsers = async (req, res, next) => {
 
     let followedUserObjects = []; //added changes to find actual topics
     for (let i = 0; i < followedUsers.length; i++) {
+        
         tempUser = await User.findById(followedUsers[i]);
-        followedUserObjects.push(tempUser)
+        if (tempUser){
+            followedUserObjects.push(tempUser)
+        }
     }
     //res.status(200).json({users_followed: followedUsers})
     
@@ -237,7 +240,9 @@ const retrieveFollowingUsers = async (req, res, next) => {
     let followingUserObjects = []; //added changes to find actual users
     for (let i = 0; i < followingUsers.length; i++) {
         tempUser = await User.findById(followingUsers[i]);
-        followingUserObjects.push(tempUser)
+        if (tempUser){
+            followingUserObjects.push(tempUser)
+        }
     }
     // res.status(200).json({users_following: followingUsers})
     res.status(200).json({followingUserObjects})

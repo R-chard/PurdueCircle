@@ -17,8 +17,6 @@ const Login = () => {
 
         if (username === '' || password === '') {
             setErrorMessage('A field is empty')
-            setUsername('')
-            setPassword('')
             return
         }
 
@@ -31,17 +29,26 @@ const Login = () => {
             if (response.data.success) {
                 history.push('/')
             } else{
+                console.log('invalid login');
                 setErrorMessage('Invalid email / password combination')
+                setPassword('')
             }
-        }) 
+        }).catch(error => {
+            //TODO change this?
+            console.log('login not found');
+            setErrorMessage('Invalid email / password combination')
+            setPassword('')
+        })
 
     }
 
     const usernameHandler = (e) => {
+        setErrorMessage(null)
         setUsername(e.target.value)
     }
 
     const passwordHandler = (e) => {
+        setErrorMessage(null)
         setPassword(e.target.value)
     }
 

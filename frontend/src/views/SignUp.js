@@ -12,7 +12,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [successMessage, setSuccessMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
     const history = useHistory()
 
     const signUpSubmit = (e) => {
@@ -24,7 +24,7 @@ const SignUp = () => {
             confirmPassword === '') {
                 errorMessage ='A field is empty'
         
-        } else if (password.length < 8){
+        } else if (password.length < 8) {
             errorMessage = 'Password length is too short'
 
         } else if (password !== confirmPassword) {
@@ -36,12 +36,7 @@ const SignUp = () => {
 
         // return if unsuccessful
         if (errorMessage) {
-            setSuccessMessage(errorMessage)
-            setUsername('')
-            setPassword('')
-            setConfirmPassword('')
-            setName('')
-            setEmail('')
+            setErrorMessage(errorMessage)
             return
         }
 
@@ -55,35 +50,39 @@ const SignUp = () => {
         }).then(response => {
             if (response.data.success) {
                 history.push('/')
+            } else {
+                console.log('signup not success');
+                setErrorMessage('Username/email already in use, do you want to login?')
             }
         }).catch(error => {
-            setSuccessMessage('Username/email already in use, do you want to login?')
-            setUsername('')
-            setPassword('')
-            setConfirmPassword('')
-            setName('')
-            setEmail('')
+            console.log('signup error');
+            setErrorMessage('Username/email already in use, do you want to login?')
         })
     }
 
     const usernameHandler = (e) => {
         setUsername(e.target.value)
+        setErrorMessage(null)
     }
 
     const passwordHandler = (e) => {
         setPassword(e.target.value)
+        setErrorMessage(null)
     }
 
     const confirmPasswordHandler = (e) => {
         setConfirmPassword(e.target.value)
+        setErrorMessage(null)
     }
 
     const nameHandler = (e) => {
         setName(e.target.value)
+        setErrorMessage(null)
     }
 
     const emailHandler = (e) => {
         setEmail(e.target.value)
+        setErrorMessage(null)
     }
 
     return (
@@ -91,7 +90,7 @@ const SignUp = () => {
             <div className="formContainer">
                 <form onSubmit={signUpSubmit}>
                     <h1>Sign up</h1>
-                    {!successMessage ? '': <div className='message error'>{successMessage}</div>}
+                    {!errorMessage ? '': <div className='message error'>{errorMessage}</div>}
                     <Field className={'singleLine'} value={name} onChange={nameHandler} placeholder={'Name'} />
                     <Field className={'singleLine'} value={email} onChange={emailHandler} placeholder={'Email'} />
                     <Field className={'singleLine'} value={username} onChange={usernameHandler} placeholder={'Username'} />

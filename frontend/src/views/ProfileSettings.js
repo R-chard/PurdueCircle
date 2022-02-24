@@ -131,15 +131,28 @@ const ProfileSettings = (props) => {
   const apply = e => {
     e.preventDefault()
     //console.log(nameError=='' && phoneError=='')
-    if(checkError()) {
-      axios.patch("/api/user/update",{
+    let updateObject = {}
+    if (password.length === 0) {
+      updateObject = {
+        name,
+        biography:bio,
+        username,
+        email,
+        phone
+      }
+    } else {
+      updateObject = {
         name,
         biography:bio,
         username,
         password,
         email,
         phone
-      },{
+      }
+    }
+
+    if(checkError()) {
+      axios.patch("/api/user/update",updateObject,{
         withCredentials: true, credentials:"include"
       }).then(response => {
         if(response.data.success){
@@ -190,7 +203,7 @@ const ProfileSettings = (props) => {
 
           <label htmlFor="password">Password</label>
           <label htmlFor="password" style={{color:'red'}}>{passwordError}</label>
-          <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
+          <Field type='password' id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
           
           <label htmlFor="email">Email Address *</label>
           <label htmlFor="email" style={{color:'red'}}>{emailError}</label>

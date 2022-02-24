@@ -159,7 +159,6 @@ const ProfileSettings = (props) => {
           alert("Changes successful")
         }
       })
-      history.push('/profile')
     } else {
         console.log('check errors in fields');
     }

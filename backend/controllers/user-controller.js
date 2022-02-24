@@ -1,4 +1,6 @@
 const User = require("../schemas/users")
+const Topic = require("../schemas/topics")
+const Post = require("../schemas/posts")
 const cloudinary = require("../middleware/cloudinary")
 const bcrypt = require("bcryptjs")
 
@@ -308,6 +310,77 @@ const searchUserLogged = async (req, res, next) => {
     }
 }
 
+const createPost = async (req, res, next) => {
+    const userID = req.session.userID;
+    const {topics, text} = req.body;
+
+    let currUser;
+    let topicCheck;
+    let topicArray = [];
+    let existingTopics = [];
+
+
+    try {
+        currUser = await User.findById(userID);
+        topics.forEach(element => {
+            topicCheck = await Topic.findOne({ title: element});
+            if (!topicCheck) {
+                topicArray.push(element);
+            } else {
+                existingTopics.push(topicCheck);
+            }
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+
+    if (!currUser) {
+        res.status(404).json({ isFound: false});
+        return;
+    }
+
+    let newPost = new Post({
+        author: currUser,
+        datePosted: new Date(),
+        message: text,
+        postedAnon: false,
+        topics: topics,
+        comments: [],
+        likes: 0,
+        usersLiked: []
+    });
+
+    if (topicArray.length > 0) {
+        topicArray.forEach(element => {
+            let newTopic = new Topic({
+                title: element,
+                posts: []
+            });
+            existingTopics.push(newTopic);
+        });
+    }
+    if (existingTopics.length > 0) {
+        try {
+            existingTopics.forEach(element => {
+                element.posts.push(newPost);
+                await element.save();
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    try {
+        currUser.posts.push(newPost);
+        await currUser.save();
+    } catch (error) {
+        next(error);
+    }
+
+    res.status(200).json({post: newPost});
+    
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -321,3 +394,4 @@ exports.getProfile = getProfile
 exports.searchUser = searchUser
 exports.searchUserLogged = searchUserLogged
 exports.logout = logout
+exports.createPost = createPost

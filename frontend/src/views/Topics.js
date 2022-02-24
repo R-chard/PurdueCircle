@@ -6,20 +6,15 @@ const Topics = () => {
     const history = useHistory()
     redirectIfNotAuth(history)
 
-    const topicList = [
-        {
-            name: 'Topic1',
-            followers: 50
-        },
-        {
-            name: 'Topic2',
-            followers: 500
-        },
-        {
-            name: 'Topic3',
-            followers: 5000
-        }
-    ]
+    const [topicList, setTopicList]= useState[[]] 
+    useEffect(()=>{
+        axios.get("/api/user/getFollowedTopics",{
+            withCredentials: true, credentials:"include"
+        }).then((response)=>
+            setTopicList(response.data.topicList)
+        )
+    },[])
+    
   return (
     <div>
         <h1>Topics</h1>

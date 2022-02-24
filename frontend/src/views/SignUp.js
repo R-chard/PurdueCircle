@@ -1,9 +1,7 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
-
+import axios from "axios"
 import '../styles/Login.css'
-
-import { signUp } from '../utils/login'
 
 import Field from "../components/Field"
 import Button from "../components/Button"
@@ -20,29 +18,53 @@ const SignUp = () => {
     const signUpSubmit = (e) => {
         e.preventDefault()
 
-        //TODO replace with correct object
-        const formObject = {
-            name, username, email, password, confirmPassword
-        }
-
-        //uses util to validate & send to api
-        const output = signUp(formObject, history)
-
         //CHECK if unsuccessful
-        if (output !== 'allGood') {
-            setSuccessMessage(output)
-            return false
+        let errorMessage = ""
+        if (name === '' || email === '' || username === '' || password === '' ||
+            confirmPassword === '') {
+                errorMessage ='A field is empty'
+        
+        } else if (password.length < 8){
+            errorMessage = 'Password length is too short'
+
+        } else if (password !== confirmPassword) {
+            errorMessage = "Passwords don't match"
+
+        } else if (!(email.includes('@') && email.includes('.'))) {
+            errorMessage = 'Invalid email format'
         }
 
-        //REMOVE?
-        setUsername('')
-        setPassword('')
-        setConfirmPassword('')
-        setName('')
-        setEmail('')
+        // return if unsuccessful
+        if (errorMessage) {
+            setSuccessMessage(errorMessage)
+            setUsername('')
+            setPassword('')
+            setConfirmPassword('')
+            setName('')
+            setEmail('')
+            return
+        }
 
-        return true
-    } //signUpSubmit()
+        axios.post("/api/user/signup", {
+            name,
+            username,
+            email,
+            password
+        },{
+            withCredentials: true, credentials:"include"
+        }).then(response => {
+            if (response.data.success) {
+                history.push('/')
+            }
+        }).catch(error => {
+            setSuccessMessage('Username/email already in use, do you want to login?')
+            setUsername('')
+            setPassword('')
+            setConfirmPassword('')
+            setName('')
+            setEmail('')
+        })
+    }
 
     const usernameHandler = (e) => {
         setUsername(e.target.value)

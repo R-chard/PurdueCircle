@@ -56,6 +56,7 @@ const login = async (req, res, next) => {
     } catch (err) {
         //return next(err)
         res.status(404).json({ isValid: false }); //change to show 404 error instead of return
+        return
     }
 
     if (!currUser) {
@@ -67,6 +68,7 @@ const login = async (req, res, next) => {
         } catch (err) {
             //return next(err)
             res.status(404).json({ isValid: false }); //change to show 404 error instead of return
+            return
         }
     }
 

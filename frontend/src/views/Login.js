@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import axios from "axios"
 
 import '../styles/Login.css'
-
-import { login } from '../utils/login'
-
 import Field from "../components/Field"
 import Button from "../components/Button"
 
@@ -17,29 +15,27 @@ const Login = () => {
     const loginSubmit = (e) => {
         e.preventDefault()
 
-        //TODO replace with correct object
-        const formObject = {
-            username,
-            password,
+        if (username === '' || password === '') {
+            setErrorMessage('A field is empty')
+            setUsername('')
+            setPassword('')
+            return
         }
 
-        //uses util to validate & send to api
-        const output = login(formObject, history)
+        axios.post("/api/user/login", {
+            "credentials":username,
+            password
+        },{
+            withCredentials: true, credentials:"include"
+        }).then(response => {
+            if (response.data.success) {
+                history.push('/')
+            } else{
+                setErrorMessage('Invalid email / password combination')
+            }
+        }) 
 
-        //CHECK if unsuccessful
-        if (output !== 'allGood') {
-            console.log('not all good login')
-            setErrorMessage(output)
-            return false
-        }
-
-        //REMOVE?
-        console.log("Login object: ", formObject)
-        setUsername('')
-        setPassword('')
-
-        return true
-    } //logInSubmit()
+    }
 
     const usernameHandler = (e) => {
         setUsername(e.target.value)

@@ -156,19 +156,12 @@ const retrieveFollowedTopics = async (req, res, next) => {
     }
 
     topicList = currUser.topics_followed;
-    /*if (topicList.length = 0) {
-        return next(error)
-    }*/
-    //not sure if this is the correct way of sending info to frontend
-    //return topicList
-    res.status(200).json({topics_followed: topicList})
 
     let followedTopicObjects = []; //added changes to find actual users
     for (let i = 0; i < topicList.length; i++) {
         tempTopic = await Topic.findById(topicList[i]);
         followedTopicObjects.push(tempTopic)
     }
-    
     res.status(200).json({followedTopicObjects})
 }
 
@@ -337,69 +330,54 @@ const createPost = async (req, res, next) => {
     const userID = req.session.userID;
     const {topics, text} = req.body;
 
-    let currUser;
-    let topicCheck;
-    let topicArray = [];
-    let existingTopics = [];
-
     try {
-        currUser = await User.findById(userID);
-        for (let topic in topics){
-            topicCheck = await Topic.findOne({ title: topic});
-            if (!topicCheck) {
-                topicArray.push(element);
-            } else {
-                existingTopics.push(topicCheck);
+        let currUser = await User.findById(userID);
+
+        // check that user exists
+        if (!currUser) {
+            res.status(404).json({success: false});
+            return;
+        }
+
+        // create new post
+        let newPost = new Post({
+            author: currUser,
+            datePosted: new Date(),
+            message: text,
+            postedAnon: false,
+            topics: topics,
+            comments: [],
+            likes: 0,
+            usersLiked: []
+        });
+
+        // save posts and user
+        await newPost.save()
+        currUser.posts.push(newPost)
+        await currUser.save()
+        
+        // iterate all topics
+        for (let topic of topics){
+            let currTopic = await Topic.findOne({ title: topic});
+            // create and save new topic
+            if (!currTopic) {
+                const newTopic = new Topic({
+                    title:topic,
+                    posts:[newPost]
+                })
+                await newTopic.save()
+            
+            // add post to existing topic
+            } else{
+                currTopic.posts.push(newPost)
+                await currTopic.save()
             }
         };
         
     } catch (error) {
-        next(error);
+        return next(error);
     }
-
-    if (!currUser) {
-        res.status(404).json({ isFound: false});
-        return;
-    }
-
-    let newPost = new Post({
-        author: currUser,
-        datePosted: new Date(),
-        message: text,
-        postedAnon: false,
-        topics: topics,
-        comments: [],
-        likes: 0,
-        usersLiked: []
-    });
-
-    if (topicArray.length > 0) {
-        topicArray.forEach(element => {
-            let newTopic = new Topic({
-                title: element,
-                posts: []
-            });
-            existingTopics.push(newTopic);
-        });
-    }
-    if (existingTopics.length > 0) {
-        try {
-            existingTopics.forEach(async element => {
-                element.posts.push(newPost);
-                await element.save();
-            });
-        } catch (error) {
-            next(error);
-        }
-    }
-    try {
-        currUser.posts.push(newPost);
-        await currUser.save();
-    } catch (error) {
-        next(error);
-    }
-
-    res.status(200).json({post: newPost});
+    res.status(200).json({success:true});
     
 }
 

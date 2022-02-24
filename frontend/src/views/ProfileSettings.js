@@ -7,6 +7,7 @@ import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import { useHistory } from "react-router-dom";
 
 import '../styles/ProfileSettings.css'
+import ConfirmDialog from '../components/ConfirmDialog'
 
 const ProfileSettings = (props) => {
 	const history = useHistory()
@@ -25,6 +26,8 @@ const ProfileSettings = (props) => {
     const [passwordError, setPasswordError] = useState('')
     const [emailError, setEmailError] = useState('')
     const [phoneError, setPhoneError] = useState('')
+
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false)
     
     useEffect(()=>{
       axios.get("/api/user/getProfile",{
@@ -72,19 +75,35 @@ const ProfileSettings = (props) => {
 
   //TODO add submit handler & make button call it
   const checkError = () => {
-    return (nameError=='' && phoneError=='')
+        return (nameError ==='' && phoneError === '')
   }
-  const deleteAccount = e => {
-    e.preventDefault()
+
+  const mainDialogHandler = () => {
     axios.delete("/api/user/delete",{
-      withCredentials: true, credentials:"include"
-    }).then(response => {
-        if (response.data.success) {
-            history.push('/login')
-            alert("account deleted")
-        }
-    }) 
+        withCredentials: true, credentials:"include"
+      }).then(response => {
+          if (response.data.success) {
+              history.push('/login')
+              alert("account deleted")
+          }
+      })
+
+      setShowConfirmDialog(false)
+      history.push('/login')
   }
+
+  const cancelDialogHandler = () => {
+      setShowConfirmDialog(false)
+  }
+
+  const toggleShowDialog = e => {
+    e.preventDefault()
+
+    setShowConfirmDialog(true)
+  }
+
+  const dialogTitle = 'Are you sure you want to delete your account?'
+
   const apply = e => {
     e.preventDefault()
     //console.log(nameError=='' && phoneError=='')
@@ -114,6 +133,9 @@ const ProfileSettings = (props) => {
     <div className='contents profileSettings'>
       {data && (<div>
         <h1>ProfileSettings</h1>
+        <h2>Profile</h2>
+        {showConfirmDialog ? <ConfirmDialog title={dialogTitle} buttonText='Delete Account' mainHandler={mainDialogHandler} cancelHandler={cancelDialogHandler}/> : ''}
+
         <div style={{
           display:"flex",
           justifyContent:"space-around",
@@ -145,7 +167,7 @@ const ProfileSettings = (props) => {
           <label htmlFor="phone" style={{color:'red'}}>{phoneError}</label>
           <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
-            <Button className='button primary' onClick={deleteAccount} text={'Delete Account'}/>
+            <Button className='button primary' onClick={toggleShowDialog} text={'Delete Account'}/>
             <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>
             <Button className='button primary' onClick={cancel}  text={'Cancel'}/>
           </div>

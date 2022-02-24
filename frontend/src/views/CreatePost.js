@@ -8,6 +8,8 @@ import Button from "../components/Button"
 
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
+import axios from "axios"
+
 const CreatePost = () => {
     //redirects to login of not logged in
     const history = useHistory()
@@ -24,8 +26,20 @@ const CreatePost = () => {
             return
         }
 
-        //TODO add api call
-        console.log(`post: ${post}\ntopic: ${topic}`)
+        // format topics
+        let topics = topic.split(",")
+        for(let i =0; i < topics.length;i++){
+            topics[i] = topics[i].trim()
+        }
+        topics = topics.filter(topic=>topic.length>0)
+        
+        axios.post("api/user/createPost",{
+            text: post,
+            topics
+        },{withCredentials:true})
+        .then(response=> {if(response.data.success){
+            alert("Post successfully created")
+        }})
     }
 
     const postHandler = (e) => {

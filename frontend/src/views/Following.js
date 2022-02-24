@@ -21,7 +21,7 @@ const Following = () => {
         <h1>Following</h1>
         {followingList.length === 0 ? <div>You have no followers right now. :( </div> :
             followingList.map(following => (
-                <div style={{display:"flex"}}>
+                <div key={following._id} style={{display:"flex"}}>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}} src={following.profile_img} />
                     <h2>{following.username}</h2> 
                 </div>

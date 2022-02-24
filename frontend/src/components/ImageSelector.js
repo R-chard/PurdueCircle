@@ -27,7 +27,7 @@ const ImageSelector = (props) => {
         axios("/api/user/upload",{
             data:fd,
             method:"patch",
-            withCredentials:true ,
+            withCredentials:true,
             headers:{"Content-Type":"multipart/form-data","boundary":fd.boundary}})
         .then(response=>{
             if (response.data.uploaded){

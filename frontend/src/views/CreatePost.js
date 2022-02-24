@@ -18,11 +18,19 @@ const CreatePost = () => {
     const [post, setPost] = useState('')
     const [topic, setTopic] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
+    const [topicConfirm, setTopicConfirm] = useState(0)
 
     const sendPost = (e) => {
         e.preventDefault()
         if (post === ''){
             setErrorMessage('Enter some text')
+            setTopicConfirm(0)
+            return
+        }
+
+        if (topicConfirm < 1 && topic === '') {
+            setTopicConfirm(topicConfirm + 1)
+            setErrorMessage('No topic?')
             return
         }
 
@@ -38,12 +46,16 @@ const CreatePost = () => {
             topics
         },{withCredentials:true})
         .then(response=> {if(response.data.success){
-            alert("Post successfully created")
+            setErrorMessage('success')
+            console.log('post successfully created');
+            history.push('/')
+            // alert("Post successfully created")
         }})
     }
 
     const postHandler = (e) => {
         setErrorMessage(null)
+        setTopicConfirm(0)
         setPost(e.target.value)
     }
 

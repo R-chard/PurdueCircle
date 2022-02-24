@@ -1,5 +1,7 @@
 import axios from "axios"
 const login = (request, history) => {
+    //TODO change this?
+    let output = 'Invalid email / password combination'
 
     //input validation
     if (request.username === '' || request.password === '') {
@@ -12,7 +14,6 @@ const login = (request, history) => {
         //is username
     }
 
-    //TODO add api call, check if response is good
     axios.post("/api/user/login", {
                 "credentials":request.username,
                 "password":request.password
@@ -20,18 +21,26 @@ const login = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
+            output = 'allGood'
+            console.log("login response", response);
             if (response.data.success) {
+                console.log("login success");
                 history.push('/')
             }
         }) 
         .catch(error => {
-            console.log("axios login error", error);
+            //TODO change this?
+            output = 'Invalid email / password combination'
+            console.log("axios login error", error)
         })
 
-    return 'allGood'
-}
+        console.log("login.js output:", output);
+    return output
+} //login()
 
 const signUp = (request, history) => {
+    //TODO change this?
+    let output = 'Username/email already in use, do you want to login?'
 
     //input validation
     if (request.name === '' || request.email === '' || request.username === '' || request.password === '' ||
@@ -60,16 +69,19 @@ const signUp = (request, history) => {
                 withCredentials: true, credentials:"include"
             }
         ).then(response => {
+            output = 'allGood'
             if (response.data.success) {
                 history.push('/')
             }
         }).catch(error => {
+            //TODO change this
             console.log("axios signup error", error);
+            return 'Username/email already in use'
         })
 
     //TODO replace with cookie?
 
-    return 'allGood'
-}
+    return output
+} //signUp()
 
 export { signUp, login }

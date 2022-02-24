@@ -28,6 +28,7 @@ const Login = () => {
 
         //CHECK if unsuccessful
         if (output !== 'allGood') {
+            console.log('not all good login')
             setErrorMessage(output)
             return false
         }

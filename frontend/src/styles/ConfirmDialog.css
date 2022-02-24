@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@400;700&display=swap');
+
+.confirm.popup {
+    font-family: Lato, sans-serif;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 10px #00000015;
+    
+    color: var(--error-red);
+    text-align: center;
+
+    width: 300px;
+    padding: 10px 0px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.confirm.popup .buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.confirm.popup .button {
+    /* color: inherit;
+    font-family: inherit;
+    text-align: inherit;
+    width: 100%;
+    margin-top: 1px;
+    padding: 10px 0px 10px 30px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: 100ms;
+    text-decoration: none;
+    font-weight: bold; */
+}
+
+/* .confirm.popup .button:hover {
+    background-color: #ececec;
+    transition: 100ms;
+} */
+
+.confirm.popup .button.cancel {
+    /* font-weight: lighter; */
+}
+
+.confirm.popup .link {
+    text-decoration: inherit;
+}
+
+.confirm.popup .divider {
+    padding: 10px 0px;
+}
+
+.confirm.popup h3 {
+    color: inherit;
+    font-family: inherit;
+    margin: 10px 30px;
+}

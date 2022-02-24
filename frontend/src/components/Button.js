@@ -16,7 +16,7 @@ import '../styles/Button.css'
  */
 
 const Button = (props) => {
-    const {type, onClick, pathTo} = props
+    const {onClick, pathTo} = props
     var className = props.className
     var text = props.text
 
@@ -29,9 +29,9 @@ const Button = (props) => {
     if (pathTo !== undefined) {
         //a link requires there to be a pathTo to change the Route
         return <Link className={className} to={pathTo}>{text}</Link>
-    } else if (type === 'formSubmit') {
+    } else if (className.includes('formSubmit')) {
         //form submission requires type to be 'submit'
-        return <Field className={className} type={'submit'} value={text}/>
+        return <Field className={`${className} button`} type={'submit'} value={text}/>
     } else {
         //anything else, className defines format of button
         return <button className={className} onClick={onClick}>{text}</button>

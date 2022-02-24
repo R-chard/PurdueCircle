@@ -11,7 +11,7 @@ import Button from "../components/Button"
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [successMessage, setSuccessMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
     const history = useHistory()
 
     const loginSubmit = (e) => {
@@ -28,7 +28,7 @@ const Login = () => {
 
         //CHECK if unsuccessful
         if (output !== 'allGood') {
-            setSuccessMessage(output)
+            setErrorMessage(output)
             return false
         }
 
@@ -48,16 +48,21 @@ const Login = () => {
         setPassword(e.target.value)
     }
 
+    let fieldMod = ''
+    // if (errorMessage) {
+    //     fieldMod = 'fieldError'
+    // }
+
     return (
         <div className="contents login">
             <div className="formContainer">
                 <form onSubmit={loginSubmit}>
                     <h1>Log in</h1>
-                    {!successMessage ? '': <div className='message'>{successMessage}</div>}
-                    <Field value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
-                    <Field type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
+                    {errorMessage ? <div className='message error'>{errorMessage}</div> : ''}
+                    <Field className={`singleLine ${fieldMod}`} value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
+                    <Field className={`singleLine ${fieldMod}`} type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">
-                        <Button type={'formSubmit'} text={'Login'}/>
+                        <Button className={'formSubmit'} text={'Login'}/>
                     </div>
                     <div className="linkContainer">
                         Don't have an account?

@@ -56,7 +56,6 @@ const ProfileSettings = (props) => {
 
   return (
     <div className='contents profileSettings'>
-    <div>
       {data && (<div>
         <h1>ProfileSettings</h1>
         <div style={{

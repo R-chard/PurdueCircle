@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     email: {type:String, required:true,unique:true},
     password: {type:String, required:true, minlength:8},
     name: String,
-    phone: Number,
+    phone: String,
     profile_img: String,
     topics_followed: [{type:mongoose.Types.ObjectId, ref:"Topic"}],
     biography: String,

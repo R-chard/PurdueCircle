@@ -8,50 +8,106 @@ import { useHistory } from "react-router-dom";
 
 const ProfileSettings = (props) => {
 	const history = useHistory()
-    //redirectIfNotAuth(history)
+    redirectIfNotAuth(history)
     const [data, setData] = useState(null)
+    const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const [bio, setBio] = useState('')
+    const [phone, setPhone] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
+
+    const [usernameError, setUsernameError] = useState('')
+    const [nameError, setNameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [phoneError, setPhoneError] = useState('')
+    
     useEffect(()=>{
       axios.get("/api/user/getProfile",{
           withCredentials: true, credentials:"include"
       })
       .then(response=>{
           setData(response.data.currUser)
+          setUsername(response.data.currUser.username)
+          setEmail(response.data.currUser.email)
+          setName(response.data.currUser.name)
+          setBio(response.data.currUser.biography)
+          setPhone(response.data.currUser.phone)
       })
     },[])
 
-  const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [successMessage, setSuccessMessage] = useState(null)
-
-    const usernameHandler = (e) => {
-        //setUsername(e.target.value)
+    const bioHandler = (e) => {
+      setBio(e.target.value)
     }
-
+    const phoneHandler = (e) => {
+      setPhone(e.target.value)
+      const regex = new RegExp(/\D+/);
+      if(regex.test(e.target.value)) {
+        setPhoneError(" - Should only contain numbers")
+      } else {
+        setPhoneError('')
+      }
+    }
+    const usernameHandler = (e) => {
+        setUsername(e.target.value)
+    }
     const passwordHandler = (e) => {
         setPassword(e.target.value)
     }
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+    }
+    const nameHandler = (e) => {
+      setName(e.target.value)
+      if(e.target.value == '') {
+        setNameError(" - Please enter a name")
+      } else {
+        setNameError('')
+      }
+  }
 
-    //TODO add submit handler & make button call it
-  
-  const deleteAccount = () => {
+  //TODO add submit handler & make button call it
+  const checkError = () => {
+    return (nameError=='' && phoneError=='')
+  }
+  const deleteAccount = e => {
+    e.preventDefault()
     axios.delete("/api/user/delete",{
       withCredentials: true, credentials:"include"
     }).then(response => {
-        if (response.data.isValid) {
+        if (response.data.success) {
             history.push('/login')
             alert("account deleted")
         }
     }) 
   }
-
-  const apply = () => {
-    console.log("apply")
+  const apply = e => {
+    e.preventDefault()
+    //console.log(nameError=='' && phoneError=='')
+    if(nameError=='' && phoneError=='') {
+      axios.patch("/api/user/update",{
+        name,
+        biography:bio,
+        username,
+        password,
+        email,
+        phone
+      },{
+        withCredentials: true, credentials:"include"
+      }).then(response => {
+        if(response.data.success){
+          alert("Changes successful")
+        }
+      })
+    }
   }
-
-  const cancel = () => {
-    console.log("cancel")
+  const cancel = e => {
+    e.preventDefault()
+    history.push("/profile")
   }
-
+  
   return (
     <div>
       {data && (<div>
@@ -62,12 +118,13 @@ const ProfileSettings = (props) => {
           justifyContent:"space-around",
           margin:"18px 0px",
         }}>
-          <ImageSelector />
+          <ImageSelector profPic={data.profile_img}/>
           <div>
             <label htmlFor="name">Name</label>
-            <Field id="name" onChange={usernameHandler} placeholder={'Edit Name'}/>
+            <label htmlFor="name" style={{color:'red'}}>{nameError}</label>
+            <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
-            <Field id="bio" onChange={usernameHandler} placeholder={'Edit Bio'}/>
+            <Field id="bio" value={bio} onChange={bioHandler} placeholder={'Edit Bio'}/>
           </div>
         </div>
 
@@ -78,13 +135,14 @@ const ProfileSettings = (props) => {
           margin:"18px 0px",
         }}>
           <label htmlFor="username">Username</label>
-          <Field id="username" value={data.username} onChange={usernameHandler}/>
+          <Field id="username" value={username} onChange={usernameHandler}/>
           <label htmlFor="password">Password</label>
           <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
           <label htmlFor="email">Email Address</label>
-          <Field id="email" onChange={usernameHandler} placeholder={'Edit Email'}/>
+          <Field id="email" value={email} onChange={emailHandler} placeholder={'Edit Email'}/>
           <label htmlFor="phone">Phone Number</label>
-          <Field id="phone" onChange={usernameHandler} placeholder={'Edit Phone Number'}/>
+          <label htmlFor="phone" style={{color:'red'}}>{phoneError}</label>
+          <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
             <Button className='button primary' onClick={deleteAccount} text={'Delete Account'}/>
             <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>

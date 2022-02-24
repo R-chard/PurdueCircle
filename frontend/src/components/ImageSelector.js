@@ -3,7 +3,7 @@ import "../styles/ImageSelector.css"
 import axios from "axios"
 
 const ImageSelector = (props) => {
-    const [picURL,setPicURL] = useState("https://res.cloudinary.com/purduecircle/image/upload/v1645303955/default_neaaeo.png")
+    const [picURL,setPicURL] = useState(props.profPic)
     const [selectedFile, setSelectedFile] = useState(null)
     const fileSelectedHandler = (e) => {
         const reader = new FileReader()
@@ -38,7 +38,7 @@ const ImageSelector = (props) => {
     return(
         <div className="image-selector-component">
             <div className="image-selector-div">
-                <img src={picURL} alt="Profile pic"></img>
+                <img style={{width:"160px", height:"160px", borderRadius:"80px"}} src={picURL} alt="Profile pic"></img>
             </div>
             <input className = "image-selector-uploader" type="file" onChange={fileSelectedHandler} />
             <button onClick={fileUploadHandler}>Upload</button>

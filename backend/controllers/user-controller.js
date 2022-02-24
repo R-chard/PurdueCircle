@@ -165,6 +165,15 @@ const retrieveFollowedTopics = async (req, res, next) => {
     //not sure if this is the correct way of sending info to frontend
     //return topicList
     res.status(200).json({topics_followed: topicList})
+
+    let followedTopicObjects = []; //added changes to find actual users
+    for (let i = 0; i < topicList.length; i++) {
+        tempTopic = await Topic.findById(topicList[i]);
+        followedTopicObjects.push(tempTopic)
+    }
+    //res.status(200).json({topics_followed: topicList})
+    
+    res.status(200).json({followedTopicObjects})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
@@ -186,8 +195,17 @@ const retrieveFollowedUsers = async (req, res, next) => {
     }*/
     //not sure if this is the correct way of sending info to frontend
     //return followedUsers
-    res.status(200).json({users_followed: followedUsers})
+
+    let followedUserObjects = []; //added changes to find actual topics
+    for (let i = 0; i < followedUsers.length; i++) {
+        tempUser = await User.findById(followedUsers[i]);
+        followedUserObjects.push(tempUser)
+    }
+    //res.status(200).json({users_followed: followedUsers})
+    
+    res.status(200).json({followedUserObjects})
 }
+
 
 const getProfile = async(req,res,next)=>{
     const userID = req.session.userID;
@@ -223,7 +241,15 @@ const retrieveFollowingUsers = async (req, res, next) => {
     }*/
     //not sure if this is the correct way of sending info to frontend
     //return followingUsers
-    res.status(200).json({users_following: followingUsers})
+    let followingUserObjects = []; //added changes to find actual users
+    for (let i = 0; i < followingUsers.length; i++) {
+        tempUser = await User.findById(followingUsers[i]);
+        followingUserObjects.push(tempUser)
+    }
+    // res.status(200).json({users_following: followingUsers})
+    res.status(200).json({followingUserObjects})
+
+   
 }
 
 const deleteAccount = async (req, res, next) => {

@@ -4,7 +4,7 @@ import { Route, Switch, useLocation } from "react-router-dom"
 import './styles/App.css'
 
 import Button from './components/Button'
-import Popup from './components/Popup'
+import SettingsPopup from './components/SettingsPopup'
 
 import Login from './views/Login'
 import Home from './views/Home'
@@ -23,10 +23,15 @@ const App = () => {
     //CHECK change this?
     const page = useLocation()
     // console.log("page", page);
-    let showButton = true
+    let showWhenLoggedIn = true
+    let showCreatePostButton = true
     
     if (page.pathname === '/login' || page.pathname === '/signup') {
-        showButton = false
+        showWhenLoggedIn = false
+    }
+
+    if (page.pathname === '/create') {
+        showCreatePostButton = false
     }
 
     //toggles showLogout state when logout button is clicked
@@ -38,9 +43,10 @@ const App = () => {
         <div className="app">
             <nav className='header'>
                 <Button className='button primary headerButton' pathTo='/' text='Home'/>
-                <Button className='button headerButton' pathTo='/profile' text='Profile'/>
-                {showButton ? <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/> : ''}
-                {showPopup ? <Popup setShowPopup={setShowPopup} /> : ''}
+                {showWhenLoggedIn ? <Button className='button headerButton' pathTo='/profile' text='Profile'/> : ''}
+                {showWhenLoggedIn && showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
+                {showWhenLoggedIn ? <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/> : ''}
+                {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
             </nav>
 
             <div className='body'>

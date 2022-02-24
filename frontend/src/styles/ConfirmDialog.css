@@ -6,14 +6,16 @@
     border-radius: 10px;
     box-shadow: 0px 0px 30px 10px #00000015;
     
-    color: var(--error-red);
+    color: var(--dark-gray);
     text-align: center;
 
+    height: 150px;
     width: 300px;
-    padding: 10px 0px;
+    padding: 20px 10px;
 
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
 
     position: absolute;
     top: 50%;
@@ -23,7 +25,7 @@
 
 .confirm.popup .buttonContainer {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
 }
 
 .confirm.popup .button {
@@ -46,6 +48,10 @@
     transition: 100ms;
 } */
 
+.confirm.popup .button.alert {
+    color: var(--error-red)
+}
+
 .confirm.popup .button.cancel {
     /* font-weight: lighter; */
 }
@@ -61,5 +67,5 @@
 .confirm.popup h3 {
     color: inherit;
     font-family: inherit;
-    margin: 10px 30px;
+    margin: 0;
 }

@@ -47,22 +47,46 @@ const ProfileSettings = (props) => {
       setBio(e.target.value)
     }
     const phoneHandler = (e) => {
-      setPhone(e.target.value)
-      const regex = new RegExp(/\D+/);
-      if(regex.test(e.target.value)) {
-        setPhoneError(" - Should only contain numbers")
-      } else {
-        setPhoneError('')
-      }
+        setPhone(e.target.value)
+        const regex = new RegExp(/\D+/);
+        if(regex.test(e.target.value)) {
+            setPhoneError(" - Should only contain numbers")
+        } else if (e.target.value === '' ){
+            setPhoneError('')
+        } else if (e.target.value.length !== 10){
+            setPhoneError(' - Phone number must be 10 digits')
+        } else {
+            setPhoneError('')
+        }
     }
     const usernameHandler = (e) => {
         setUsername(e.target.value)
+        if(e.target.value == '') {
+          setUsernameError(" - Please enter a username")
+        } else {
+          setUsernameError('')
+        }
     }
     const passwordHandler = (e) => {
         setPassword(e.target.value)
+        if (e.target.value === '') {
+          setPasswordError('')
+        } else if (e.target.value.length < 8) {
+          setPasswordError(" - Password length must be at least 8 characters")
+        } else {
+          setPasswordError('')
+        }
     }
     const emailHandler = (e) => {
         setEmail(e.target.value)
+
+        if(e.target.value == '') {
+          setEmailError(" - Please enter an email")
+        } else if (!(e.target.value.includes('@') && e.target.value.includes('.'))) {
+          setEmailError(' - Invalid email format')
+        } else {
+          setEmailError('')
+        }
     }
     const nameHandler = (e) => {
       setName(e.target.value)
@@ -75,7 +99,7 @@ const ProfileSettings = (props) => {
 
   //TODO add submit handler & make button call it
   const checkError = () => {
-        return (nameError ==='' && phoneError === '')
+        return (nameError === '' && phoneError === '' && usernameError === '' && passwordError === '' && emailError === '')
   }
 
   const mainDialogHandler = () => {
@@ -83,7 +107,7 @@ const ProfileSettings = (props) => {
         withCredentials: true, credentials:"include"
       }).then(response => {
           if (response.data.success) {
-              history.push('/login')
+              history.push('/signup')
               alert("account deleted")
           }
       })
@@ -107,7 +131,8 @@ const ProfileSettings = (props) => {
   const apply = e => {
     e.preventDefault()
     //console.log(nameError=='' && phoneError=='')
-    if(nameError=='' && phoneError=='') {
+    console.log('errors:', checkError());
+    if(checkError()) {
       axios.patch("/api/user/update",{
         name,
         biography:bio,
@@ -122,6 +147,9 @@ const ProfileSettings = (props) => {
           alert("Changes successful")
         }
       })
+      history.push('/profile')
+    } else {
+        console.log('check errors in fields');
     }
   }
   const cancel = e => {
@@ -143,7 +171,7 @@ const ProfileSettings = (props) => {
         }}>
           <ImageSelector profPic={data.profile_img}/>
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Name *</label>
             <label htmlFor="name" style={{color:'red'}}>{nameError}</label>
             <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
@@ -157,15 +185,22 @@ const ProfileSettings = (props) => {
           justifyContent:"space-around",
           margin:"18px 0px",
         }}>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Username *</label>
+          <label htmlFor="username" style={{color:'red'}}>{usernameError}</label>
           <Field id="username" value={username} onChange={usernameHandler}/>
+
           <label htmlFor="password">Password</label>
+          <label htmlFor="password" style={{color:'red'}}>{passwordError}</label>
           <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
-          <label htmlFor="email">Email Address</label>
+          
+          <label htmlFor="email">Email Address *</label>
+          <label htmlFor="email" style={{color:'red'}}>{emailError}</label>
           <Field id="email" value={email} onChange={emailHandler} placeholder={'Edit Email'}/>
+
           <label htmlFor="phone">Phone Number</label>
           <label htmlFor="phone" style={{color:'red'}}>{phoneError}</label>
           <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
+
           <div style={{display:"flex", justifyContent:"space-around"}}>
             <Button className='button primary' onClick={toggleShowDialog} text={'Delete Account'}/>
             <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>

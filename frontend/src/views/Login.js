@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import axios from "axios"
 
 import '../styles/Login.css'
-
-import { login } from '../utils/login'
-
 import Field from "../components/Field"
 import Button from "../components/Button"
 
@@ -14,31 +12,73 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const history = useHistory()
 
+    const login = (request) => {
+        //TODO change this?
+        let output = 'Invalid email / password combination'
+    
+        //input validation
+        if (request.username === '' || request.password === '') {
+            setErrorMessage('A field is empty')
+            return
+        }
+    
+        if (!(request.username.includes('@') && request.username.includes('.'))) {
+            //is email
+        } else {
+            //is username
+        }
+    
+        axios.post("/api/user/login", {
+                    "credentials":request.username,
+                    "password":request.password
+                },{
+                    withCredentials: true, credentials:"include"
+                }
+            ).then(response => {
+                output = 'allGood'
+                console.log("login response", response);
+                if (response.data.success) {
+                    console.log("login success");
+                    history.push('/')
+                } else {
+                    setErrorMessage('Invalid email / password combination')
+                }
+            }) 
+            .catch(error => {
+                //TODO change this?
+                output = 
+                setErrorMessage('Invalid email / password combination')
+                console.log("axios login error", error)
+            })
+    
+            console.log("login.js output:", output);
+        // return output
+    } //login()
+
     const loginSubmit = (e) => {
         e.preventDefault()
 
-        //TODO replace with correct object
-        const formObject = {
-            username,
-            password,
+        if (username === '' || password === '') {
+            setErrorMessage('A field is empty')
+            setUsername('')
+            setPassword('')
+            return
         }
 
-        //uses util to validate & send to api
-        const output = login(formObject, history)
+        axios.post("/api/user/login", {
+            "credentials":username,
+            password
+        },{
+            withCredentials: true, credentials:"include"
+        }).then(response => {
+            if (response.data.success) {
+                history.push('/')
+            } else{
+                setErrorMessage('Invalid email / password combination')
+            }
+        }) 
 
-        //CHECK if unsuccessful
-        if (output !== 'allGood') {
-            setErrorMessage(output)
-            return false
-        }
-
-        //REMOVE?
-        console.log("Login object: ", formObject)
-        setUsername('')
-        setPassword('')
-
-        return true
-    } //logInSubmit()
+    }
 
     const usernameHandler = (e) => {
         setUsername(e.target.value)

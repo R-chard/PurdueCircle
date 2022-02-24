@@ -1,11 +1,12 @@
 import React from 'react'
-import '../styles/Popup.css'
 import axios from "axios"
 
 import Divider from "@material-ui/core/Divider";
 import { useHistory } from 'react-router-dom';
 
-const Logout = (props) => {
+import '../styles/SettingsPopup.css'
+
+const SettingsPopup = (props) => {
     const { setShowPopup }  = props
     const history = useHistory()
 
@@ -42,4 +43,4 @@ const Logout = (props) => {
   )
 }
 
-export default Logout
+export default SettingsPopup

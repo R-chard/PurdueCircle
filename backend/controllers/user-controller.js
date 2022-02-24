@@ -349,7 +349,7 @@ const createPost = async (req, res, next) => {
             datePosted: new Date(),
             message: text,
             postedAnon: false,
-            topics: topics,
+            topicNames: topics,
             comments: [],
             likes: 0,
             usersLiked: []

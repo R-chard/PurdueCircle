@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
+import axios from "axios"
 
 const Followers = () => {
     const history = useHistory()
     redirectIfNotAuth(history)
 
-    const [followerList, setFollowerList]= useState[[]] 
+    const [followerList, setFollowerList]= useState([])
     useEffect(()=>{
         axios.get("/api/user/getFollowedUsers",{
             withCredentials: true, credentials:"include"
-          }).then((response)=>
-            setFollowerList(response.data.users_followed)
+          }).then((response)=>setFollowerList(response.data.followedUserObjects)
           )
     },[])
 
@@ -19,14 +19,14 @@ const Followers = () => {
   return (
     <div>
         <h1>Followers</h1>
-        {
+        {followerList.length === 0 ? <div>You have no followers right now. :( </div> : (
             followerList.map(follower => (
                 <div style={{display:"flex"}}>
                     <img style={{width:"160px", height:"160px", borderRadius:"80px"}} src={follower.profile_img} />
                     <h2>{follower.username}</h2> 
                 </div>
             ))
-        }
+        )}
     </div>
   )
 }

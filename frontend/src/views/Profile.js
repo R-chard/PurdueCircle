@@ -22,7 +22,6 @@ const Profile = (props) => {
     return (
         <div>
             {data && (<div className={'profile'}>
-        {console.log(data)}
         <h1>Profile</h1>
         <div style={{maxWidth:"800px",margin:"0px auto"}}>
             <div style={{

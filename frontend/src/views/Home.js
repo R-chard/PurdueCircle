@@ -5,9 +5,6 @@ import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 const Home = () => {
     const history = useHistory()
     redirectIfNotAuth(history)
-    
-
-    console.log("home");
 
     return (
         <div className="contents home">

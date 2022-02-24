@@ -3,6 +3,7 @@ const Topic = require("../schemas/topics")
 const Post = require("../schemas/posts")
 const cloudinary = require("../middleware/cloudinary")
 const bcrypt = require("bcryptjs")
+const mongoose = require("mongoose")
 
 const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
@@ -60,40 +61,37 @@ const login = async (req, res, next) => {
     if (!currUser) {
         try {
             currUser = await User.findOne({ email: credentials })
+            if(!currUser){
+                throw new Error()
+            }
         } catch (err) {
             //return next(err)
             res.status(404).json({ isValid: false }); //change to show 404 error instead of return
         }
     }
 
-    if (!currUser) {
-        success = false;
-    } else {
-        let validPassword = false;
+    let validPassword = false;
 
-        try {
-            // compare hashed password with users stored hashed password
-            validPassword = await bcrypt.compare(password, currUser.password);
-            //validPassword = true //change
-        } catch (err) {
-            next(err)
-        }
-
-        if (!validPassword) {
-            success = false;
-        } else {
-
-            try {
-                await currUser.save();
-            } catch (err) {
-                return next(err) //change
-            }
-
-            success = true;
-
-        }
+    try {
+        // compare hashed password with users stored hashed password
+        validPassword = await bcrypt.compare(password, currUser.password);
+        //validPassword = true //change
+    } catch (err) {
+        next(err)
     }
 
+    if (!validPassword) {
+        success = false;
+    } else {
+
+        try {
+            await currUser.save();
+        } catch (err) {
+            return next(err) //change
+        }
+        success = true;
+    }
+    
     req.session.userID = currUser._id.toString()
     res.status(200).json({ success });
 
@@ -170,7 +168,6 @@ const retrieveFollowedTopics = async (req, res, next) => {
         tempTopic = await Topic.findById(topicList[i]);
         followedTopicObjects.push(tempTopic)
     }
-    //res.status(200).json({topics_followed: topicList})
     
     res.status(200).json({followedTopicObjects})
 }
@@ -256,7 +253,7 @@ const deleteAccount = async (req, res, next) => {
     const userID = req.session.userID;
 
     try {
-        await User.findOneAndDelete(userID);
+        await User.findOneAndDelete({_id: new mongoose.Types.ObjectId(userID)});
     } catch (error) {
         return next(error);
     }
@@ -293,7 +290,7 @@ const searchUser = async (req, res, next) => {
     let searchUser;
 
     try {
-        searchUser = await User.findOne({username: username});
+        searchUser = await User.findOne({username});
     } catch (error) {
         next(error);
     }
@@ -315,7 +312,7 @@ const searchUserLogged = async (req, res, next) => {
     let searchUser;
 
     try {
-        searchUser = await User.findOne({username: username});
+        searchUser = await User.findOne({username});
     } catch (error) {
         next(error);
     }
@@ -345,17 +342,16 @@ const createPost = async (req, res, next) => {
     let topicArray = [];
     let existingTopics = [];
 
-
     try {
         currUser = await User.findById(userID);
-        topics.forEach(element => {
-            topicCheck = await Topic.findOne({ title: element});
+        for (let topic in topics){
+            topicCheck = await Topic.findOne({ title: topic});
             if (!topicCheck) {
                 topicArray.push(element);
             } else {
                 existingTopics.push(topicCheck);
             }
-        });
+        };
         
     } catch (error) {
         next(error);
@@ -388,7 +384,7 @@ const createPost = async (req, res, next) => {
     }
     if (existingTopics.length > 0) {
         try {
-            existingTopics.forEach(element => {
+            existingTopics.forEach(async element => {
                 element.posts.push(newPost);
                 await element.save();
             });

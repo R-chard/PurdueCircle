@@ -1,15 +1,10 @@
 import React from 'react'
-import axios from "axios"
-
-import { useHistory } from 'react-router-dom';
 
 import '../styles/ConfirmDialog.css'
 
-const Logout = (props) => {
+const ConfirmDialog = (props) => {
     const { mainHandler, cancelHandler }  = props
     var { title, buttonText }  = props
-
-    const history = useHistory()
 
     const confirmHandler = () => {
         mainHandler()
@@ -36,4 +31,4 @@ const Logout = (props) => {
     )
 }
 
-export default Logout
+export default ConfirmDialog

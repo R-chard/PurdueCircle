@@ -4,7 +4,7 @@ import { Route, Switch, useLocation } from "react-router-dom"
 import './styles/App.css'
 
 import Button from './components/Button'
-import Popup from './components/Popup'
+import SettingsPopup from './components/SettingsPopup'
 
 import Login from './views/Login'
 import Home from './views/Home'
@@ -46,7 +46,7 @@ const App = () => {
                 {showWhenLoggedIn ? <Button className='button headerButton' pathTo='/profile' text='Profile'/> : ''}
                 {showWhenLoggedIn && showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
                 {showWhenLoggedIn ? <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/> : ''}
-                {showPopup ? <Popup setShowPopup={setShowPopup} /> : ''}
+                {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
             </nav>
 
             <div className='body'>

@@ -128,8 +128,10 @@ const editUserInfo = async (req, res, next) => {
         currUser.phone = phone
 
         try{
-            hashpwd = await bcrypt.hash(password, 10);
-            currUser.password = hashpwd
+            if (password){
+                hashpwd = await bcrypt.hash(password, 10);
+                currUser.password = hashpwd
+            }
             await currUser.save();
         } catch (error) {
             return next(error);

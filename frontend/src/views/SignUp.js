@@ -57,7 +57,7 @@ const SignUp = () => {
                 history.push('/')
             }
         }).catch(error => {
-            setSuccessMessage('Username/email already in use, do you want to login?')
+            setSuccessMessage('Username/email already in use')
             setUsername('')
             setPassword('')
             setConfirmPassword('')

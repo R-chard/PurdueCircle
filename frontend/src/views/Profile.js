@@ -6,11 +6,11 @@ import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const Profile = (props) => {
     const history = useHistory()
-    redirectIfNotAuth(history)
+    //redirectIfNotAuth(history)
     
     const [data, setData] = useState(null)
     useEffect(()=>{
-        axios.get("http://localhost:3001/api/user/getProfile",{
+        axios.get("/api/user/getProfile",{
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
@@ -21,6 +21,7 @@ const Profile = (props) => {
     return (
         <div>
             {data && (<div className={'profile'}>
+        {console.log(data)}
         <h1>Profile</h1>
         <div style={{maxWidth:"900px",margin:"0px auto"}}>
             <div style={{

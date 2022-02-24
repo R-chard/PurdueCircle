@@ -13,7 +13,7 @@ const login = (request, history) => {
     }
 
     //TODO add api call, check if response is good
-    axios.post("http://localhost:3001/api/user/login", {
+    axios.post("/api/user/login", {
                 "credentials":request.username,
                 "password":request.password
             },{
@@ -50,8 +50,8 @@ const signUp = (request, history) => {
     if (!(request.email.includes('@') && request.email.includes('.'))) {
         return 'Invalid email format'
     }
-
-    axios.post("http://localhost:3001/api/user/signup", {
+  
+    axios.post("/api/user/signup", {
                 "name":request.name,
                 "username":request.username,
                 "email": request.email,

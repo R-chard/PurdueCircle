@@ -1,4 +1,6 @@
 const User = require("../schemas/users")
+const Topic = require("../schemas/topics")
+const Post = require("../schemas/posts")
 const cloudinary = require("../middleware/cloudinary")
 const bcrypt = require("bcryptjs")
 
@@ -51,7 +53,8 @@ const login = async (req, res, next) => {
     try {
         currUser = await User.findOne({ username: credentials });
     } catch (err) {
-        return next(err)
+        //return next(err)
+        res.status(404).json({ isValid: false }); //change to show 404 error instead of return
     }
 
 
@@ -59,7 +62,8 @@ const login = async (req, res, next) => {
         try {
             currUser = await User.findOne({ email: credentials })
         } catch (err) {
-            return next(err)
+            //return next(err)
+            res.status(404).json({ isValid: false }); //change to show 404 error instead of return
         }
     }
 
@@ -161,6 +165,15 @@ const retrieveFollowedTopics = async (req, res, next) => {
     //not sure if this is the correct way of sending info to frontend
     //return topicList
     res.status(200).json({topics_followed: topicList})
+
+    let followedTopicObjects = []; //added changes to find actual users
+    for (let i = 0; i < topicList.length; i++) {
+        tempTopic = await Topic.findById(topicList[i]);
+        followedTopicObjects.push(tempTopic)
+    }
+    //res.status(200).json({topics_followed: topicList})
+    
+    res.status(200).json({followedTopicObjects})
 }
 
 const retrieveFollowedUsers = async (req, res, next) => {
@@ -182,8 +195,17 @@ const retrieveFollowedUsers = async (req, res, next) => {
     }*/
     //not sure if this is the correct way of sending info to frontend
     //return followedUsers
-    res.status(200).json({users_followed: followedUsers})
+
+    let followedUserObjects = []; //added changes to find actual topics
+    for (let i = 0; i < followedUsers.length; i++) {
+        tempUser = await User.findById(followedUsers[i]);
+        followedUserObjects.push(tempUser)
+    }
+    //res.status(200).json({users_followed: followedUsers})
+    
+    res.status(200).json({followedUserObjects})
 }
+
 
 const getProfile = async(req,res,next)=>{
     const userID = req.session.userID;
@@ -219,7 +241,15 @@ const retrieveFollowingUsers = async (req, res, next) => {
     }*/
     //not sure if this is the correct way of sending info to frontend
     //return followingUsers
-    res.status(200).json({users_following: followingUsers})
+    let followingUserObjects = []; //added changes to find actual users
+    for (let i = 0; i < followingUsers.length; i++) {
+        tempUser = await User.findById(followingUsers[i]);
+        followingUserObjects.push(tempUser)
+    }
+    // res.status(200).json({users_following: followingUsers})
+    res.status(200).json({followingUserObjects})
+
+   
 }
 
 const deleteAccount = async (req, res, next) => {
@@ -234,11 +264,12 @@ const deleteAccount = async (req, res, next) => {
         return next(error);
     }
 
-    if (!currUser) {
-        return next(error)
-    }
-
-    res.status(200).json({ deleted: true });
+    req.session.destroy(err=>{
+        if(err){
+            return next(err)
+        }
+    })
+    res.status(200).json({isValid:true})
 
 }
 // TODO: Modify when we have cookies from login / signup
@@ -308,6 +339,77 @@ const searchUserLogged = async (req, res, next) => {
     }
 }
 
+const createPost = async (req, res, next) => {
+    const userID = req.session.userID;
+    const {topics, text} = req.body;
+
+    let currUser;
+    let topicCheck;
+    let topicArray = [];
+    let existingTopics = [];
+
+
+    try {
+        currUser = await User.findById(userID);
+        topics.forEach(element => {
+            topicCheck = await Topic.findOne({ title: element});
+            if (!topicCheck) {
+                topicArray.push(element);
+            } else {
+                existingTopics.push(topicCheck);
+            }
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+
+    if (!currUser) {
+        res.status(404).json({ isFound: false});
+        return;
+    }
+
+    let newPost = new Post({
+        author: currUser,
+        datePosted: new Date(),
+        message: text,
+        postedAnon: false,
+        topics: topics,
+        comments: [],
+        likes: 0,
+        usersLiked: []
+    });
+
+    if (topicArray.length > 0) {
+        topicArray.forEach(element => {
+            let newTopic = new Topic({
+                title: element,
+                posts: []
+            });
+            existingTopics.push(newTopic);
+        });
+    }
+    if (existingTopics.length > 0) {
+        try {
+            existingTopics.forEach(element => {
+                element.posts.push(newPost);
+                await element.save();
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    try {
+        currUser.posts.push(newPost);
+        await currUser.save();
+    } catch (error) {
+        next(error);
+    }
+
+    res.status(200).json({post: newPost});
+    
+}
+
 
 exports.signup = signup
 exports.login = login
@@ -321,3 +423,4 @@ exports.getProfile = getProfile
 exports.searchUser = searchUser
 exports.searchUserLogged = searchUserLogged
 exports.logout = logout
+exports.createPost = createPost

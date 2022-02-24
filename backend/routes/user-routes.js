@@ -19,6 +19,8 @@ router.delete("/delete", validation, userController.deleteAccount)
 router.get("/getUser", userController.searchUser)
 router.get("/getUserLogged", validation, userController.searchUserLogged)
 
+router.post("/createPost", validation, userController.createPost)
+
 
 router.get("/validate",validation,(req,res,next)=>{
     res.status(200).send(true)

@@ -1,23 +1,32 @@
-import React, {} from 'react'
+import React, {useEffect,useState} from 'react'
+import axios from "axios"
 import ImageSelector from "../components/ImageSelector"
 import Field from '../components/Field';
 import Button from "../components/Button"
 import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import '../styles/ProfileSettings.css'
 
 const ProfileSettings = (props) => {
 	const history = useHistory()
-    redirectIfNotAuth(history)
+    //redirectIfNotAuth(history)
+    const [data, setData] = useState(null)
+    useEffect(()=>{
+      axios.get("/api/user/getProfile",{
+          withCredentials: true, credentials:"include"
+      })
+      .then(response=>{
+          setData(response.data.currUser)
+      })
+    },[])
 
   const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState(null)
 
     const usernameHandler = (e) => {
-        setUsername(e.target.value)
+        //setUsername(e.target.value)
     }
 
     const passwordHandler = (e) => {
@@ -27,7 +36,14 @@ const ProfileSettings = (props) => {
     //TODO add submit handler & make button call it
   
   const deleteAccount = () => {
-    console.log("deleteAccount")
+    axios.delete("/api/user/delete",{
+      withCredentials: true, credentials:"include"
+    }).then(response => {
+        if (response.data.isValid) {
+            history.push('/login')
+            alert("account deleted")
+        }
+    }) 
   }
 
   const apply = () => {
@@ -40,6 +56,8 @@ const ProfileSettings = (props) => {
 
   return (
     <div className='contents profileSettings'>
+    <div>
+      {data && (<div>
         <h1>ProfileSettings</h1>
         <div style={{
           display:"flex",
@@ -62,7 +80,7 @@ const ProfileSettings = (props) => {
           margin:"18px 0px",
         }}>
           <label htmlFor="username">Username</label>
-          <Field id="username" value={username} onChange={usernameHandler}/>
+          <Field id="username" value={data.username} onChange={usernameHandler}/>
           <label htmlFor="password">Password</label>
           <Field id="password" onChange={passwordHandler} placeholder={'Change Password'}/>
           <label htmlFor="email">Email Address</label>
@@ -75,6 +93,7 @@ const ProfileSettings = (props) => {
             <Button className='button primary' onClick={cancel}  text={'Cancel'}/>
           </div>
         </div>
+    </div>)}
     </div>
   )
 }

@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema({
     datePosted:{type:Date, required:true},
     message: {String, required:true, maxlength:500},
     postedAnon: {Boolean, required:true},
-    topics:[{type:mongoose.Types.ObjectId, ref:"Topic"}],
+    topicNames:[{type:String}],
     comments:[{
         author:{type:mongoose.Types.ObjectId, ref:"User"},
         datePosted: Date,

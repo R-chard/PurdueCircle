@@ -1,10 +1,6 @@
-import React, { useEffect } from "react"
-import { useHistory } from "react-router-dom"
-import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
+import React from "react"
 
 const Home = () => {
-    const history = useHistory()
-    redirectIfNotAuth(history)
 
     return (
         <div className="contents home">

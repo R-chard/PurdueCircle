@@ -1,11 +1,7 @@
 import React, { useEffect,useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import axios from "axios"
 
 const Followers = () => {
-    const history = useHistory()
-    redirectIfNotAuth(history)
 
     const [followerList, setFollowerList]= useState(null)
     useEffect(()=>{

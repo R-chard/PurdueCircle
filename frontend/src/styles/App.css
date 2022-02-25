@@ -25,19 +25,6 @@ h1 {
     text-align: left;
 }
 
-.app .header {
-    display: flex;
-    /* justify-content: space-between; */
-}
-
-.app .header .headerButton {
-    margin: 5px;
-}
-
-.app .header .button.logout {
-    margin-left: auto;
-}
-
 .message.error {
     color: var(--error-red);
     text-align: left;

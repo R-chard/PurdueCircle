@@ -3,7 +3,6 @@ import axios from "axios"
 import ImageSelector from "../components/ImageSelector"
 import Field from '../components/Field';
 import Button from "../components/Button"
-import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 import { useHistory } from "react-router-dom";
 
 import '../styles/ProfileSettings.css'
@@ -11,7 +10,6 @@ import ConfirmDialog from '../components/ConfirmDialog'
 
 const ProfileSettings = (props) => {
 	const history = useHistory()
-    redirectIfNotAuth(history)
     const [data, setData] = useState(null)
     const [username, setUsername] = useState('')
     const [name, setName] = useState('')

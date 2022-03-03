@@ -24,10 +24,6 @@
     text-align: left;
 }
 
-.contents.login .formContainer form {
-    /* text-align: center; */
-}
-
 .contents.login input.field {
     margin: auto auto 10px;
 }
@@ -41,9 +37,6 @@
     margin: 0px 5px;
 }
 
-.contents.login .buttonContainer {
-    /* text-align: left; */
-}
 /* @media(max-width: 768px) {
   .landingModal .buttonContainer {
       margin-top: 50px;

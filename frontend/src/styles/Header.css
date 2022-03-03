@@ -1,0 +1,11 @@
+.mainHeader {
+    display: flex;
+}
+
+.mainHeader .headerButton {
+    margin: 5px;
+}
+
+.mainHeader .button.settings {
+    margin-left: auto;
+}

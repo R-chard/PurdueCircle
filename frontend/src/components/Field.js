@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useRef } from 'react'
 
 import '../styles/Field.css'
 
@@ -20,15 +21,26 @@ const Field = (props) => {
     const {id, type, value, onChange, placeholder} = props
     var className = props.className
 
+    const ref = useRef(null)
+
     if (className === undefined)
         className = 'field'
     else
 		className = 'field ' + className
 
+    //sets focus on field if has error
+    //CHECK add id & use to change which has focus
+    useEffect(() => {
+        if (ref.current && className.includes('fieldError')) {
+            ref.current.focus()
+        }
+    })
+    
+
     if (className.includes('multiLine')) {
-        return <textarea className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
+        return <textarea autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
     } else {
-        return <input className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
+        return <input ref={ref} className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
     }
 } //Field
 

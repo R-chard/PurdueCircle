@@ -1,6 +1,5 @@
 import React from "react"
 import {Link} from "react-router-dom"
-import redirectIfNotAuth from "../utils/redirectionIfNotAuth"
 
 const NotFound = () => {
     return (

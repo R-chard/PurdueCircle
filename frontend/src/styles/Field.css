@@ -29,5 +29,6 @@
 }
 
 .fieldError {
-    border: 2px solid var(--error-red);
+    /* marked as important to override normal blue focus when error */
+    border: 2px solid var(--error-red) !important;
 }

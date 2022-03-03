@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
-import { Route, Switch, useLocation } from "react-router-dom" 
+import React from 'react'
+import { Route, Switch } from "react-router-dom" 
 
 import './styles/App.css'
-
-import Button from './components/Button'
-import SettingsPopup from './components/SettingsPopup'
 
 import Login from './views/Login'
 import Home from './views/Home'
@@ -16,43 +13,16 @@ import ProfileSettings from "./views/ProfileSettings"
 import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
 import CreatePost from './views/CreatePost.js'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
-    const [showPopup, setShowPopup] = useState(false)
-
-    //CHECK change this?
-    const page = useLocation()
-    // console.log("page", page);
-    let showWhenLoggedIn = true
-    let showCreatePostButton = true
     
-    if (page.pathname === '/login' || page.pathname === '/signup') {
-        showWhenLoggedIn = false
-    }
-
-    if (page.pathname === '/create') {
-        showCreatePostButton = false
-    }
-
-    //toggles showLogout state when logout button is clicked
-    const toggleLogout = () => {
-        setShowPopup(showPopup ? false : true)
-    }
-
     return (
         <div className="app">
-            <nav className='header'>
-                <Button className='button primary headerButton' pathTo='/' text='Home'/>
-                {showWhenLoggedIn ? <Button className='button headerButton' pathTo='/profile' text='Profile'/> : ''}
-                {showWhenLoggedIn && showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
-                {showWhenLoggedIn ? <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/> : ''}
-                {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
-            </nav>
-
             <div className='body'>
                 <Switch>
                     <Route exact path='/'>
-                        <Home />
+                        <PrivateRoute component={Home}/>
                     </Route>
 
                     <Route exact path='/login'>
@@ -64,31 +34,27 @@ const App = () => {
                     </Route>
 
                     <Route exact path='/profile'>
-                        <Profile />
+                        <PrivateRoute component={Profile}/>
                     </Route>
 
                     <Route exact path='/profile/settings'>
-                        {/* {user ? <ProfileSettings inputFunctions = {null}/> : <Redirect to="/login" />} */}
-                        <ProfileSettings />
+                        <PrivateRoute component={ProfileSettings}/>
                     </Route>
 
                     <Route exact path='/profile/followers'>
-                        {/* {user ? <Followers /> : <Redirect to="/login" />} */}
-                        <Followers />
+                        <PrivateRoute component={Followers}/>
                     </Route>
 
                     <Route exact path='/profile/following'>
-                        {/* {user ? <Following /> : <Redirect to="/login" />} */}
-                        <Following />
+                        <PrivateRoute component={Following}/>
                     </Route>
 
                     <Route exact path='/profile/topics'>
-                        {/* {user ? <Topics /> : <Redirect to="/login" />} */}
-                        <Topics />
+                        <PrivateRoute component={Topics}/>
                     </Route>
 
                     <Route exact path='/create'>
-                        <CreatePost />
+                        <PrivateRoute component={CreatePost}/>
                     </Route>
 
                     <Route path="">

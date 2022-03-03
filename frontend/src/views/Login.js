@@ -15,8 +15,11 @@ const Login = () => {
     const loginSubmit = (e) => {
         e.preventDefault()
 
-        if (username === '' || password === '') {
-            setErrorMessage('A field is empty')
+        if (username === '') {
+            setErrorMessage({ field: 'username', message: 'Username field is empty' })
+            return
+        } else if (password === '') {
+            setErrorMessage({ field: 'password', message: 'Password field is empty' })
             return
         }
 
@@ -28,19 +31,18 @@ const Login = () => {
         }).then(response => {
             if (response.data.success) {
                 history.push('/')
-            } else{
+            } else {
                 console.log('invalid login');
-                setErrorMessage('Invalid email / password combination')
+                setErrorMessage({ field: 'all', message: 'Invalid email / password combination' })
                 setPassword('')
             }
         }).catch(error => {
             //TODO change this?
             console.log('login not found');
-            setErrorMessage('Invalid email / password combination')
+            setErrorMessage({ field: 'all', message: 'Invalid email / password combination' })
             setPassword('')
         })
-
-    }
+    } //loginSubmit()
 
     const usernameHandler = (e) => {
         setErrorMessage(null)
@@ -52,19 +54,22 @@ const Login = () => {
         setPassword(e.target.value)
     }
 
-    let fieldMod = ''
-    // if (errorMessage) {
-    //     fieldMod = 'fieldError'
-    // }
+    const hasError = (input) => {
+        if (errorMessage && errorMessage.field === input){
+            return 'fieldError'
+        } else {
+            return ''
+        }
+    } //hasError()
 
     return (
         <div className="contents login">
             <div className="formContainer">
                 <form onSubmit={loginSubmit}>
                     <h1>Log in</h1>
-                    {errorMessage ? <div className='message error'>{errorMessage}</div> : ''}
-                    <Field className={`singleLine ${fieldMod}`} value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
-                    <Field className={`singleLine ${fieldMod}`} type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
+                    {errorMessage ? <div className='message error'>{errorMessage.message}</div> : ''}
+                    <Field className={`singleLine ${hasError('username') || hasError('all')}`} value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
+                    <Field className={`singleLine ${hasError('password') || hasError('all')}`} type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">
                         <Button className={'formSubmit'} text={'Login'}/>
                     </div>

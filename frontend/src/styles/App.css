@@ -14,6 +14,8 @@
     --dark-blue: #0c428a;
     --dark-gray: #464646;
     --error-red: red;
+    --red: red;
+    --warning: orange;
 }
 
 h1 {
@@ -25,8 +27,14 @@ h1 {
     text-align: left;
 }
 
-.message.error {
+.message.error, .message.messageError {
     color: var(--error-red);
+    text-align: left;
+    margin-left: 12px;
+}
+
+.message.warning, .message.messageWarning {
+    color: var(--warning);
     text-align: left;
     margin-left: 12px;
 }

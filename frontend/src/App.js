@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from "react-router-dom" 
+import { Redirect, Route, Switch } from "react-router-dom" 
 
 import './styles/App.css'
 
@@ -23,6 +23,10 @@ const App = () => {
                 <Switch>
                     <Route exact path='/'>
                         <PrivateRoute component={Home}/>
+                    </Route>
+
+                    <Route exact path='/home'>
+                        <Redirect to={'/'} />
                     </Route>
 
                     <Route exact path='/login'>

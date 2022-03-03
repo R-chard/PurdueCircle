@@ -38,7 +38,7 @@ const Field = (props) => {
     
 
     if (className.includes('multiLine')) {
-        return <textarea autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
+        return <textarea ref={ref} autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
     } else {
         return <input ref={ref} className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
     }

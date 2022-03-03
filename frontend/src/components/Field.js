@@ -31,14 +31,14 @@ const Field = (props) => {
     //sets focus on field if has error
     //CHECK add id & use to change which has focus
     useEffect(() => {
-        if (className.includes('fieldError')) {
+        if (ref.current && className.includes('fieldError')) {
             ref.current.focus()
         }
     })
     
 
     if (className.includes('multiLine')) {
-        return <textarea autofocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
+        return <textarea autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
     } else {
         return <input ref={ref} className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
     }

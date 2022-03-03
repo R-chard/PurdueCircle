@@ -34,7 +34,7 @@ const Header = (props) => {
             <Button className='button primary headerButton' pathTo='/' text='Home'/>
             <Button className='button headerButton' pathTo='/profile' text='Profile'/>
             {showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
-            <Button className='button primary logout headerButton' onClick={toggleLogout} text='Settings'/>
+            <Button className='button primary headerButton settings' onClick={toggleLogout} text='Settings'/>
             {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
         </div>
     )

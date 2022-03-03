@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import axios from "axios"
 
 import Divider from "@material-ui/core/Divider";
@@ -11,35 +11,57 @@ const SettingsPopup = (props) => {
     const history = useHistory()
 
     const logout = () => {
-      axios.delete("/api/user/logout",{
-        withCredentials: true, credentials:"include"
-      }).then(response => {
-          if (response.data.success) {
-              setShowPopup(false)
-              history.push('/login')
-          }
-      }) 
+        axios.delete("/api/user/logout",{
+            withCredentials: true, credentials:"include"
+        }).then(response => {
+            if (response.data.success) {
+                setShowPopup(false)
+                history.push('/login')
+            }
+        }) 
     }
 
     const openProfile = () => {
-      setShowPopup(false)
-      history.push('/profile/settings')
+        setShowPopup(false)
+        history.push('/profile/settings')
     }
 
-  return (
-      <div className='popup cornerMenu'>
-        <h3>INSERT USERNAME</h3>
-        <div className='divider'>
-          <Divider />
+    //hides popup when clicked outside
+    function useOutsideAlerter(ref) {
+        useEffect(() => {
+            //alerts if clicked outside element except when clicking settings button (button toggles showPopup on its own)
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target) && !event.target.className.includes("headerButton settings")) {
+                    setShowPopup(false)
+                }
+            }
+    
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    } //useOutsidealerter()
+
+    const popupRef = useRef(null)
+    useOutsideAlerter(popupRef)
+
+    return (
+        <div className='popup cornerMenu' ref={popupRef}>
+            <h3>INSERT USERNAME</h3>
+            <div className='divider'>
+            <Divider />
+            </div>
+            <button className='button' onClick={openProfile}>User Settings</button>
+            <button className='button' onClick={logout}>Log out</button> 
+            <div className='divider'>
+            <Divider />
+            </div>
+            <button className='button cancel' onClick={() => setShowPopup(false)}>Cancel</button>
         </div>
-        <button className='button' onClick={openProfile}>User Settings</button>
-        <button className='button' onClick={logout}>Log out</button> 
-        <div className='divider'>
-          <Divider />
-        </div>
-        <button className='button cancel' onClick={() => setShowPopup(false)}>Cancel</button>
-      </div>
-  )
-}
+    )
+} //SettingsPopup
 
 export default SettingsPopup

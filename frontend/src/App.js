@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Route, Switch } from "react-router-dom" 
 
 import './styles/App.css'
@@ -14,8 +14,15 @@ import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
 import CreatePost from './views/CreatePost.js'
 import PrivateRoute from './components/PrivateRoute'
+import PostView from './components/PostView'
 
 const App = () => {
+
+    useEffect(() => {
+        document.body.classList.add('colorAuto')
+    }, [])
+    
+    
     
     return (
         <div className="app">
@@ -59,6 +66,10 @@ const App = () => {
 
                     <Route exact path='/create'>
                         <PrivateRoute component={CreatePost}/>
+                    </Route>
+
+                    <Route exact path='/post'>
+                        <PrivateRoute component={PostView} />
                     </Route>
 
                     <Route path="">

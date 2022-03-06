@@ -2,7 +2,7 @@
 
 .confirm.popup {
     font-family: Lato, sans-serif;
-    background: white;
+    background: var(--bg-base);
     border-radius: 10px;
     box-shadow: 0px 0px 30px 10px #00000015;
     

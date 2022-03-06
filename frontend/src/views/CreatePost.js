@@ -17,17 +17,20 @@ const CreatePost = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [topicConfirm, setTopicConfirm] = useState(0)
 
-    //setState is not instantaneous so this accomodates by checking length on rerender once state has updated
+    //setState is not instantaneous so this accomodates by checking length after state is updated
     useEffect(() => {
         if (post.length > 400 && post.length <= 500) {
-            setErrorMessage({field: 'post', type: 'warning', message: `${500 - post.length} characters left`})
+            const num = 500 - post.length
+            const plural = Math.abs(num) === 1 ? '' : 's'
+            setErrorMessage({field: 'post', type: 'warning', message: `${num} character${plural} left`})
         } else if (post.length > 500) {
-            setErrorMessage({field: 'post', type: 'messageError', message: `${post.length - 500} characters extra`})
+            const num = post.length - 500
+            const plural = Math.abs(num) === 1 ? '' : 's'
+            setErrorMessage({field: 'post', type: 'messageError', message: `${num} character${plural} extra`})
         } else {
             setErrorMessage(null)
         }
     }, [post])
-    
 
     const sendPost = (e) => {
         e.preventDefault()
@@ -69,10 +72,12 @@ const CreatePost = () => {
     const postHandler = (e) => {
         setPost(e.target.value)
         setTopicConfirm(0)
+        setErrorMessage({...errorMessage, field: ''})
     }
 
     const topicHandler = (e) => {
         setTopic(e.target.value)
+        setErrorMessage({...errorMessage, field: ''})
     }
 
     const hasError = (input) => {
@@ -90,7 +95,7 @@ const CreatePost = () => {
     
     return (
         <div className="contents createPost">
-            <div className="formContainer">
+            <div className="formContainer bgBase">
                 <form onSubmit={sendPost}>
                     <h1>Create post</h1>
                     {errorMessage ? <div className={`message ${errorMessage.type}`}>{errorMessage.message}</div> : '' }

@@ -1,0 +1,7 @@
+.contents.postView {
+    /* color: white; */
+}
+
+.contents.postView .author {
+    color: currentColor;
+}

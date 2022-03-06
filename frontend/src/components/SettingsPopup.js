@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from "axios"
 
 import Divider from "@material-ui/core/Divider";
@@ -48,8 +48,33 @@ const SettingsPopup = (props) => {
     const popupRef = useRef(null)
     useOutsideAlerter(popupRef)
 
+
+    const [userScheme, setUserScheme] = useState(document.body.classList[0])
+
+    useEffect(() => {
+        let colorScheme = document.body.classList[0]
+        document.body.classList.remove(colorScheme)
+
+        colorScheme = userScheme
+        document.body.classList.add(colorScheme)
+        
+    }, [userScheme])
+
+    const isSelected = (name) => {
+        if (userScheme === name) {
+            return 'selected'
+        } else {
+            return ''
+        }
+    }
+
     return (
         <div className='popup cornerMenu' ref={popupRef}>
+            <div className='colorSchemeButtons'>
+                <button className={`button ${isSelected('colorDark')}`} onClick={() => setUserScheme('colorDark')}>Dark</button>
+                <button className={`button ${isSelected('colorAuto')}`} onClick={() => setUserScheme('colorAuto')}>Auto</button>
+                <button className={`button ${isSelected('colorLight')}`} onClick={() => setUserScheme('colorLight')}>Light</button>
+            </div>
             <h3>INSERT USERNAME</h3>
             <div className='divider'>
             <Divider />

@@ -8,10 +8,8 @@ const PrivateRoute = (props) => {
     const history = useHistory()
 
     const [isAuth, setIsAuth] = useState(false)
-    // console.log('%crender privateroute', 'color: green; font-size: 15px');
 
     useEffect(() => {
-        // console.log('%c\nprivateroute effect\n', 'color:blue; font-weight: bold; font-size: 15px');
 
         redirectIfNotAuth(history)
         .then(function(response){
@@ -27,16 +25,57 @@ const PrivateRoute = (props) => {
             console.log('error auth')
             history.push("/login")
         })
+    }, [history])
 
-        return () => {
-        //   console.log('\n%cprivateroute cleanup\n\n', 'color:orange; font-weight: bold; font-size: 15px');
+
+
+    const [userScheme, setUserScheme] = useState('colorAuto')
+
+    useEffect(() => {
+        function listener(event) {
+            let isAuto = document.body.classList[0]
+            console.log("auto", isAuto);
+            if (isAuto === 'colorAuto') {
+                let colorScheme = document.body.classList[1]
+                const newColorScheme = event.matches ? "colorDark" : "colorLight";
+                document.body.classList.remove(colorScheme)
+                document.body.classList.add(newColorScheme)
+            }
         }
-      }, [history])
+
+        let colorScheme = document.body.classList[0]
+
+        if (colorScheme) {
+            if (userScheme === 'colorAuto') {
+                document.body.classList.remove(document.body.classList[1])
+                document.body.classList.remove(document.body.classList[0])
+                colorScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "colorDark" : 'colorLight'
+                console.log("auto");
+
+                document.body.classList.add('colorAuto')
+            } else {
+                console.log("manual");
+                colorScheme = userScheme
+                document.body.classList.remove(document.body.classList[1])
+                document.body.classList.remove(document.body.classList[0])
+            }
+            console.log("colorscheme", colorScheme)
+            document.body.classList.add(colorScheme)
+        } else {
+            colorScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "colorDark" : 'colorLight'
+            document.body.classList.add('colorAuto')
+            document.body.classList.add(colorScheme)
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+            console.log("initial");
+        }
+        console.log("effect");
+    }, [userScheme])
+
 
     return (
         <div>
             {isAuth && <div>
-                {!noHeader && <Header />}
+                {!noHeader && <Header userScheme={userScheme} setUserScheme={setUserScheme}/>}
                 <Component /> 
             </div>}
         </div>

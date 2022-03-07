@@ -45,7 +45,7 @@ h1 {
     margin-left: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     .colorAuto {
         --bg-base: rgb(33, 33, 36);
         --bg-sec: #282828;
@@ -79,7 +79,7 @@ h1 {
         background-color: var(--bg-base);
         color: var(--text);
     }
-}
+} */
 
 .colorDark {
     --bg-base: rgb(33, 33, 36);

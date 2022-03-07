@@ -16,13 +16,15 @@ const PostView = () => {
     const date = post.datePosted.toLocaleString('en-us')
 
     return (
-        <div className='contents postView'>
-            <div className='author'>By {author}</div>
-            <p>
-                {message}
-            </p>
-            <div>{date}</div>
-            <div>{likes}</div>
+        <div className='container postView'>
+            <div className='contents'>
+                <div className='author'>By {author}</div>
+                <p>
+                    {message}
+                </p>
+                <div>{date}</div>
+                <div>{likes}</div>
+            </div>
         </div>
     )
 } //PostView

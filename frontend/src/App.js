@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Redirect, Route, Switch } from "react-router-dom" 
 
 import './styles/App.css'
@@ -17,12 +17,6 @@ import PrivateRoute from './components/PrivateRoute'
 import PostView from './components/PostView'
 
 const App = () => {
-
-    useEffect(() => {
-        document.body.classList.add('colorAuto')
-    }, [])
-    
-    
     
     return (
         <div className="app">

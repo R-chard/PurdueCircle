@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import '../styles/SettingsPopup.css'
 
 const SettingsPopup = (props) => {
-    const { setShowPopup, userScheme, setUserScheme}  = props
+    const { setShowPopup }  = props
     const history = useHistory()
 
     const logout = () => {
@@ -48,17 +48,16 @@ const SettingsPopup = (props) => {
     const popupRef = useRef(null)
     useOutsideAlerter(popupRef)
 
+    const [userScheme, setUserScheme] = useState(document.body.classList[0])
 
-    // const [userScheme, setUserScheme] = useState(document.body.classList[0])
+    useEffect(() => {
+        let colorScheme = document.body.classList[0]
+        document.body.classList.remove(colorScheme)
 
-    // useEffect(() => {
-    //     let colorScheme = document.body.classList[0]
-    //     document.body.classList.remove(colorScheme)
-
-    //     colorScheme = userScheme
-    //     document.body.classList.add(colorScheme)
+        colorScheme = userScheme
+        document.body.classList.add(colorScheme)
         
-    // }, [userScheme])
+    }, [userScheme])
 
     const isSelected = (name) => {
         if (userScheme === name) {

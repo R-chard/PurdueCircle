@@ -18,7 +18,7 @@ const Profile = (props) => {
     
     return (
         <div>
-            {data && (<div className={'profile'}>
+            {data && (<div className={'contents profile'}>
         <h1>Profile</h1>
         <div style={{maxWidth:"800px",margin:"0px auto"}}>
             <div style={{
@@ -29,7 +29,7 @@ const Profile = (props) => {
             }}>
                 {/* Profile Picture */}
                 <div>
-                    <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
+                    <img style={{width:"160px", height:"160px", borderRadius:"80px", objectFit: "cover"}}
                         src={data.profile_img}
                     />
                 </div>

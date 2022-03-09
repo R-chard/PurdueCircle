@@ -1,9 +1,9 @@
-.timeline {
+.contents.profile .timeline {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-.post {
+.contents.profile .post {
     width: 30%;
 }

@@ -31,7 +31,7 @@ const Button = (props) => {
         return <Link className={className} to={pathTo}>{text}</Link>
     } else if (className.includes('formSubmit')) {
         //form submission requires type to be 'submit'
-        return <Field className={`${className} button`} type={'submit'} value={text}/>
+        return <Field className={`${className} primary button`} type={'submit'} value={text}/>
     } else {
         //anything else, className defines format of button
         return <button className={className} onClick={onClick}>{text}</button>

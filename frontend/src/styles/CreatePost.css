@@ -24,3 +24,7 @@
 .contents.createPost .buttonContainer {
     margin-top: 10px;
 }
+
+.contents.createPost .formSubmit {
+    width: 100%;
+}

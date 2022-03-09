@@ -3,6 +3,8 @@ import { useRef } from 'react'
 
 import '../styles/Field.css'
 
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+
 /*
  * The props are as follows
  * type: defines type of field (used to make password hide characters)
@@ -19,6 +21,7 @@ import '../styles/Field.css'
 
 const Field = (props) => {
     const {id, type, value, onChange, placeholder} = props
+    let { rows } = props
     var className = props.className
 
     const ref = useRef(null)
@@ -36,9 +39,16 @@ const Field = (props) => {
         }
     })
     
+    if (!rows) {
+        rows = 10
+    }
 
     if (className.includes('multiLine')) {
-        return <textarea ref={ref} autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={'10'} cols={'50'}/>
+        if (className.includes('resize')) {
+            return  <TextareaAutosize minRows={rows} className={className} ref={ref} autoFocus value={value} onChange={onChange} placeholder={placeholder}/>
+        } else {
+            return <textarea ref={ref} autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={rows} cols={'50'}/>
+        }
     } else {
         return <input ref={ref} className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>
     }

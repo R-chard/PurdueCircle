@@ -10,7 +10,6 @@ const PrivateRoute = (props) => {
     const [isAuth, setIsAuth] = useState(false)
 
     useEffect(() => {
-
         redirectIfNotAuth(history)
         .then(function(response){
             if (response.status == 403){
@@ -27,58 +26,13 @@ const PrivateRoute = (props) => {
         })
     }, [history])
 
-
-
-    const [userScheme, setUserScheme] = useState('colorAuto')
-
-    useEffect(() => {
-        function listener(event) {
-            let isAuto = document.body.classList[0]
-            console.log("auto", isAuto);
-            if (isAuto === 'colorAuto') {
-                let colorScheme = document.body.classList[1]
-                const newColorScheme = event.matches ? "colorDark" : "colorLight";
-                document.body.classList.remove(colorScheme)
-                document.body.classList.add(newColorScheme)
-            }
-        }
-
-        let colorScheme = document.body.classList[0]
-
-        if (colorScheme) {
-            if (userScheme === 'colorAuto') {
-                document.body.classList.remove(document.body.classList[1])
-                document.body.classList.remove(document.body.classList[0])
-                colorScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "colorDark" : 'colorLight'
-                console.log("auto");
-
-                document.body.classList.add('colorAuto')
-            } else {
-                console.log("manual");
-                colorScheme = userScheme
-                document.body.classList.remove(document.body.classList[1])
-                document.body.classList.remove(document.body.classList[0])
-            }
-            console.log("colorscheme", colorScheme)
-            document.body.classList.add(colorScheme)
-        } else {
-            colorScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "colorDark" : 'colorLight'
-            document.body.classList.add('colorAuto')
-            document.body.classList.add(colorScheme)
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
-            console.log("initial");
-        }
-        console.log("effect");
-    }, [userScheme])
-
-
     return (
-        <div>
-            {isAuth && <div>
-                {!noHeader && <Header userScheme={userScheme} setUserScheme={setUserScheme}/>}
+        <>
+            {isAuth && <>
+                {!noHeader && <Header />}
                 <Component /> 
-            </div>}
-        </div>
+            </>}
+        </>
     )
 } //PrivateRoute
 

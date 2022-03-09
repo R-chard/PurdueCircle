@@ -7,7 +7,6 @@ import SettingsPopup from './SettingsPopup'
 import '../styles/Header.css'
 
 const Header = (props) => {
-    const { userScheme, setUserScheme } = props
 
     const [showPopup, setShowPopup] = useState(false)
     let showCreatePostButton = true
@@ -24,11 +23,11 @@ const Header = (props) => {
 
     return (
         <div className='contents mainHeader'>
-            <Button className='button primary headerButton' pathTo='/' text='Home'/>
-            <Button className='button headerButton' pathTo='/profile' text='Profile'/>
-            {showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
-            <Button className='button primary headerButton settings' onClick={toggleLogout} text='Settings'/>
-            {showPopup ? <SettingsPopup setShowPopup={setShowPopup} userScheme={userScheme} setUserScheme={setUserScheme}/> : ''}
+            <Button className='button primary headerButton i1' pathTo='/' text='Home'/>
+            <Button className='button headerButton i2' pathTo='/profile' text='Profile'/>
+            {showCreatePostButton ? <Button className='button primary headerButton i3' pathTo='/create' text='New Post' /> : ''}
+            <Button className='button primary headerButton settings i4' onClick={toggleLogout} text='Settings'/>
+            {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
         </div>
     )
 }

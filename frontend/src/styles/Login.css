@@ -37,6 +37,10 @@
     margin: 0px 5px;
 }
 
+.contents.login .formContainer .formSubmit {
+    width: 100%;
+}
+
 /* @media(max-width: 768px) {
   .landingModal .buttonContainer {
       margin-top: 50px;

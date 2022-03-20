@@ -148,15 +148,19 @@ const editUserInfo = async (req, res, next) => {
 
 const retrieveFollowedTopics = async (req, res, next) => {
 
-    const userID = req.session.userID
+    const username = req.params.username
 
     let topicList;
     let currUser;
 
     try {
-        currUser = await User.findById(userID);
+        currUser = await User.findOne({username});
     } catch (error) {
         return next(error);
+    }
+    if(!currUser){
+        res.status(404).json({isFound:false})
+        return
     }
 
     topicList = currUser.topics_followed;
@@ -171,23 +175,23 @@ const retrieveFollowedTopics = async (req, res, next) => {
 
 const retrieveFollowedUsers = async (req, res, next) => {
 
-    const userID = req.session.userID
+    const username = req.params.username
 
     let followedUsers;
     let currUser;
 
     try {
-        currUser = await User.findById(userID);
+        currUser = await User.findOne({username});
     } catch (error) {
         return next(error);
     }
 
+    if(!currUser){
+        res.status(404).json({isFound:false})
+        return
+    }
+
     followedUsers = currUser.users_followed;
-    /*if (topicList.length = 0) {
-        return next(error)
-    }*/
-    //not sure if this is the correct way of sending info to frontend
-    //return followedUsers
 
     let followedUserObjects = []; //added changes to find actual topics
     for (let i = 0; i < followedUsers.length; i++) {
@@ -197,38 +201,25 @@ const retrieveFollowedUsers = async (req, res, next) => {
             followedUserObjects.push(tempUser)
         }
     }
-    //res.status(200).json({users_followed: followedUsers})
-    
+
     res.status(200).json({followedUserObjects})
-}
-
-
-const getProfile = async(req,res,next)=>{
-    const userID = req.session.userID;
-    let currUser;
-    try{
-        currUser = await User.findById(userID);
-    } catch(err){
-        return next(err);
-    }
-
-    if(!currUser) {
-        res.status(404).json({ isFound: false });
-    }
-    res.status(200).json({currUser});
 }
 
 const retrieveFollowingUsers = async (req, res, next) => {
 
-    const userID = req.session.userID
+    const username = req.params.username
 
     let followingUsers;
     let currUser;
 
     try {
-        currUser = await User.findById(userID);
+        currUser = await User.findOne({username});
     } catch (error) {
         return next(new Error(error));
+    }
+    if(!currUser){
+        res.status(404).json({isFound:false})
+        return
     }
 
     followingUsers = currUser.users_following;
@@ -248,6 +239,48 @@ const retrieveFollowingUsers = async (req, res, next) => {
     res.status(200).json({followingUserObjects})
 
    
+}
+
+// Works even if user is not logged in
+const getProfile = async(req,res,next)=>{
+    const currUserID = req.session.userID
+    const username = req.params.username
+    
+    let reqUser
+    try{
+        reqUser = await User.findOne({username})
+        // user does not exist
+        if(!reqUser){
+            res.status(404).json({isFound:false})
+        }
+        // if the user is logged in and looking at someone else's account
+        if(currUserID && currUserID != reqUser._id){
+            if (reqUser.users_following.includes(currUserID)){
+                // current user is following the selected user
+                reqUser.following = true
+            } else{
+                reqUser.following = false
+            }
+        }
+    } catch (err){
+        return next(err)
+    }
+    res.status(200).json({reqUser})
+}
+
+const getUser = async (req,res,next) => {
+    const userID = req.session.userID
+    let currUser
+    try{
+        currUser = await User.findById(userID)
+    } catch(err){
+        return next(err)
+    }
+    if(!currUser) {
+        res.status(404).json({ isFound: false });
+        return
+    }
+    res.status(200).json({currUser});
 }
 
 const deleteAccount = async (req, res, next) => {
@@ -283,55 +316,6 @@ const uploadProfile = async (req,res,next) =>{
         res.status(200).json({uploaded:true})
     } catch(err){
         return next(err)
-    }
-}
-
-const searchUser = async (req, res, next) => {
-    const username = req.body;
-
-    let searchUser;
-
-    try {
-        searchUser = await User.findOne({username});
-    } catch (error) {
-        next(error);
-    }
-
-    if (searchUser) {
-        res.status(200).json({
-            username: searchUser.username,
-            name: searchUser.name,
-            profile_img: searchUser.profile_img
-        });
-    } else {
-        res.status(404).json({ isFound: false });
-    }
-}
-
-const searchUserLogged = async (req, res, next) => {
-    const username = req.body;
-
-    let searchUser;
-
-    try {
-        searchUser = await User.findOne({username});
-    } catch (error) {
-        next(error);
-    }
-
-    if (searchUser) {
-        res.status(200).json({
-            username: searchUser.username,
-            name: searchUser.name,
-            profile_img: searchUser.profile_img,
-            users_followed: searchUser.users_followed,
-            users_following: searchUser.users_following,
-            posts: searchUser.posts,
-            biography: searchUser.biography,
-            topics_followed: searchUser.topics_followed
-        });
-    } else {
-        res.status(404).json({ isFound: false });
     }
 }
 
@@ -400,7 +384,6 @@ exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.deleteAccount = deleteAccount
 exports.getProfile = getProfile
-exports.searchUser = searchUser
-exports.searchUserLogged = searchUserLogged
+exports.getUser = getUser
 exports.logout = logout
 exports.createPost = createPost

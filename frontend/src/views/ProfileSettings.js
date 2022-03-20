@@ -28,7 +28,7 @@ const ProfileSettings = (props) => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false)
     
     useEffect(()=>{
-      axios.get("/api/user/getProfile",{
+      axios.get("/api/user/getUser",{
           withCredentials: true, credentials:"include"
       })
       .then(response=>{
@@ -59,7 +59,7 @@ const ProfileSettings = (props) => {
     }
     const usernameHandler = (e) => {
         setUsername(e.target.value)
-        if(e.target.value == '') {
+        if(e.target.value === '') {
           setUsernameError(" - Please enter a username")
         } else {
           setUsernameError('')
@@ -78,7 +78,7 @@ const ProfileSettings = (props) => {
     const emailHandler = (e) => {
         setEmail(e.target.value)
 
-        if(e.target.value == '') {
+        if(e.target.value === '') {
           setEmailError(" - Please enter an email")
         } else if (!(e.target.value.includes('@') && e.target.value.includes('.'))) {
           setEmailError(' - Invalid email format')
@@ -88,7 +88,7 @@ const ProfileSettings = (props) => {
     }
     const nameHandler = (e) => {
       setName(e.target.value)
-      if(e.target.value == '') {
+      if(e.target.value === '') {
         setNameError(" - Please enter a name")
       } else {
         setNameError('')
@@ -163,7 +163,13 @@ const ProfileSettings = (props) => {
   }
   const cancel = e => {
     e.preventDefault()
-    history.push("/profile")
+        axios.get("/api/user/getUser",{
+            withCredentials: true, credentials:"include"
+        }).then(response => {
+            if(response.data.currUser){
+                history.push("/profile/" + response.data.currUser.username)
+            }
+        })
   }
   
   return (

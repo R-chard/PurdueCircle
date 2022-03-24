@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require("cors")
 const userRoutes = require("./routes/user-routes")
+const topicRoutes = require("./routes/topic-routes")
 const session = require("express-session")
 const MongoDBSession = require("connect-mongodb-session")(session)
 require("dotenv").config()
@@ -45,6 +46,7 @@ app.use(
 
 // PLACE ANY ENDPOINT YOU WANT TO DIRECT BELOW
 app.use("/api/user",userRoutes)
+app.use("/api/topic",topicRoutes)
 
 app.listen(process.env.PORT || 3001, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);

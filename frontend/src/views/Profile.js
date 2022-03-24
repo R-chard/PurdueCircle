@@ -1,20 +1,20 @@
 import React,{ useEffect,useState } from "react"
-import { Link } from "react-router-dom" 
+import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
 
 const Profile = (props) => {
     
     const [data, setData] = useState(null)
+    const location = useLocation()
     useEffect(()=>{
-        axios.get("/api/user/getProfile",{
+        axios.get("/api/user" + location.pathname,{
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
-            setData(response.data.currUser)
-            
+            setData(response.data.reqUser)
         })
-    },[])
+    },[location.pathname])
     
     return (
         <div>
@@ -38,9 +38,9 @@ const Profile = (props) => {
                     <h1>{data.username}</h1>
                     <div style={{display:"flex",justifyContent:"space-between",width:"120%"}}>
                         <h6>{data.posts.length} posts</h6>
-                        <Link to='/profile/followers' className="link">{data.users_followed.length} followers</Link>
-                        <Link to='/profile/following' className="link">{data.users_following.length} following</Link>
-                        <Link to='/profile/topics' className="link">{data.topics_followed.length} topics</Link>
+                        <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
+                        <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
+                        <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
                     </div>
                     <h2>{data.name}</h2>
                     <h4>{data.biography}</h4>

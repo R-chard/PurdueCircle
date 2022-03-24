@@ -10,17 +10,15 @@ router.post("/login", userController.login)
 router.delete("/logout",validation, userController.logout)
 
 router.patch("/update", validation,  userController.editUserInfo)
-router.get("/getFollowedTopics", validation, userController.retrieveFollowedTopics)
-router.get("/getFollowedUsers", validation, userController.retrieveFollowedUsers)
-router.get("/getFollowingUsers", validation, userController.retrieveFollowingUsers)
-router.get("/getProfile", validation, userController.getProfile)
 router.patch("/upload", validation, upload.single("image"),userController.uploadProfile)
 router.delete("/delete", validation, userController.deleteAccount)
-router.get("/getUser", userController.searchUser)
-router.get("/getUserLogged", validation, userController.searchUserLogged)
 
+router.get("/getUser",validation, userController.getUser)
+router.get("/profile/:username",userController.getProfile)
+router.get("/following/:username",userController.retrieveFollowingUsers)
+router.get("/followers/:username",userController.retrieveFollowedUsers)
+router.get("/topics/:username",userController.retrieveFollowedTopics)
 router.post("/createPost", validation, userController.createPost)
-
 
 router.get("/validate",validation,(req,res,next)=>{
     res.status(200).send(true)

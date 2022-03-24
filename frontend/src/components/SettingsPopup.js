@@ -23,7 +23,7 @@ const SettingsPopup = (props) => {
 
     const openProfile = () => {
         setShowPopup(false)
-        history.push('/profile/settings')
+        history.push('/settings')
     }
 
     //hides popup when clicked outside

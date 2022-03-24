@@ -41,23 +41,23 @@ const App = () => {
                         <SignUp />
                     </Route>
 
-                    <Route exact path='/profile'>
+                    <Route path='/profile'>
                         <PrivateRoute component={Profile}/>
                     </Route>
 
-                    <Route exact path='/profile/settings'>
+                    <Route exact path='/settings'>
                         <PrivateRoute component={ProfileSettings}/>
                     </Route>
 
-                    <Route exact path='/profile/followers'>
+                    <Route path='/followers'>
                         <PrivateRoute component={Followers}/>
                     </Route>
 
-                    <Route exact path='/profile/following'>
+                    <Route path='/following'>
                         <PrivateRoute component={Following}/>
                     </Route>
 
-                    <Route exact path='/profile/topics'>
+                    <Route path='/topics'>
                         <PrivateRoute component={Topics}/>
                     </Route>
 

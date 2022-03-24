@@ -75,6 +75,29 @@
     flex-direction: column;
 }
 
+.container.postView ul {
+    padding: 0;
+    height: 200px;
+    overflow: auto;
+}
+
+.container.postView .postComment {
+    padding: 5px 0px;
+}
+
+.container.postView .commentHeader {
+    display: flex;
+}
+
+.container.postView .commentHeader > * {
+    padding-left: 5px;
+}
+
+.container.postView .commentHeader > *:first-child {
+    padding-left: 0px;
+    font-weight: bold;
+}
+
 .container.postView .formSubmit {
     margin-top: 10px;
 }

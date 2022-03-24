@@ -16,6 +16,7 @@
     --light-gray: #cccccc;
     --error-red: red;
     --red: red;
+    --dark-red: hsl(0, 74%, 40%);
     --warning: orange;
 
     height: 100%;
@@ -63,6 +64,7 @@ h1 {
         --button-bg-hover: rgb(58, 58, 63);
         --placeholder: var(--light-gray);
         --border: var(--dark-gray);
+        --error-red: var(--dark-red);
         
         background-color: var(--bg-base);
         color: var(--text);
@@ -98,6 +100,7 @@ h1 {
     --button-bg-hover: rgb(58, 58, 63);
     --placeholder: var(--light-gray);
     --border: var(--dark-gray);
+    --error-red: var(--dark-red);
     
     background-color: var(--bg-base);
     color: var(--text);

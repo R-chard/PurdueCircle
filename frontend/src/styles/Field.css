@@ -1,17 +1,23 @@
 .field {
     /* text */
-    color: rgb(77, 77, 77);
+    color: var(--text-field);
     font-size: 15px;
+
     /* border & bounds */
     width: 100%;
     padding: 10px;
-    border: 2px solid #eeeeee;
+    border: 2px solid var(--border);
     border-radius: 7px;
     outline: none; /* prevents default browser outline */
+    background-color: var(--bg-field);
 
     /* other */
     box-sizing: border-box;
     transition: 250ms;
+}
+
+.field::placeholder {
+    color: var(--placeholder);
 }
 
 /* outline with transition delay when in focus */
@@ -31,4 +37,8 @@
 .fieldError {
     /* marked as important to override normal blue focus when error */
     border: 2px solid var(--error-red) !important;
+}
+
+.fieldWarning {
+    border: 2px solid var(--warning) !important;
 }

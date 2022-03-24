@@ -2,9 +2,9 @@
 
 .popup.cornerMenu {
     font-family: Lato, sans-serif;
-    color: var(--dark-gray);
+    color: var(--text-faded);
 
-    background: white;
+    background: var(--bg-sec);
     border-radius: 10px;
     box-shadow: 0px 0px 30px 10px #00000015;
 
@@ -24,6 +24,7 @@
 }
 
 .popup.cornerMenu .button {
+    /* inherits from Button.css */
     color: inherit;
     font-family: inherit;
 
@@ -33,14 +34,14 @@
     padding: 10px 0px 10px 30px; */
     /* border: none; */
     /* cursor: pointer; */
-    background-color: #ffffff;
+    background-color: var(--button-bg);
     transition: 100ms;
     text-decoration: none;
     /* font-weight: bold; */
 }
 
 .popup.cornerMenu .button:hover {
-    background-color: #ececec;
+    background-color: var(--button-bg-hover);
     transition: 100ms;
 }
 
@@ -60,4 +61,20 @@
     color: inherit;
     font-family: inherit;
     padding: 0px 20px;
+}
+
+.popup.cornerMenu .colorSchemeButtons {
+    display: flex;
+    justify-content: center;
+}
+
+.popup.cornerMenu .colorSchemeButtons button {
+    padding: 10px 10px;
+    transition: 200ms;
+}
+
+.popup.cornerMenu .colorSchemeButtons button.selected {
+    color: var(--blue);
+    font-size: 17px;
+    transition: 200ms;
 }

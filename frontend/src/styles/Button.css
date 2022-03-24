@@ -1,8 +1,10 @@
 .button {
     /* text */
     color: rgb(36, 36, 36);
-    font-weight: bold;
+    font-weight: 700;
     text-decoration: none;
+    font-size: 14px;
+    text-align: center;
 
     /* border & bounds */
     background-color: #e6e6e6;
@@ -46,7 +48,7 @@
 }
 
 /* form submission button, inherits from .button */
-input.field.button[type='submit'] {
+/* input.field.button[type='submit'] {
     min-width: 50px;
     width: 100%;
     background-color: var(--blue);
@@ -57,4 +59,4 @@ input.field.button[type='submit'] {
 
 input.field.button[type='submit']:hover {
     background-color: var(--blue-hover);
-}
+} */

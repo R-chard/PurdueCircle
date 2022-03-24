@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Nunito:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700&display=swap');
 
 * {
     font-family: Nunito, sans-serif;
     font-size: 15px;
-    color: black;
     box-sizing: border-box;
+    transition: 100ms;
 }
 
 :root {
@@ -13,7 +13,22 @@
     --blue-hover: #1770e6;
     --dark-blue: #0c428a;
     --dark-gray: #464646;
+    --light-gray: #cccccc;
     --error-red: red;
+    --red: red;
+    --dark-red: hsl(0, 74%, 40%);
+    --warning: orange;
+
+    height: 100%;
+    width: 100%;
+    transition: 100ms;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
 }
 
 h1 {
@@ -25,8 +40,94 @@ h1 {
     text-align: left;
 }
 
-.message.error {
+.message.error, .message.messageError {
     color: var(--error-red);
     text-align: left;
     margin-left: 12px;
+}
+
+.message.warning, .message.messageWarning {
+    color: var(--warning);
+    text-align: left;
+    margin-left: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .colorAuto {
+        --bg-base: rgb(33, 33, 36);
+        --bg-sec: #282828;
+        --bg-field: #353535;
+        --text-field: rgb(221, 221, 221);
+        --text: white;
+        --text-faded: var(--light-gray);
+        --button-bg: var(--bg-sec);
+        --button-bg-hover: rgb(58, 58, 63);
+        --placeholder: var(--light-gray);
+        --border: var(--dark-gray);
+        --error-red: var(--dark-red);
+        
+        background-color: var(--bg-base);
+        color: var(--text);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .colorAuto {
+        --bg-base: #f7f8fa;
+        --bg-sec: rgb(255, 255, 255);
+        --bg-field: rgb(255, 255, 255);
+        --text-field: rgb(77, 77, 77);
+        --text: black;
+        --text-faded: var(--dark-gray);
+        --button-bg: var(--bg-sec);
+        --button-bg-hover: #ececec;
+        --placeholder: #808080;
+        --border: #eeeeee;
+
+        background-color: var(--bg-base);
+        color: var(--text);
+    }
+}
+
+.colorDark {
+    --bg-base: rgb(33, 33, 36);
+    --bg-sec: #282828;
+    --bg-field: #353535;
+    --text-field: rgb(221, 221, 221);
+    --text: white;
+    --text-faded: var(--light-gray);
+    --button-bg: var(--bg-sec);
+    --button-bg-hover: rgb(58, 58, 63);
+    --placeholder: var(--light-gray);
+    --border: var(--dark-gray);
+    --error-red: var(--dark-red);
+    
+    background-color: var(--bg-base);
+    color: var(--text);
+}
+
+.colorLight {
+    --bg-base: #f7f8fa;
+    --bg-sec: rgb(255, 255, 255);
+    --bg-field: rgb(255, 255, 255);
+    --text-field: rgb(77, 77, 77);
+    --text: black;
+    --text-faded: var(--dark-gray);
+    --button-bg: var(--bg-sec);
+    --button-bg-hover: #ececec;
+    --placeholder: #808080;
+    --border: #eeeeee;
+
+    background-color: var(--bg-base);
+    color: var(--text);
+}
+
+.bgBase {
+    /* background-color: var(--bg-base);
+    color: var(--text); */
+}
+
+.bgSec {
+    /* background-color: var(--bg-sec);
+    color: var(--text); */
 }

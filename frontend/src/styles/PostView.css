@@ -1,0 +1,103 @@
+.container.postView {
+    display: flex;
+    align-items: center;
+	justify-content: center;
+
+    padding: 40px 0 0;
+}
+
+.container.postView .contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    background-color: var(--bg-sec);
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 10px #00000015;
+    max-width: 400px;
+    width: 90%;
+    min-width: 270px;
+    padding: 20px;
+}
+
+.container.postView .contents > * {
+    padding-top: 10px;
+}
+
+.container.postView .contents > *:first-child{
+    padding-top: 0px;
+}
+
+.container.postView .contents > *:last-child {
+    padding-top: 15px;
+}
+
+.container.postView .userInfo {
+    color: var(--text-field);
+    display: flex;
+    align-items: center;
+}
+
+.container.postView .profilePic {
+    width: 50px;
+    height: 50px;
+    border-radius: 80px;
+    object-fit: cover;
+}
+
+.container.postView .author {
+    color: var(--text);
+    margin: 0px 10px 0px 20px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.container.postView .date {
+    font-size: 12px;
+}
+
+.container.postView .dot {
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+.container.postView .likeButton {
+    margin-left: auto;
+}
+
+.container.postView .post {
+    margin: 0;
+}
+
+.container.postView .newComment {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.container.postView ul {
+    padding: 0;
+    height: 200px;
+    overflow: auto;
+}
+
+.container.postView .postComment {
+    padding: 5px 0px;
+}
+
+.container.postView .commentHeader {
+    display: flex;
+}
+
+.container.postView .commentHeader > * {
+    padding-left: 5px;
+}
+
+.container.postView .commentHeader > *:first-child {
+    padding-left: 0px;
+    font-weight: bold;
+}
+
+.container.postView .formSubmit {
+    margin-top: 10px;
+}

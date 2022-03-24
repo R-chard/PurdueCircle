@@ -8,11 +8,8 @@ const PrivateRoute = (props) => {
     const history = useHistory()
 
     const [isAuth, setIsAuth] = useState(false)
-    // console.log('%crender privateroute', 'color: green; font-size: 15px');
 
     useEffect(() => {
-        // console.log('%c\nprivateroute effect\n', 'color:blue; font-weight: bold; font-size: 15px');
-
         redirectIfNotAuth(history)
         .then(function(response){
             if (response.status == 403){
@@ -27,19 +24,15 @@ const PrivateRoute = (props) => {
             console.log('error auth')
             history.push("/login")
         })
-
-        return () => {
-        //   console.log('\n%cprivateroute cleanup\n\n', 'color:orange; font-weight: bold; font-size: 15px');
-        }
-      }, [history])
+    }, [history])
 
     return (
-        <div>
-            {isAuth && <div>
+        <>
+            {isAuth && <>
                 {!noHeader && <Header />}
                 <Component /> 
-            </div>}
-        </div>
+            </>}
+        </>
     )
 } //PrivateRoute
 

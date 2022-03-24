@@ -8,6 +8,7 @@ import '../styles/Header.css'
 import axios from 'axios'
 
 const Header = (props) => {
+
     const [showPopup, setShowPopup] = useState(false)
     const history = useHistory()
     let showCreatePostButton = true

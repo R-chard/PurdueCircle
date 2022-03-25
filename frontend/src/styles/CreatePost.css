@@ -28,3 +28,12 @@
 .contents.createPost .formSubmit {
     width: 100%;
 }
+
+.anonymous-toggle{
+    display:flex;
+    flex-direction:row;
+}
+
+.anonymouse-toggle-label{
+    margin-top:9px;
+}

@@ -321,7 +321,7 @@ const uploadProfile = async (req,res,next) =>{
 
 const createPost = async (req, res, next) => {
     const userID = req.session.userID;
-    const {topics, text} = req.body;
+    const {topics, text, postedAnon} = req.body;
 
     try {
         let currUser = await User.findById(userID);
@@ -337,7 +337,7 @@ const createPost = async (req, res, next) => {
             author: currUser,
             datePosted: new Date(),
             message: text,
-            postedAnon: false,
+            postedAnon,
             topicNames: topics,
             comments: [],
             likes: 0,

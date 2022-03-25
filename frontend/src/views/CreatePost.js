@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
-
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
 import '../styles/CreatePost.css'
 
 import Field from "../components/Field"
@@ -16,6 +17,7 @@ const CreatePost = () => {
     const [topic, setTopic] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
     const [topicConfirm, setTopicConfirm] = useState(0)
+    const [postedAnon, setPostedAnon] = useState(false)
 
     //setState is not instantaneous so this accomodates by checking length after state is updated
     useEffect(() => {
@@ -61,7 +63,8 @@ const CreatePost = () => {
         
         axios.post("api/user/createPost",{
             text: post,
-            topics
+            topics,
+            postedAnon,
         },{withCredentials:true})
         .then(response=> {if(response.data.success){
             history.push('/')
@@ -92,6 +95,10 @@ const CreatePost = () => {
             return ''
         }
     } //hasError()
+
+    const checkSwitchHandler = (e) =>{
+        setPostedAnon(!postedAnon)
+    }
     
     return (
         <div className="contents createPost">
@@ -103,6 +110,11 @@ const CreatePost = () => {
                     <Field className={`multiLine ${hasError('post')}`} value={post} onChange={postHandler} placeholder={'Enter some text'}/>
                     <label>Topic</label>
                     <Field className={`singleLine ${hasError('topic')}`} value={topic} onChange={topicHandler} placeholder={'Enter some text'}/>
+                    <div className = "anonymous-toggle">
+                        <Switch onChange={checkSwitchHandler}/>
+                        <div className = "anonymouse-toggle-label">Post anonymously</div>
+                    </div>
+                    
                     <div className="buttonContainer">
                         <Button className={'formSubmit'} text={'Post'}/>
                     </div>

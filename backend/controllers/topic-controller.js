@@ -3,7 +3,7 @@ const User = require("../schemas/users")
 
 const search = async (req,res,next) => {
     const QUERY_LIMIT = 5
-    const query = req.body.query
+    const query = req.params.query
     // Prioritize finding Users with the specified name
     let results = await User.find({"username": new RegExp(query)}).limit(QUERY_LIMIT)
     if (results.length < QUERY_LIMIT){

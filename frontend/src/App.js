@@ -15,6 +15,7 @@ import NotFound from './views/NotFound'
 import CreatePost from './views/CreatePost.js'
 import PrivateRoute from './components/PrivateRoute'
 import PostView from './components/PostView'
+import SearchBar from './components/SearchBar'
 
 const App = () => {
 
@@ -39,6 +40,10 @@ const App = () => {
 
                     <Route exact path='/signup'>
                         <SignUp />
+                    </Route>
+
+                    <Route exact path="/search">
+                        <SearchBar />
                     </Route>
 
                     <Route path='/profile'>

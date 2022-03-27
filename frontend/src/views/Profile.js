@@ -24,7 +24,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             if(response.data.success){
-                alert("Unfollowed " + data.username)
+                alert("Followed " + data.username)
         }}
         )
     }

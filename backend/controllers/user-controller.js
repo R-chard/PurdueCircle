@@ -141,7 +141,7 @@ const retrieveFollowingUsers = async (req, res, next) => {
 const getProfile = async(req,res,next)=>{
     const currUserID = req.session.userID
     const username = req.params.username
-    
+      
     let reqUser
     try{
         reqUser = await User.findOne({username})
@@ -155,6 +155,7 @@ const getProfile = async(req,res,next)=>{
                 // current user is following the selected user
                 reqUser.following = true
             } else{
+                // current user is not following the selected user
                 reqUser.following = false
             }
         }

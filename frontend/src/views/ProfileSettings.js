@@ -101,7 +101,7 @@ const ProfileSettings = (props) => {
   }
 
   const mainDialogHandler = () => {
-    axios.delete("/api/user/delete",{
+    axios.delete("/api/auth/delete",{
         withCredentials: true, credentials:"include"
       }).then(response => {
           if (response.data.success) {

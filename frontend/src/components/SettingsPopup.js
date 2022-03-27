@@ -11,7 +11,7 @@ const SettingsPopup = (props) => {
     const history = useHistory()
 
     const logout = () => {
-        axios.delete("/api/user/logout",{
+        axios.delete("/api/auth/logout",{
             withCredentials: true, credentials:"include"
         }).then(response => {
             if (response.data.success) {

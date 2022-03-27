@@ -16,7 +16,7 @@ const search = async (req,res,next) => {
     res.status(200).json({results})
 }
 
-const getPosts = async(req,res,next) => {
+const getPostsByTopic = async(req,res,next) => {
     const title = req.params.title
     let topic
     try{
@@ -35,4 +35,4 @@ const getPosts = async(req,res,next) => {
 }
 
 exports.search = search
-exports.getPosts = getPosts
+exports.getPostsByTopic = getPostsByTopic

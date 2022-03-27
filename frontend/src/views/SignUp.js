@@ -60,7 +60,7 @@ const SignUp = () => {
             return
         }
 
-        axios.post("/api/user/signup", {
+        axios.post("/api/auth/signup", {
             name,
             username,
             email,

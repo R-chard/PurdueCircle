@@ -23,7 +23,7 @@ const Login = () => {
             return
         }
 
-        axios.post("/api/user/login", {
+        axios.post("/api/auth/login", {
             "credentials":username,
             password
         },{

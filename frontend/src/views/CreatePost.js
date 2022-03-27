@@ -61,7 +61,7 @@ const CreatePost = () => {
         }
         topics = topics.filter(topic=>topic.length>0)
         
-        axios.post("api/user/createPost",{
+        axios.post("api/post/create",{
             text: post,
             topics,
             postedAnon,

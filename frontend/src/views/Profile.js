@@ -15,7 +15,32 @@ const Profile = (props) => {
             setData(response.data.reqUser)
         })
     },[location.pathname])
+
+    const followHandler =() => {
+        axios.post("/api/user/follow",{
+            otherUser: data._id
+        },{
+            withCredentials: true, credentials:"include"
+        })
+        .then(response=>{
+            if(response.data.success){
+                alert("Unfollowed " + data.username)
+        }}
+        )
+    }
     
+    const unfollowHandler =() =>{
+        axios.post("/api/user/unfollow",{
+            otherUser: data._id
+        },{
+            withCredentials: true, credentials:"include"
+        })
+        .then(response=>{
+            if(response.data.success){
+                alert("Unfollowed " + data.username)
+        }}
+        )
+    }
     return (
         <div>
             {data && (<div className={'contents profile'}>

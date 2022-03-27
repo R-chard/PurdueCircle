@@ -12,8 +12,7 @@ router.get("/following/:username",userController.retrieveFollowingUsers)
 router.get("/followers/:username",userController.retrieveFollowedUsers)
 router.get("/topics/:username",userController.retrieveFollowedTopics)
 
-router.get("/validate",validation,(req,res,next)=>{
-    res.status(200).send(true)
-})
+router.post("/follow/",validation,userController.followUser)
+router.post("/unfollow/",validation,userController.unfollowUser)
 
 module.exports = router

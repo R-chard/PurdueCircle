@@ -196,6 +196,63 @@ const uploadProfile = async (req,res,next) =>{
     }
 }
 
+const followUser = async(req,res,next) => {
+    const otherUserID = req.body.otherUser
+    const userID = req.session.userID
+
+    let user
+    let otherUser
+
+    try{
+        user = await User.findById(userID)
+        otherUser = await User.findById(otherUserID)
+    } catch(err){
+        return next(err)
+    }
+
+    if(!user || !otherUser){
+        res.status(404).json({isFound:false})
+        return
+    }
+
+    user.users_followed.push(otherUserID)
+    user.save()
+
+    otherUser.users_following.push(userID)
+    otherUser.save()
+
+    res.status(200).json({success:true})
+}
+
+const unfollowUser = async(req,res,next) => {
+    const otherUserID = req.body.otherUser
+    const userID = req.session.userID
+
+    let user
+    let otherUser
+
+    try{
+        user = await User.findById(userID)
+        otherUser = await User.findById(otherUserID)
+    } catch(err){
+        return next(err)
+    }
+
+    if(!user || !otherUser){
+        res.status(404).json({isFound:false})
+        return
+    }
+
+    const followedUserIndex = user.users_followed.indexOf(otherUserID)
+    user.users_followed.splice(followedUserIndex,1)
+    user.save()
+
+    const selfIndex = otherUser.users_following.indexOf(userID)
+    otherUser.users_following.splice(selfIndex,1)
+    otherUser.save()
+
+    res.status(200).json({success:true})
+}
 
 exports.editUserInfo = editUserInfo;
 exports.retrieveFollowedTopics = retrieveFollowedTopics
@@ -204,3 +261,5 @@ exports.retrieveFollowingUsers = retrieveFollowingUsers
 exports.uploadProfile = uploadProfile
 exports.getProfile = getProfile
 exports.getUser = getUser
+exports.followUser = followUser
+exports.unfollowUser = unfollowUser

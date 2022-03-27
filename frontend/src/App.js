@@ -16,6 +16,7 @@ import CreatePost from './views/CreatePost.js'
 import PrivateRoute from './components/PrivateRoute'
 import PostView from './components/PostView'
 import SearchBar from './components/SearchBar'
+import PostsByTopic from './views/PostsByTopic'
 
 const App = () => {
 
@@ -42,8 +43,8 @@ const App = () => {
                         <SignUp />
                     </Route>
 
-                    <Route exact path="/search">
-                        <SearchBar />
+                    <Route path="/topictitle">
+                        <PostsByTopic />
                     </Route>
 
                     <Route path='/profile'>

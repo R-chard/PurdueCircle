@@ -17,9 +17,9 @@ const SearchBar = () => {
             const labels = []
             for(const result of response.data.results){
                 if (result.username){
-                    labels.push({label:"User: " + result.username,value:"profile/"+result.username})
+                    labels.push({label:"User: " + result.username,value:"profile/" + result.username})
                 } else{
-                    labels.push({label:"Topic: "+ result.title,value:"topic"})
+                    labels.push({label:"Topic: "+ result.title,value:"topictitle/" + result.title})
                 }
             }
             return labels

@@ -1,3 +1,4 @@
+const Post = require("../schemas/posts")
 const Topic = require("../schemas/topics")
 const User = require("../schemas/users")
 
@@ -15,4 +16,23 @@ const search = async (req,res,next) => {
     res.status(200).json({results})
 }
 
+const getPosts = async(req,res,next) => {
+    const title = req.params.title
+    let topic
+    try{
+        topic = await Topic.findOne({title})
+    } catch(err){
+        return next(err)
+    }
+    let posts = []
+    if(topic){
+        for(let postID of topic.posts){
+            posts.push(await Post.findById(postID))
+        }
+    }
+
+    res.status(200).json({posts})
+}
+
 exports.search = search
+exports.getPosts = getPosts

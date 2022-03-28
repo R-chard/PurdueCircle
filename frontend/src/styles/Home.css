@@ -1,0 +1,22 @@
+.contents.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contents.home .container.postView {
+    margin: 20px 0px;
+}
+
+.contents.home .searchBar {
+    width: 500px;
+}
+
+.contents.home .css-1s2u09g-control {
+    background-color: var(--bg-field) !important;
+    cursor: text !important;
+}
+
+.contents.home .css-1pahdxg-control {
+    cursor: text !important;
+}

@@ -1,9 +1,17 @@
 .container.postView {
     display: flex;
     align-items: center;
-	justify-content: center;
+    flex-direction: column;
 
-    padding: 40px 0 0;
+    /* padding: 40px 0 0; */
+}
+
+.container.postView > * {
+    margin-top: 10px;
+}
+
+.container.postView > *:first-child {
+    margin-top: 0px;
 }
 
 .container.postView .contents {
@@ -48,13 +56,18 @@
 }
 
 .container.postView .likeButton {
+    font-size: 13px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     background-color: var(--bg-sec);
 }
 
 .container.postView .likeButton img {
-    height: 40px;
-    width: 40px;
+    height: 20px;
+    width: 20px;
 }
 
 .container.postView .profilePic {
@@ -80,8 +93,12 @@
     /* margin-right: 10px; */
 }
 
+
 .container.postView .pushRight {
     margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .container.postView .post {
@@ -107,6 +124,10 @@
 
 .container.postView .postComment {
     padding: 5px 0px;
+}
+
+.container.postView .numComments {
+    font-size: 13px;
 }
 
 .container.postView .commentHeader {

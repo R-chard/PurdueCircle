@@ -2,10 +2,13 @@ import React,{ useEffect,useState } from "react"
 import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
+import Button from "../components/Button"
 
 const Profile = (props) => {
     
     const [data, setData] = useState(null)
+    const [followed, setFollowed] = useState(null);
+    const [followedHandler, setFollowedHandler] = useState(null);
     const location = useLocation()
     useEffect(()=>{
         axios.get("/api/user" + location.pathname,{
@@ -13,6 +16,8 @@ const Profile = (props) => {
         })
         .then(response=>{
             setData(response.data.reqUser)
+            setFollowed("Follow")
+            //setFollowedHandler(followHandler)
         })
     },[location.pathname])
 
@@ -41,6 +46,7 @@ const Profile = (props) => {
         }}
         )
     }
+
     return (
         <div>
             {data && (<div className={'contents profile'}>
@@ -49,7 +55,7 @@ const Profile = (props) => {
             <div style={{
                 display:"flex",
                 justifyContent:"space-around",
-                margin:"18px 0px",
+                margin:"10px 0px",
                 borderBottom:"1px solid grey"
             }}>
                 {/* Profile Picture */}
@@ -60,8 +66,11 @@ const Profile = (props) => {
                 </div>
                 {/* Right Side Info */}
                 <div>
-                    <h1>{data.username}</h1>
-                    <div style={{display:"flex",justifyContent:"space-between",width:"120%"}}>
+                    <div style={{display:"flex", justifyContent:"space-around", margin:"0px 0px", height:"20%"}}>
+                        <h1>{data.username}</h1>
+                        <Button className="formSubmit" text={followed} onClick={followedHandler}></Button>
+                    </div>         
+                    <div style={{display:"flex",justifyContent:"space-between", width:"120%"}}>
                         <h6>{data.posts.length} posts</h6>
                         <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
                         <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>

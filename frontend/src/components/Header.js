@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation,useHistory } from 'react-router-dom'
 
-import Button from '../components/Button'
+import { ButtonBlue } from '../components/Button'
 import SettingsPopup from './SettingsPopup'
 
 import '../styles/Header.css'
@@ -44,13 +44,13 @@ const Header = (props) => {
 
     return (
         <div className='contents mainHeader'>
-            <Button className='button primary headerButton' pathTo='/' text='Home'/>
-            <Button className='button headerButton' onClick={profileHandler} text='Profile'/>
-            {showCreatePostButton ? <Button className='button primary headerButton' pathTo='/create' text='New Post' /> : ''}
-            <Button className='button primary headerButton settings' onClick={toggleLogout} text='Settings'/>
+            <ButtonBlue type={'link'} className='headerButton' pathTo='/' text='Home'/>
+            <ButtonBlue className='headerButton' onClick={profileHandler} text='Profile'/>
+            {showCreatePostButton ? <ButtonBlue type={'link'} className='headerButton' pathTo='/create' text='New Post' /> : ''}
+            <ButtonBlue className='headerButton settings' onClick={toggleLogout} text='Settings'/>
             {showPopup ? <SettingsPopup setShowPopup={setShowPopup} /> : ''}
         </div>
     )
-}
+} //Header
 
 export default Header

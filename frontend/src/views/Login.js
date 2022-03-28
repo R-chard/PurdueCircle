@@ -4,7 +4,7 @@ import axios from "axios"
 
 import '../styles/Login.css'
 import Field from "../components/Field"
-import Button from "../components/Button"
+import { ButtonBlue, ButtonLink } from '../components/Button'
 
 const Login = () => {
     const [username, setUsername] = useState('')
@@ -71,11 +71,11 @@ const Login = () => {
                     <Field className={`singleLine ${hasError('username') || hasError('all')}`} value={username} onChange={usernameHandler} placeholder={'Username or email'}/>
                     <Field className={`singleLine ${hasError('password') || hasError('all')}`} type={'password'} value={password} onChange={passwordHandler} placeholder={'Password'}/>
                     <div className="buttonContainer">
-                        <Button className={'formSubmit'} text={'Login'}/>
+                        <ButtonBlue type={'formSubmit'} className={'formSubmit'} text={'Login'}/>
                     </div>
                     <div className="linkContainer">
                         Don't have an account?
-                        <Button className={'link'} pathTo={'/signup'} text={'Sign up'}/>
+                        <ButtonLink pathTo={'/signup'} text={'Sign up'}/>
                     </div>
                 </form>
             </div>

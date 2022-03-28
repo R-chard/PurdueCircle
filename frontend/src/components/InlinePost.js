@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 
 import '../styles/PostView.css'
-import Button from './Button'
 
 const InlinePost = (props) => {
     const { post } = props
 
-    console.log("post: ", post);
+    // console.log("post: ", post);
 
     //TODO author stuff
     const profilePic = post.author.profile_img;
@@ -40,21 +39,21 @@ const InlinePost = (props) => {
     }
 
     return (
-        <div className='container postView'>
+        // <div className='contaiasfdner postasdfView'>
             <div className='contents'>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
-                <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} 
+                <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments}/>
                 <p className='post'>
                     {message}
                 </p>
             </div>
-        </div>
+        // </div>
     )
 } //PostView
 
 const PostMetadata = (props) => {
-    const { authorName, profilePic, date, likes, likeHandler, liked, numComments } = props
+    const { authorName, profilePic, date, likes, likeHandler, liked, isLiked, numComments } = props
 
     return (
         <div className='userInfo'>
@@ -67,13 +66,14 @@ const PostMetadata = (props) => {
             <div className='author'>{authorName}</div>
             <div className='dot'>•</div>
             <div className='date'>{date}</div>
-            <div className='pushRight'>{numComments} com</div>
-            <div>
-                {likes}
-                <Button className={`button ${liked()} likeButton`} onClick={likeHandler} text={`${likes} likes`} />
-                <button className='likeButton' onClick={likeHandler}>
-                    <img src='/likedIcon.png' alt='pic'/>
-                </button>
+            <div className='pushRight'>
+                <div className='likeButton'>
+                    {likes}
+                    <button className='button likeButton' onClick={likeHandler}>
+                        {isLiked ? <img src='/likedIcon.png' alt='pic'/> : <img src='/unlikedIcon.png' alt='pic'/>}
+                    </button>
+                </div>
+                <div className='numComments'>{numComments} comments</div>
             </div>
         </div>
     )

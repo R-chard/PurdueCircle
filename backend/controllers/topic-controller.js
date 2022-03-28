@@ -21,6 +21,7 @@ const getPostsByTopic = async(req,res,next) => {
     const userID = req.session.userID
 
     let topic
+    let user
     try{
         topic = await Topic.findOne({title})
     } catch(err){
@@ -28,26 +29,38 @@ const getPostsByTopic = async(req,res,next) => {
     }
     let data = {}
     data.posts = []
+
     if(topic){
+        // assuming users are logged in
+        try{
+            user = await User.findById(userID)
+            // user is following the searched topic
+            if(user && user.topics_followed.includes(topic._id)){
+                data.following = true
+            } else{
+            // user is not following the searched topic
+                data.following = false
+            }
+
+        } catch(err){
+            return next(err)
+        }
+
         for(let postID of topic.posts){
-            data.posts.push(await Post.findById(postID))
+            let post = await Post.findById(postID)
+            const author = await User.findById(post.author)
+            post = post.toObject()
+            post.author = {}
+            post.author.username = author.username
+            post.author.profile_img = author.profile_img
+            if (post.usersLiked.includes(userID)){
+                post.hasLiked = true
+            } else{
+                post.hasLiked = false
+            }
+            data.posts.push(post)
         }
         
-        // if user logged in
-        if (userID){
-            try{
-                user = await User.findById(userID)
-                // logged in + user is following the searched topic
-                if(user && user.topics_followed.includes(topic._id)){
-                    data.following = true
-                } else{
-                // logged in + user is not following the searched topic
-                    data.following = false
-                }
-            } catch(err){
-                return next(err)
-            }
-        }
     }
 
     res.status(200).json({data})

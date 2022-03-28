@@ -57,4 +57,37 @@ const create = async (req, res, next) => {
     
 }
 
+const like = async(req,res,next) => {
+    const postID = req.body.postID
+    const user = req.session.userID
+    let post
+    try{
+        post = await Post.findById(postID)
+        post.usersLiked.push(user)
+        post.likes++
+        await post.save()
+    } catch(error){
+        return next(error)
+    }
+    res.status(200).json({success:true})
+}
+
+const unlike = async(req,res,next) => {
+    const postID = req.body.postID
+    const user = req.session.userID
+    let post
+    try{
+        post = await Post.findById(postID)
+        const userLikedIndex = post.usersLiked.indexOf(user._id)
+        post.usersLiked.splice(userLikedIndex,1)
+        post.likes--
+        await post.save()
+    } catch(error){
+        return next(error)
+    }
+    res.status(200).json({success:true})
+}
+
 exports.create = create
+exports.like = like
+exports.unlike = unlike

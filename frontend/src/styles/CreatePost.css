@@ -29,11 +29,11 @@
     width: 100%;
 }
 
-.anonymous-toggle{
+.anonymous-toggle {
     display:flex;
     flex-direction:row;
 }
 
-.anonymouse-toggle-label{
+.anonymouse-toggle-label {
     margin-top:9px;
 }

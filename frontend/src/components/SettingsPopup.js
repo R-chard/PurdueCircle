@@ -74,7 +74,6 @@ const SettingsPopup = (props) => {
                 <button className={`button ${isSelected('colorAuto')}`} onClick={() => setUserScheme('colorAuto')}>Auto</button>
                 <button className={`button ${isSelected('colorLight')}`} onClick={() => setUserScheme('colorLight')}>Light</button>
             </div>
-            <h3>INSERT USERNAME</h3>
             <div className='divider'>
             <Divider />
             </div>

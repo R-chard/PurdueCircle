@@ -21,10 +21,13 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 const Field = (props) => {
     const {id, type, value, onChange, placeholder} = props
-    let { rows } = props
+    let { rows, focus } = props
     var className = props.className
 
     const ref = useRef(null)
+
+    if (focus === undefined)
+        focus = true
 
     if (className === undefined)
         className = 'field'
@@ -45,9 +48,11 @@ const Field = (props) => {
 
     if (className.includes('multiLine')) {
         if (className.includes('resize')) {
-            return  <TextareaAutosize minRows={rows} className={className} ref={ref} autoFocus value={value} onChange={onChange} placeholder={placeholder}/>
+            return focus ? <TextareaAutosize minRows={rows} className={className} ref={ref} autoFocus value={value} onChange={onChange} placeholder={placeholder}/>
+                : <TextareaAutosize minRows={rows} className={className} ref={ref} value={value} onChange={onChange} placeholder={placeholder}/>
         } else {
-            return <textarea ref={ref} autoFocus className={className} value={value} onChange={onChange} placeholder={'Enter some text'} rows={rows} cols={'50'}/>
+            return focus ? <textarea ref={ref} autoFocus className={className} value={value} onChange={onChange} placeholder={placeholder} rows={rows} cols={'50'}/>
+                : <textarea ref={ref} className={className} value={value} onChange={onChange} placeholder={placeholder} rows={rows} cols={'50'}/>
         }
     } else {
         return <input ref={ref} className={className} id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}/>

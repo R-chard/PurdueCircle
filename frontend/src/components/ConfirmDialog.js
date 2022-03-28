@@ -1,6 +1,7 @@
 import React from 'react'
 
 import '../styles/ConfirmDialog.css'
+import { Button } from '../components/Button'
 
 const ConfirmDialog = (props) => {
     const { mainHandler, cancelHandler }  = props
@@ -24,8 +25,8 @@ const ConfirmDialog = (props) => {
         <div className='confirm popup'>
             <h3>{title}</h3>
             <div className='buttonContainer'>
-                <button className='button alert' onClick={confirmHandler}>{buttonText}</button> 
-                <button className='button cancel' onClick={cancelHandler}>Cancel</button>
+                <Button className='alert' onClick={confirmHandler} text={buttonText} /> 
+                <Button className='cancel' onClick={cancelHandler} text='Cancel' />
             </div>
         </div>
     )

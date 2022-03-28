@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
 import Field from './Field'
 
@@ -15,10 +15,11 @@ import '../styles/Button.css'
  * Check below to see which props must be assigned to use each button & see Button.css for how className must be set
  */
 
-const Button = (props) => {
+const ButtonTemplate = (props) => {
     const {onClick, pathTo} = props
-    var className = props.className
-    var text = props.text
+    let className = props.className
+    // let text = props.text
+    let { text, type } = props
 
     if (text === undefined)
         text = 'DEFAULT BUTTON TEXT'
@@ -26,16 +27,84 @@ const Button = (props) => {
     if (className === undefined)
         className = 'button'
 
-    if (pathTo !== undefined) {
+    //types: fieldSubmit, regular, link
+    if (type === undefined) {
+        type = 'regular'
+    }
+
+    if (text === undefined) {
+        text = 'DEFAULT BUTTON TEXT'
+    }
+
+    if (type === 'link') {
         //a link requires there to be a pathTo to change the Route
-        return <Link className={className} to={pathTo}>{text}</Link>
-    } else if (className.includes('formSubmit')) {
+        return <RouterLink className={className} to={pathTo}>{text}</RouterLink>
+    } else if (type === 'formSubmit') {
         //form submission requires type to be 'submit'
-        return <Field className={`${className} primary button`} type={'submit'} value={text}/>
+        return <Field className={`${className} formSubmit`} type={'submit'} value={text}/>
     } else {
         //anything else, className defines format of button
         return <button className={className} onClick={onClick}>{text}</button>
     }
 } //Button
+
+
+const ButtonBlue = (props) => {
+    const { pathTo, onClick } = props
+    let { type, className, text } = props
+
+    if (className === undefined) {
+        className = 'button primary'
+    } else {
+        className += ' button primary'
+    }
+
+    return <ButtonTemplate pathTo={pathTo} onClick={onClick} type={type} className={className} text={text}/>
+} //PrimaryButton
+
+
+const Button = (props) => {
+    const { pathTo, onClick } = props
+    let { type, className, text } = props
+
+    if (className === undefined) {
+        className = 'button secondary'
+    } else {
+        className += ' button secondary'
+    }
+
+    return <ButtonTemplate pathTo={pathTo} onClick={onClick} type={type} className={className} text={text}/>
+} //PrimaryButton
+
+const ButtonTwoColor = (props) => {
+    const { pathTo, onClick } = props
+    let { type, className, text } = props
+
+    if (className === undefined) {
+        className = 'button secondary'
+    } else {
+        className += ' button'
+    }
+
+    return <ButtonTemplate pathTo={pathTo} onClick={onClick} type={type} className={className} text={text}/>
+} //PrimaryButton
+
+
+const ButtonLink = (props) => {
+    const { pathTo, onClick } = props
+    let { className, text } = props
+
+    const type = 'link'
+
+    if (className === undefined) {
+        className = 'button link'
+    } else {
+        className += ' button link'
+    }
+
+    return <ButtonTemplate pathTo={pathTo} onClick={onClick} type={type} className={className} text={text}/>
+} //PrimaryButton
+
+export { ButtonBlue, Button, ButtonTwoColor, ButtonLink }
 
 export default Button

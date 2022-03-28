@@ -2,6 +2,9 @@ import axios from "axios"
 import React,{ useState,useEffect } from "react"
 import {useLocation} from "react-router-dom"
 
+import '../components/InlinePost'
+import InlinePost from "../components/InlinePost"
+
 const PostsByTopic = () => {
     const [data,setData] = useState(null)
     const location = useLocation() 
@@ -45,14 +48,17 @@ const PostsByTopic = () => {
         <div> 
         {data && (data.posts.length === 0 ? <div>There are no posts with the topic "{title}" </div> : (
             data.posts.map(post => (
-                <div key={post._id} style={{display:"flex"}}>
-                    <h2>{post.message}</h2> 
+                <div key={post._id}>
+                    <InlinePost post={post}/>
                 </div>
+                // <div key={post._id} style={{display:"flex"}}>
+                //     <h2>{post.message}</h2> 
+                // </div>
             ))
         ))}
         
         </div>
     )
-}
+} //PostsByTopic
 
 export default PostsByTopic

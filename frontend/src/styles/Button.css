@@ -1,4 +1,35 @@
 .button {
+    border: none;
+    cursor: pointer;
+    transition: 250ms;
+    background-color: var(--bg-sec);
+}
+
+.button:hover {
+    transition: 250ms;
+}
+
+/* blue button, inherits from .button */
+.button.primary {
+    /* text */
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+
+    /* border & bounds */
+    background-color: var(--blue);
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.button.primary:hover {
+    background-color: var(--blue-hover);
+}
+
+/* gray button */
+.button.secondary {
     /* text */
     color: rgb(36, 36, 36);
     font-weight: 700;
@@ -9,30 +40,11 @@
     /* border & bounds */
     background-color: #e6e6e6;
     padding: 10px 20px;
-    border: none;
     border-radius: 4px;
-
-    /* other */
-    cursor: pointer;
-    transition: 250ms;
 }
 
-.button:hover {
+.button.secondary:hover {
     background-color: #cfcfcf;
-    transition: 250ms;
-}
-
-/* button in blue, inherits from .button */
-.button.primary {
-    /* text */
-    color: white;
-
-    /* border & bounds */
-    background-color: var(--blue);
-}
-
-.button.primary:hover {
-    background-color: var(--blue-hover);
 }
 
 .link {

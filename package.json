@@ -6,7 +6,7 @@
     "scripts": {
         "start": "cd backend && npm install && node app.js",
         "heroku-postbuild": "cd frontend && npm install && npm run build",
-        "fullInstall": "concurrently \"cd backend && npm install\"  \"cd frontend && npm install\"",
+        "init": "npm install && npm install --prefix frontend && npm install --prefix backend",
         "backend": "cd backend && npm run dev",
         "frontend": "cd frontend && npm start",
         "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""

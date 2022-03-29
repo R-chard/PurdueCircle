@@ -9,7 +9,7 @@
 }
 
 .contents.home .searchBar {
-    width: 500px;
+    width: clamp(280px, 50%, 500px);
 }
 
 .contents.home .css-1s2u09g-control, 

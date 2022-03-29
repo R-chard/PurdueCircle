@@ -6,13 +6,17 @@ import Field from './Field'
 import '../styles/Button.css'
 
 /*
- * Usage: This component provides for 3 types of buttons: Links (changes Route), form submission (calls handler to submit a form),
- * and regular buttons.
+ * Description: This component provides for 4 designs of buttons (a gray 'Button', 'BlueButton', 'ButtonLink', and 'ButtonTwoColor'), 
+ * each with 3 types ('regular', 'link', and 'formSubmit')
  * 
- * All styles are found in Button.css and follows 3 formats, basic text link, 'primary' button (blue), and 'secondary' (gray)
- * Regular buttons can be primary or secondary depending on the className input, form submissions are always primary
+ * All styles are found in Button.css and follows 3 formats, basic text link, 'primary' (blue), and 'secondary' (gray)
  * 
- * Check below to see which props must be assigned to use each button & see Button.css for how className must be set
+ * Usage: 
+ * Each component refers to a different style of button. Inside each component, the 'type' specifies what kind of button it is
+ * 
+ * For all buttons, input a type to specify the use (link, formSubmit, or leave empty for a regular button)
+ * For formSubmit and regular buttons, pass an 'onClick' handler and 'text' to display
+ * For links, pass a 'pathTo' for the destination link and 'text'
  */
 
 const ButtonTemplate = (props) => {

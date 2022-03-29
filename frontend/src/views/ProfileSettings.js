@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react'
 import axios from "axios"
 import ImageSelector from "../components/ImageSelector"
 import Field from '../components/Field';
-import Button from "../components/Button"
+import { ButtonBlue } from '../components/Button'
 import { useHistory } from "react-router-dom";
 
 import '../styles/ProfileSettings.css'
@@ -217,9 +217,9 @@ const ProfileSettings = (props) => {
           <Field id="phone" value={phone} onChange={phoneHandler} placeholder={'Edit Phone Number'}/>
 
           <div style={{display:"flex", justifyContent:"space-around"}}>
-            <Button className='button primary' onClick={toggleShowDialog} text={'Delete Account'}/>
-            <Button className='button primary' onClick={apply}  text={'Apply Changes'}/>
-            <Button className='button primary' onClick={cancel}  text={'Cancel'}/>
+            <ButtonBlue onClick={toggleShowDialog} text={'Delete Account'}/>
+            <ButtonBlue onClick={apply}  text={'Apply Changes'}/>
+            <ButtonBlue onClick={cancel}  text={'Cancel'}/>
           </div>
         </div>
     </div>)}

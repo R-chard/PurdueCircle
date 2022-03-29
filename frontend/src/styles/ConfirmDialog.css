@@ -29,6 +29,7 @@
 }
 
 .confirm.popup .button {
+    font-weight: bold;
     /* color: inherit;
     font-family: inherit;
     text-align: inherit;
@@ -65,7 +66,7 @@
 }
 
 .confirm.popup h3 {
-    color: inherit;
+    color: var(--text-field);
     font-family: inherit;
     margin: 0;
 }

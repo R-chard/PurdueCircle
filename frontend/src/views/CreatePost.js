@@ -5,7 +5,7 @@ import Switch from '@mui/material/Switch'
 import '../styles/CreatePost.css'
 
 import Field from "../components/Field"
-import Button from "../components/Button"
+import { ButtonBlue } from '../components/Button'
 
 import axios from "axios"
 
@@ -116,7 +116,7 @@ const CreatePost = () => {
                     </div>
                     
                     <div className="buttonContainer">
-                        <Button className={'formSubmit'} text={'Post'}/>
+                        <ButtonBlue type={'formSubmit'} text={'Post'}/>
                     </div>
                 </form>
             </div>

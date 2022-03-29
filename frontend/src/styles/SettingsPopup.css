@@ -31,15 +31,11 @@
     font-family: inherit;
 
     text-align: inherit;
-    /* width: 100%; */
-    /* margin-top: 1px;
-    padding: 10px 0px 10px 30px; */
-    /* border: none; */
-    /* cursor: pointer; */
+    padding: 10px 20px;
     background-color: var(--button-bg);
     transition: 100ms;
     text-decoration: none;
-    /* font-weight: bold; */
+    font-weight: bold;
 }
 
 .popup.cornerMenu .button:hover {
@@ -53,10 +49,6 @@
 
 .popup.cornerMenu .link {
     text-decoration: inherit;
-}
-
-.popup.cornerMenu .divider {
-    /* padding: 10px 0px; */
 }
 
 .popup.cornerMenu h3 {

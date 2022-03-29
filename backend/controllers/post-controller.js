@@ -107,9 +107,18 @@ const comment = async(req,res,next)=>{
         return next(error)
     }
     res.status(200).json({success:true})
+
+}
+const retrievePastPosts = async(req,res) => {
+    let pastPosts;
+    const userID = req.session.userID;
+    pastPosts = userID.posts;
+    res.status(200).json({pastPosts});
+
 }
 
 exports.create = create
 exports.like = like
 exports.unlike = unlike
 exports.comment = comment
+exports.retrievePastPosts = retrievePastPosts

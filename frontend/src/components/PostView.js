@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 import '../styles/PostView.css'
-import Button from './Button'
+import { ButtonBlue, ButtonTwoColor } from '../components/Button'
 import Field from './Field'
 
 const PostView = () => {
@@ -112,8 +112,8 @@ const UserInfo = (props) => {
             <div className='author'>{author}</div>
             <div className='dot'>•</div>
             <div className='date'>{date}</div>
-            <div className='likeButton'>
-                <Button className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
+            <div className='pushRight'>
+                <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
             </div>
         </div>
     )
@@ -140,7 +140,7 @@ const CommentSection = (props) => {
             </ul>
             <form className='newComment' onSubmit={handleNewComment}>
                 <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={comment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
-                <Button className='formSubmit' text={'Reply'} />
+                <ButtonBlue type='formSubmit' text={'Reply'} />
             </form>
         </div>
     )

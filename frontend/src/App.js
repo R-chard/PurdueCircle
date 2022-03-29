@@ -44,7 +44,7 @@ const App = () => {
                     </Route>
 
                     <Route path="/topictitle">
-                        <PostsByTopic />
+                        <PrivateRoute component={PostsByTopic} />
                     </Route>
 
                     <Route path='/profile'>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import {Link} from "react-router-dom"
 import axios from "axios"
 
 import '../styles/PostView.css'
@@ -16,10 +17,7 @@ const InlinePost = (props) => {
     const [isLiked, setIsLiked] = useState(post.hasLiked)
     const [likes, setLikes] = useState(post.likes)
 
-    //sends update likes
     const likeHandler = () => {
-        //TODO add to user's likes
-        //TODO sent to backend
 
         if (isLiked) {
             setIsLiked(false)
@@ -64,12 +62,20 @@ const PostMetadata = (props) => {
     return (
         <div className='userInfo'>
             <div>
+                <Link to ={"/profile/" + authorName}>
                 <img className='profilePic'
                     src={profilePic}
                     alt="profile"
                 />
+                </Link>
             </div>
+            <Link
+                to ={"/profile/" + authorName} 
+                style={{ color: 'inherit', textDecoration: 'inherit'}}
+            >
             <div className='author'>{authorName}</div>
+            </Link>
+            
             <div className='dot'>•</div>
             <div className='date'>{date}</div>
             <div className='pushRight'>

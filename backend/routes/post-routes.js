@@ -6,6 +6,7 @@ router.post("/create", validation, postController.create)
 router.post("/like",validation,postController.like)
 router.post("/unlike",validation,postController.unlike)
 router.post("/comment",validation,postController.comment)
+router.get("/postById/:postID",validation,postController.postById)
 
 router.get("/retrievePastPosts", validation, postController.retrievePastPosts)
 router.get("/retrieveFollowedPosts", validation, postController.retrieveFollowedPosts)

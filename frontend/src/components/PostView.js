@@ -1,51 +1,55 @@
 import React, { useState, useEffect } from 'react'
+import {useLocation,Link} from "react-router-dom"
 import axios from "axios"
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
 import Field from './Field'
+import formatDate from "../utils/formatDate"
 
 const PostView = () => {
     //replace with api
-        const comment1 = { author: "Jeff", date: new Date("2022-03-03T22:11:12.129+00:00"), id: 421432, message: "My name is Jeff"}
-        const comment2 = { author: "A person", date: new Date("2022-02-30T22:11:12.129+00:00"), id: 91248057, message: "Beep boop"}
-        const comment3 = { author: "Tim Apple", date: new Date("2022-01-13T22:11:12.129+00:00"), id: 6453141, message: "Good Morning!"}
-        const comment4 = { author: "Moana", date: new Date("2022-01-31T22:11:12.129+00:00"), id: 9184537, message: "The ocean is calling me and I must go"}
-        const comment5 = { author: "Joe", date: new Date("2022-02-17T22:11:12.129+00:00"), id: 3978514, message: "Who am I? What is existence but the affirmation by others that you exist? What is love?"}
-        const comment6 = { author: "Jimothy", date: new Date("2022-03-23T22:11:12.129+00:00"), id: 340789541, message: "Comment sections amirite"}
 
-        const objCommentsArray = [comment1, comment2, comment3, comment4, comment5, comment6]
-        const objProfilePic = "https://imageio.forbes.com/specials-images/imageserve/5fe74d45a9c2a2d204db2948/0x0.jpg?format=jpg&width=1200&fit=bounds";
-        const post = { author: { name: "jimothy", profilePic: objProfilePic }, postedAnon: false, message: `This is a post with some text that shows how a post with some text can be
-        displayed`, likes: 4, datePosted: new Date("2022-02-24T22:11:12.129+00:00"), 
-            comments: objCommentsArray, topics: ["posts", "society"], isLiked: false }
-    //replace with api
-
-    const profilePic = post.author.profilePic;
-    const author = post.postedAnon ? "-----" : post.author.name
-    const message = post.message
-    const date = post.datePosted.toLocaleString('en-us', {month: 'long', day: 'numeric'})
-    const commentsArray = post.comments
-
-    const [isLiked, setIsLiked] = useState(post.isLiked)
-    const [likes, setLikes] = useState(post.likes)
-    const [comment, setComment] = useState('')
     const [commentError, setCommentError] = useState(null)
+    
+    const location = useLocation()
+    const postID = location.pathname.split("/")[2]
+    const [post,setPost] = useState(null)
+    const [isLiked, setIsLiked] = useState(false)
+    const [likes, setLikes] = useState(0)
+    const [newComment,setNewComment] = useState("")
+    
+    useEffect(()=>{
+        
+        axios.get("/api/post/postById/" + postID,{
+            withCredentials: true, credentials:"include"
+        })
+        .then(response=>{
+            setPost(response.data.post)
+            setIsLiked(response.data.post.hasLiked)
+            setLikes(response.data.post.likes)
+        })
+    },[postID,newComment])
 
-    //sends update likes
+
     const likeHandler = () => {
-        //TODO add to user's likes
-        //TODO sent to backend
 
         if (isLiked) {
-            const updatedPostObj = {...post, isLiked: false, likes: likes - 1}
             setIsLiked(false)
             setLikes(likes - 1)
+            axios.post("/api/post/unlike",{
+                    postID:post._id,
+                },{
+                    withCredentials: true, credentials:"include"
+                })
         } else {
-            const updatedPostObj = {...post, isLiked: true, likes: likes + 1}
             setIsLiked(true)
             setLikes(likes + 1)
+            axios.post("/api/post/like",{
+                postID:post._id
+            },{
+                withCredentials: true, credentials:"include"
+            })
         }
-        console.log("like")
     }
 
     const liked = () => {
@@ -56,12 +60,19 @@ const PostView = () => {
     const handleNewComment = (e) => {
         e.preventDefault()
         //TODO add to user's comments
-        //TODO sent to backend
 
-        if (comment.length === 0) {
+        if (newComment.length === 0) {
             setCommentError('Enter a comment')
         } else {
-            console.log(comment)
+            axios.post("/api/post/comment",{
+                postID:post._id,
+                message:newComment,
+            },{
+                withCredentials: true, credentials:"include"
+            }).then(response=>{
+                if (response.data.success){
+                    setNewComment("")
+                }})
         }
     }
 
@@ -80,70 +91,61 @@ const PostView = () => {
 
     //updates value
     const commentFieldHandler = (e) => {
-        setComment(e.target.value)
+        setNewComment(e.target.value)
         setCommentError(null)
     }
 
     return (
-        <div className='container postView'>
+        post && (<div className='container postView'>
             <div className='contents'>
-                <UserInfo profilePic={profilePic} author={author} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/>
-                <p className='post'>
-                    {message}
-                </p>
-                <CommentSection commentsArray={commentsArray} handleNewComment={handleNewComment} comment={comment} 
-                    commentFieldHandler={commentFieldHandler} hasError={hasError} />
+                <div className='userInfo'>
+                    <div>
+                        <Link to ={"/profile/" + post.author.username}>
+                            <img className='profilePic' src={post.author.profile_img} alt="profile" />
+                        </Link>
+                    </div>
+                <Link to ={"/profile/" + post.author.username} style={{textDecoration: 'none'}}>
+                    <div className='author'>{post.author.username}</div>
+                </Link>
+                <div className='dot'>•</div>
+                <div className='date'>{formatDate(post.datePosted)}</div>
+                <div className='pushRight'>
+                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
+                </div>
             </div>
-        </div>
-    )
-} //PostView
-
-const UserInfo = (props) => {
-    const { profilePic, author, date, likes, likeHandler, liked } = props
-
-    return (
-        <div className='userInfo'>
-            <div>
-                <img className='profilePic'
-                    src={profilePic}
-                    alt="profile"
-                />
-            </div>
-            <div className='author'>{author}</div>
-            <div className='dot'>•</div>
-            <div className='date'>{date}</div>
-            <div className='pushRight'>
-                <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
-            </div>
-        </div>
-    )
-} //UserInfo
-
-const CommentSection = (props) => {
-    const { commentsArray, handleNewComment, comment, commentFieldHandler, hasError } = props
-    
-    return (
-        <div className='comments'>
+            <p className='post'>
+                {post.message}
+            </p>
+            <div className='comments'>
             <ul>
-                {commentsArray.map((currentComment) => {
+                {post.comments.map((comment) => {
+                    
                     return (
-                        <div key={currentComment.id} className={'postComment'}>
-                            <div className={'commentHeader'}>
-                                <div>{currentComment.author}</div>
-                                <div>·</div>
-                                <div className='date'>{currentComment.date.toLocaleString('en-us', {month: 'long', day: 'numeric'})}</div>
+                        <div key={comment._id} className='postComment'>
+                            <div className='commentHeader'>
+                            <div>
+                            <Link 
+                                to ={"/profile/" + post.author.username} 
+                                style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                    {comment.author.username}
+                            </Link>
                             </div>
-                            <div>{currentComment.message}</div>
+                                <div>·</div>
+                                <div className='date'>{formatDate(comment.datePosted)}</div>
+                            </div>
+                            <div>{comment.message}</div>
                         </div>
                     )
                 })}
             </ul>
             <form className='newComment' onSubmit={handleNewComment}>
-                <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={comment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
+                <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
                 <ButtonBlue type='formSubmit' text={'Reply'} />
             </form>
+            </div>
         </div>
-    )
-} //CommentSection
+    </div>
+    ))
+} //PostView
 
 export default PostView

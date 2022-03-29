@@ -8,4 +8,5 @@ router.post("/unlike",validation,postController.unlike)
 router.post("/comment",validation,postController.comment)
 
 router.get("/retrievePastPosts", validation, postController.retrievePastPosts)
+router.get("/retrieveFollowedPosts", validation, postController.retrieveFollowedPosts)
 module.exports = router

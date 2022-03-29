@@ -134,8 +134,43 @@ const retrievePastPosts = async(req,res,next) => {
 
 }
 
+const retrieveFollowedPosts = async(req,res,next) => {
+    let pastPosts = [];
+    let followed = [];
+    const userID = req.session.userID;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    try {
+        //currUser = await User.findById(userID);
+        for (let i = 0; i < currUser.users_followed.length; i++) {
+            tempFollowed = await User.findById(currUser.users_followed[i]);
+            followed.push(tempFollowed)
+        }
+    } catch (error) {
+        return next(error);
+    }
+
+    try {
+        //currUser = await User.findById(userID);
+        for (let i = 0; i < followed.length; i++) {
+            tempPost = await Post.findById(followed[i].posts);
+            pastPosts.push(tempPost)
+        }
+    } catch (error) {
+        return next(error);
+    }
+
+    res.status(200).json({pastPosts});
+
+}
 exports.create = create
 exports.like = like
 exports.unlike = unlike
 exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
+exports.retrieveFollowedPosts = retrieveFollowedPosts

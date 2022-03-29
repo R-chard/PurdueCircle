@@ -176,13 +176,13 @@ const ProfileSettings = (props) => {
     <div className='contents profileSettings'>
       {data && (<div>
         <h1>ProfileSettings</h1>
-        <h2>Profile</h2>
+        <h4>Profile</h4>
         {showConfirmDialog ? <ConfirmDialog title={dialogTitle} buttonText='Delete Account' mainHandler={mainDialogHandler} cancelHandler={cancelDialogHandler}/> : ''}
 
         <div style={{
           display:"flex",
           justifyContent:"space-around",
-          margin:"18px 0px",
+          margin:"50px 20px",
         }}>
           <ImageSelector profPic={data.profile_img}/>
           <div>
@@ -194,7 +194,7 @@ const ProfileSettings = (props) => {
           </div>
         </div>
 
-        <h2>Account</h2>
+        <h4>Account</h4>
         <div style={{
           display:"block",
           justifyContent:"space-around",

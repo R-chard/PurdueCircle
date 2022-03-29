@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, Switch } from "react-router-dom" 
+import 'bootstrap/dist/css/bootstrap.css';
+import Nav from 'react-bootstrap/Nav';
 
 import './styles/App.css'
 
@@ -14,7 +16,7 @@ import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
 import CreatePost from './views/CreatePost.js'
 import PrivateRoute from './components/PrivateRoute'
-import PostView from './components/PostView'
+import PostView from './views/PostView'
 import SearchBar from './components/SearchBar'
 import PostsByTopic from './views/PostsByTopic'
 

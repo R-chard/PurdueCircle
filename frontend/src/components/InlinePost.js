@@ -7,7 +7,8 @@ import '../styles/PostView.css'
 const InlinePost = (props) => {
     const { post } = props
 
-    //TODO author stuff
+    // console.log("post: ", post);
+
     const profilePic = post.author.profile_img;
     const authorName = post.postedAnon ? "-----" : post.author.username
     const message = post.message
@@ -18,6 +19,8 @@ const InlinePost = (props) => {
     const [likes, setLikes] = useState(post.likes)
 
     const likeHandler = () => {
+        //TODO add to user's likes
+        //TODO send to backend
 
         if (isLiked) {
             setIsLiked(false)
@@ -44,14 +47,20 @@ const InlinePost = (props) => {
 
     return (
         // <div className='contaiasfdner postasdfView'>
-            <div className='contents'>
+            <Link 
+                to={"/post/" + post._id}
+                style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                
+                <div className='contents'>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments}/>
                 <p className='post'>
                     {message}
                 </p>
-            </div>
+                </div>
+            </Link>
+            
         // </div>
     )
 } //PostView
@@ -89,6 +98,6 @@ const PostMetadata = (props) => {
             </div>
         </div>
     )
-} //UserInfo
+} //PostMetadata
 
 export default InlinePost

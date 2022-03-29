@@ -88,6 +88,27 @@ const unlike = async(req,res,next) => {
     res.status(200).json({success:true})
 }
 
+// TODO: add into users to mark that users interact with post
+const comment = async(req,res,next)=>{
+    const {postID,message} = req.body
+    const user = req.session.userID
+    const comment = {
+        author:user,
+        datePosted: new Date(),
+        message
+    }
+
+    // save comment 
+    try{
+        let post = await Post.findById(postID)
+        post.comments.push(comment)
+        post.save()
+    } catch(error){
+        return next(error)
+    }
+    res.status(200).json({success:true})
+
+}
 const retrievePastPosts = async(req,res) => {
     let pastPosts;
     const userID = req.session.userID;
@@ -99,4 +120,5 @@ const retrievePastPosts = async(req,res) => {
 exports.create = create
 exports.like = like
 exports.unlike = unlike
+exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts

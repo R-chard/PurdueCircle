@@ -53,10 +53,13 @@ const getPostsByTopic = async(req,res,next) => {
             post.author = {}
             post.author.username = author.username
             post.author.profile_img = author.profile_img
-            if (post.usersLiked.includes(userID)){
-                post.hasLiked = true
-            } else{
-                post.hasLiked = false
+            post.hasLiked = false
+            // check if user has already liked the current post
+            for(let likedUserID of post.usersLiked){
+                if (likedUserID.toString() === userID){
+                    post.hasLiked = true
+                    break
+                }
             }
             data.posts.push(post)
         }

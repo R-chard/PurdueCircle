@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from "axios"
 
 import '../styles/PostView.css'
 
@@ -22,15 +23,22 @@ const InlinePost = (props) => {
         //TODO send to backend
 
         if (isLiked) {
-            const updatedPostObj = {...post, isLiked: false, likes: likes - 1}
             setIsLiked(false)
             setLikes(likes - 1)
+            axios.post("/api/post/unlike",{
+                    postID:post._id
+                },{
+                    withCredentials: true, credentials:"include"
+                })
         } else {
-            const updatedPostObj = {...post, isLiked: true, likes: likes + 1}
             setIsLiked(true)
             setLikes(likes + 1)
+            axios.post("/api/post/like",{
+                postID:post._id
+            },{
+                withCredentials: true, credentials:"include"
+            })
         }
-        console.log("like")
     }
 
     const liked = () => {

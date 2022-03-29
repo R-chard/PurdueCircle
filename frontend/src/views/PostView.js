@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
 import Field from '../components/Field'

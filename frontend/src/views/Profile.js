@@ -12,6 +12,7 @@ const Profile = (props) => {
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
+            console.log(response.data)
             setData(response.data.reqUser)
         })
     },[location.pathname])

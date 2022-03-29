@@ -24,8 +24,7 @@ const PostsByTopic = () => {
         .then(response=>{
             if(response.data.success){
                 alert("Followed " + title)
-        }}
-        )
+        }})
     }
     
     const unfollowHandler =() =>{
@@ -37,8 +36,7 @@ const PostsByTopic = () => {
         .then(response=>{
             if(response.data.success){
                 alert("Unfollowed " + title)
-        }}
-        )
+        }})
     }
 
     // TODO: check data.following. Null means no buttons. True = should have unfollow. False = should have follow

@@ -145,19 +145,26 @@ const getProfile = async(req,res,next)=>{
     let reqUser
     try{
         reqUser = await User.findOne({username})
+        reqUser = reqUser.toObject()
         // user does not exist
         if(!reqUser){
             res.status(404).json({isFound:false})
         }
-        // if the user is logged in and looking at someone else's account
-        if(currUserID && currUserID != reqUser._id){
-            if (reqUser.users_following.includes(currUserID)){
-                // current user is following the selected user
-                reqUser.following = true
+        
+        if(currUserID){
+            if(currUserID == reqUser._id){
+                reqUser.selfProfile = true
+            // if the user is logged in and looking at someone else's account
             } else{
-                // current user is not following the selected user
-                reqUser.following = false
+                if (reqUser.users_following.includes(currUserID)){
+                    // current user is following the selected user
+                    reqUser.following = true
+                } else{
+                    // current user is not following the selected user
+                    reqUser.following = false
+                }
             }
+            
         }
     } catch (err){
         return next(err)

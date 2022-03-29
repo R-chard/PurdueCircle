@@ -109,7 +109,7 @@ const deleteAccount = async (req, res, next) => {
     const userID = req.session.userID;
 
     try {
-        await User.findOneAndDelete({_id: new mongoose.Types.ObjectId(userID)});
+        await User.findByIdAndDelete(userID);
     } catch (error) {
         return next(error);
     }

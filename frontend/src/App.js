@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, Switch } from "react-router-dom" 
+import 'bootstrap/dist/css/bootstrap.css';
+import Nav from 'react-bootstrap/Nav';
 
 import './styles/App.css'
 

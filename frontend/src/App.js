@@ -15,7 +15,7 @@ import SignUp from './views/SignUp'
 import NotFound from './views/NotFound'
 import CreatePost from './views/CreatePost.js'
 import PrivateRoute from './components/PrivateRoute'
-import PostView from './components/PostView'
+import PostView from './views/PostView'
 import SearchBar from './components/SearchBar'
 import PostsByTopic from './views/PostsByTopic'
 

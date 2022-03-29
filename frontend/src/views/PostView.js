@@ -2,31 +2,31 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
-import Field from './Field'
+import Field from '../components/Field'
 
 const PostView = () => {
     //replace with api
-        const comment1 = { author: "Jeff", date: new Date("2022-03-03T22:11:12.129+00:00"), id: 421432, message: "My name is Jeff"}
-        const comment2 = { author: "A person", date: new Date("2022-02-30T22:11:12.129+00:00"), id: 91248057, message: "Beep boop"}
-        const comment3 = { author: "Tim Apple", date: new Date("2022-01-13T22:11:12.129+00:00"), id: 6453141, message: "Good Morning!"}
-        const comment4 = { author: "Moana", date: new Date("2022-01-31T22:11:12.129+00:00"), id: 9184537, message: "The ocean is calling me and I must go"}
-        const comment5 = { author: "Joe", date: new Date("2022-02-17T22:11:12.129+00:00"), id: 3978514, message: "Who am I? What is existence but the affirmation by others that you exist? What is love?"}
-        const comment6 = { author: "Jimothy", date: new Date("2022-03-23T22:11:12.129+00:00"), id: 340789541, message: "Comment sections amirite"}
+        const comment1 = { author: "Jeff", datePosted: "2022-03-03T22:11:12.129+00:00", id: 421432, message: "My name is Jeff"}
+        const comment2 = { author: "A person", datePosted: "2022-02-30T22:11:12.129+00:00", id: 91248057, message: "Beep boop"}
+        const comment3 = { author: "Tim Apple", datePosted: "2022-01-13T22:11:12.129+00:00", id: 6453141, message: "Good Morning!"}
+        const comment4 = { author: "Moana", datePosted: "2022-01-31T22:11:12.129+00:00", id: 9184537, message: "The ocean is calling me and I must go"}
+        const comment5 = { author: "Joe", datePosted: "2022-02-17T22:11:12.129+00:00", id: 3978514, message: "Who am I? What is existence but the affirmation by others that you exist? What is love?"}
+        const comment6 = { author: "Jimothy", datePosted: "2022-03-23T22:11:12.129+00:00", id: 340789541, message: "Comment sections amirite"}
 
         const objCommentsArray = [comment1, comment2, comment3, comment4, comment5, comment6]
         const objProfilePic = "https://imageio.forbes.com/specials-images/imageserve/5fe74d45a9c2a2d204db2948/0x0.jpg?format=jpg&width=1200&fit=bounds";
-        const post = { author: { name: "jimothy", profilePic: objProfilePic }, postedAnon: false, message: `This is a post with some text that shows how a post with some text can be
-        displayed`, likes: 4, datePosted: new Date("2022-02-24T22:11:12.129+00:00"), 
-            comments: objCommentsArray, topics: ["posts", "society"], isLiked: false }
+        const post = { author: { username: "jimothy", profile_img: objProfilePic }, postedAnon: false, message: `This is a post with some text that shows how a post with some text can be
+        displayed`, likes: 4, datePosted: "2022-02-24T22:11:12.129+00:00", 
+            comments: objCommentsArray, topics: ["posts", "society"], hasLiked: false }
     //replace with api
 
-    const profilePic = post.author.profilePic;
-    const author = post.postedAnon ? "-----" : post.author.name
+    const profilePic = post.author.profile_img;
+    const author = post.postedAnon ? "-----" : post.author.username
     const message = post.message
-    const date = post.datePosted.toLocaleString('en-us', {month: 'long', day: 'numeric'})
+    const date = (new Date(post.datePosted)).toLocaleString('en-us', {month: 'long', day: 'numeric'})
     const commentsArray = post.comments
 
-    const [isLiked, setIsLiked] = useState(post.isLiked)
+    const [isLiked, setIsLiked] = useState(post.hasLiked)
     const [likes, setLikes] = useState(post.likes)
     const [comment, setComment] = useState('')
     const [commentError, setCommentError] = useState(null)
@@ -131,7 +131,7 @@ const CommentSection = (props) => {
                             <div className={'commentHeader'}>
                                 <div>{currentComment.author}</div>
                                 <div>·</div>
-                                <div className='date'>{currentComment.date.toLocaleString('en-us', {month: 'long', day: 'numeric'})}</div>
+                                <div className='date'>{(new Date(currentComment.date)).toLocaleString('en-us', {month: 'long', day: 'numeric'})}</div>
                             </div>
                             <div>{currentComment.message}</div>
                         </div>

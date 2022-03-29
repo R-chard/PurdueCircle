@@ -7,7 +7,6 @@ const InlinePost = (props) => {
 
     // console.log("post: ", post);
 
-    //TODO author stuff
     const profilePic = post.author.profile_img;
     const authorName = post.postedAnon ? "-----" : post.author.username
     const message = post.message
@@ -20,7 +19,7 @@ const InlinePost = (props) => {
     //sends update likes
     const likeHandler = () => {
         //TODO add to user's likes
-        //TODO sent to backend
+        //TODO send to backend
 
         if (isLiked) {
             const updatedPostObj = {...post, isLiked: false, likes: likes - 1}
@@ -77,6 +76,6 @@ const PostMetadata = (props) => {
             </div>
         </div>
     )
-} //UserInfo
+} //PostMetadata
 
 export default InlinePost

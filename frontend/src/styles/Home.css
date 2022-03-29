@@ -12,11 +12,10 @@
     width: 500px;
 }
 
-.contents.home .css-1s2u09g-control {
+.contents.home .css-1s2u09g-control, 
+.contents.home .css-1pahdxg-control,
+.contents.home .css-1pndypt-Input {
     background-color: var(--bg-field) !important;
     cursor: text !important;
-}
-
-.contents.home .css-1pahdxg-control {
-    cursor: text !important;
+    color: var(--text) !important;
 }

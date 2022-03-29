@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
-import Field from './Field'
+import Field from '../components/Field'
 
 const PostView = () => {
     //replace with api

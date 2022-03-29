@@ -109,10 +109,27 @@ const comment = async(req,res,next)=>{
     res.status(200).json({success:true})
 
 }
-const retrievePastPosts = async(req,res) => {
-    let pastPosts;
+
+//currently sends list of past post with all post properties
+const retrievePastPosts = async(req,res,next) => {
+    let pastPosts = [];
     const userID = req.session.userID;
-    pastPosts = userID.posts;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    try {
+        //currUser = await User.findById(userID);
+        for (let i = 0; i < currUser.posts.length; i++) {
+            tempPost = await Post.findById(currUser.posts[i]);
+            pastPosts.push(tempPost)
+        }
+    } catch (error) {
+        return next(error);
+    }
     res.status(200).json({pastPosts});
 
 }

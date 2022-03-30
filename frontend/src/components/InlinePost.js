@@ -73,22 +73,31 @@ const InlinePost = (props) => {
 const PostMetadata = (props) => {
     const { authorName, profilePic, date, likes, likeHandler, liked, isLiked, numComments, post } = props
 
+    const renderUsername = () => {
+        if (post.postedAnon) {
+            return (
+                <div className='author'>------</div>
+            )
+        } else {
+            return (
+                <Link to ={"/profile/" + authorName} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    <div className='author'>{authorName}</div>
+                </Link>
+            )
+        }
+    }
+
     return (
         <div className='userInfo'>
 
-                <Link to ={"/profile/" + authorName}>
+            {!post.postedAnon && <Link to ={"/profile/" + authorName}>
                 <img className='profilePic'
                     src={profilePic}
                     alt="profile"
                 />
-                </Link>
+                </Link>}
 
-            <Link
-                to ={"/profile/" + authorName} 
-                style={{ color: 'inherit', textDecoration: 'inherit'}}
-            >
-            <div className='author'>{authorName}</div>
-            </Link>
+            {renderUsername()}
             
             <div className='dot'>•</div>
             <Link 

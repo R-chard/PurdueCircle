@@ -18,6 +18,7 @@ const PostView = () => {
     const [likes, setLikes] = useState(0)
     const [newComment,setNewComment] = useState("")
     const [numComments, setNumComments] = useState(0)
+    const [postedAnon, setPostedAnon] = useState(false)
     
     useEffect(()=>{
         
@@ -29,6 +30,7 @@ const PostView = () => {
             setIsLiked(response.data.post.hasLiked)
             setLikes(response.data.post.likes)
             setNumComments(response.data.post.comments.length)
+            setPostedAnon(response.data.post.postedAnon)
         })
     },[postID,newComment])
 
@@ -96,6 +98,20 @@ const PostView = () => {
         }
     }
 
+    const renderUsername = () => {
+        if (postedAnon) {
+            return (
+                <div className='author'>------</div>
+            )
+        } else {
+            return (
+                <Link to ={"/profile/" + post.author.username} style={{textDecoration: 'none'}}>
+                    <div className='author'>{post.author.username}</div>
+                </Link>
+            )
+        }
+    }
+
     //updates value
     const commentFieldHandler = (e) => {
         setNewComment(e.target.value)
@@ -107,13 +123,12 @@ const PostView = () => {
             <div className='contents presetSize'>
                 <div className='userInfo'>
                     <div>
-                        <Link to ={"/profile/" + post.author.username}>
+                        {!postedAnon && <Link to ={"/profile/" + post.author.username}>
                             <img className='profilePic' src={post.author.profile_img} alt="profile" />
-                        </Link>
+                        </Link>}
+                        
                     </div>
-                <Link to ={"/profile/" + post.author.username} style={{textDecoration: 'none'}}>
-                    <div className='author'>{post.author.username}</div>
-                </Link>
+                {renderUsername()}
                 <div className='dot'>•</div>
                 <div className='date'>{formatDate(post.datePosted)}</div>
                 <div className='pushRight'>

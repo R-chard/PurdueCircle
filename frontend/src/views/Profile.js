@@ -2,14 +2,13 @@ import React,{ useEffect,useState } from "react"
 import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
-import Button from "../components/Button"
+import {Button, ButtonBlue} from "../components/Button"
 import Tab from "../components/Tab"
 import InlinePost from "../components/InlinePost"
-import '../styles/Home.css'
-import '../styles/PostView.css'
+import { useHistory } from 'react-router-dom';
 
 const Profile = (props) => {
-    
+    const history = useHistory()
     const [data, setData] = useState(null)
     const [tabContent, setTabContent] = useState([])
     const [followed, setFollowed] = useState(null);
@@ -23,8 +22,6 @@ const Profile = (props) => {
         .then(response=>{
             console.log(response.data)
             setData(response.data.reqUser)
-            setFollowed("Follow")
-            //setFollowedHandler(followHandler)
         })
 
         //replace with api
@@ -41,14 +38,17 @@ const Profile = (props) => {
         const objProfilePic = "https://imageio.forbes.com/specials-images/imageserve/5fe74d45a9c2a2d204db2948/0x0.jpg?format=jpg&width=1200&fit=bounds";
         const post1 = { _id: 23451234312, author: { username: "jimothy", profile_img: objProfilePic }, postedAnon: false, message: `This is a post with some text that shows how a post with some text can be
         displayed`, likes: 4, datePosted: new Date("2022-02-24T22:11:12.129+00:00"), 
-            comments: objCommentsArray1, topics: ["posts", "society"], isLiked: false }
+            comments: objCommentsArray1, topics: ["posts", "society"], hasLiked: true }
 
         const post2 = { _id: 8973241613, author: { username: "dave", profile_img: objProfilePic }, postedAnon: false, message: `This is a very long post to show how
         a long post would be displayed. This message has been brought to you by Raid Shadow Legeneds. Raid: Shadow Legends is a mobile-fantasy 
         RPG game for mobile and PC developed by Plarium Games. The game takes place in Teleria, which has been subjugated by the Dark Lord 
         Siroth. The player goes through twelve levels in single player mode, with a multiplayer PVP mode deciding player rankings`, 
         likes: 10, datePosted: new Date("2022-03-05T22:11:12.129+00:00"), 
-            comments: objCommentsArray2, topics: ["posts", "society"], isLiked: false }
+            comments: objCommentsArray2, topics: ["posts", "society"], hasLiked: false }
+
+        const post3 = { ...post2, _id: 239487123}
+        const post4 = { ...post2, _id: 321847134}
         
         setTabContent([
             {
@@ -90,6 +90,14 @@ const Profile = (props) => {
         )
     }
 
+    const renderFollowButton = () => {
+        if(data.selfProfile)
+            return (<Button text={"Edit Profile"} onClick={()=>{history.push("/settings")}}></Button>) 
+        else if(data.following)
+            return ( <Button text={"Unfollow"} onClick={()=>{unfollowHandler()}}></Button>)
+        return (<ButtonBlue text={"Follow"} onClick={()=>{followHandler()}}></ButtonBlue>)
+    }
+
     return (
         <div>
             {data && tabContent && (<div className={'contents profile'}>
@@ -109,9 +117,11 @@ const Profile = (props) => {
                 </div>
                 {/* Right Side Info */}
                 <div>
-                    <div style={{display:"flex", justifyContent:"space-around", margin:"5px 0px", height:"20%"}}>
+                    <div style={{display:"flex", justifyContent:"space-around", margin:"5px px", height:"20%"}}>
                         <h1>{data.username}</h1>
-                        <Button className="formSubmit" text={followed} onClick={followedHandler}></Button>
+                        <div style={{margin: "5px 10px"}}>
+                            {renderFollowButton()}
+                        </div>     
                     </div>         
                     <div style={{display:"flex",justifyContent:"space-between", margin: "15px 0px", width:"120%"}}>
                         <h6>{data.posts.length} posts</h6>

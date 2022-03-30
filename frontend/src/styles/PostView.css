@@ -102,7 +102,8 @@
 }
 
 .container.postView .post {
-    margin-bottom: 0;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
 }
 
 .container.postView .newComment {
@@ -128,6 +129,10 @@
 
 .container.postView .numComments {
     font-size: 13px;
+}
+
+.container.postView .commentLabel {
+    color: var(--placeholder);
 }
 
 .container.postView .commentHeader {

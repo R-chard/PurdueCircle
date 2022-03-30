@@ -17,6 +17,7 @@ const PostView = () => {
     const [isLiked, setIsLiked] = useState(false)
     const [likes, setLikes] = useState(0)
     const [newComment,setNewComment] = useState("")
+    const [numComments, setNumComments] = useState(0)
     
     useEffect(()=>{
         
@@ -27,6 +28,7 @@ const PostView = () => {
             setPost(response.data.post)
             setIsLiked(response.data.post.hasLiked)
             setLikes(response.data.post.likes)
+            setNumComments(response.data.post.comments.length)
         })
     },[postID,newComment])
 
@@ -110,7 +112,7 @@ const PostView = () => {
                 <div className='dot'>•</div>
                 <div className='date'>{formatDate(post.datePosted)}</div>
                 <div className='pushRight'>
-                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
+                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
                 </div>
             </div>
             <p className='post'>
@@ -118,14 +120,14 @@ const PostView = () => {
             </p>
             <div className='comments'>
             <ul>
-                {post.comments.map((comment) => {
+                {(numComments > 0) ? post.comments.map((comment) => {
                     
                     return (
                         <div key={comment._id} className='postComment'>
                             <div className='commentHeader'>
                             <div>
                             <Link 
-                                to ={"/profile/" + post.author.username} 
+                                to ={"/profile/" + comment.author.username} 
                                 style={{ color: 'inherit', textDecoration: 'inherit'}}>
                                     {comment.author.username}
                             </Link>
@@ -136,7 +138,7 @@ const PostView = () => {
                             <div>{comment.message}</div>
                         </div>
                     )
-                })}
+                }) : <div className='commentLabel'>There are no comments yet...</div>}
             </ul>
             <form className='newComment' onSubmit={handleNewComment}>
                 <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>

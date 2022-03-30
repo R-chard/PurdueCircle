@@ -137,6 +137,44 @@ const retrieveFollowingUsers = async (req, res, next) => {
    
 }
 
+const retrieveInteractions = async (req, res, next) => {
+
+    const username = req.params.username
+
+    let interactions;
+    let currUser;
+
+    try {
+        currUser = await User.findOne({username});
+    } catch (error) {
+        return next(new Error(error));
+    }
+    if(!currUser){
+        res.status(404).json({isFound:false})
+        return
+    }
+
+    interactions = currUser.interactions;
+    /*if (topicList.length = 0) {
+        return next(error)
+    }*/
+    //not sure if this is the correct way of sending info to frontend
+    //return followingUsers
+    let intUserObjects = []; //added changes to find actual users
+    for (let i = 0; i < interactions.length; i++) {
+        tempPost = await Post.findById(interactions[i].post);
+        if (tempPost){
+            intUserObjects.push({
+                post: tempPost,
+                date: interactions[i].date,
+                type: interactions[i].type
+            })
+        }
+    }
+    // res.status(200).json({users_following: followingUsers})
+    res.status(200).json({intUserObjects})
+}
+
 // Works even if user is not logged in
 const getProfile = async(req,res,next)=>{
     const currUserID = req.session.userID

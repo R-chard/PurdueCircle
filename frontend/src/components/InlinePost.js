@@ -6,6 +6,7 @@ import '../styles/PostView.css'
 
 const InlinePost = (props) => {
     const { post } = props
+    let { presetSize } = props
 
     // console.log("post: ", post);
 
@@ -17,6 +18,13 @@ const InlinePost = (props) => {
 
     const [isLiked, setIsLiked] = useState(post.hasLiked)
     const [likes, setLikes] = useState(post.likes)
+
+    //if unspecified, uses preset size in PostView.css, otherwise uses that specified in another CSS
+    if (presetSize === undefined) {
+        presetSize = ' presetSize'
+    } else {
+        presetSize = ''
+    }
 
     const likeHandler = () => {
         //TODO add to user's likes
@@ -46,7 +54,7 @@ const InlinePost = (props) => {
     }
 
     return (
-            <div className='contents'>
+            <div className={`contents${presetSize}`}>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments} post={post}/>

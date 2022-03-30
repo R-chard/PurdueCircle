@@ -3,9 +3,11 @@ import SearchBar from "../components/SearchBar"
 
 import '../styles/Home.css'
 import InlinePost from "../components/InlinePost"
+import { Button, ButtonBlue, ButtonTwoColor } from '../components/Button'
 
 const Home = () => {
     const [data, setData] = useState(null)
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         //replace with api
@@ -38,6 +40,25 @@ const Home = () => {
         //replace with api
     
     }, [])
+
+    const prevHandler = () => {
+        console.log('prev')
+        setPage(page - 1)
+    }
+
+    const nextHandler = () => {
+        console.log('next')
+        setPage(page + 1)
+    }
+
+    //disables previous button if at start
+    const prevEnabled = () => {
+        if (page === 1) {
+                return <ButtonTwoColor text='Previous' className={'secondary disabled'}/>
+        } else {
+            return <ButtonTwoColor onClick={prevHandler} text='Previous' className={'primary'}/>
+        }
+    }
     
     return (
         <div className="contents home">
@@ -47,9 +68,13 @@ const Home = () => {
             <div className="container postView">
                 {data && (data.posts.length === 0 ? <div>There are no posts to show </div> : (
                     data.posts.map(post => (
-                        <InlinePost key={post._id} post={post}/>
+                        <InlinePost key={post._id} post={post} presetSize={false}/>
                     )))
                 )}
+                <div className="footer">
+                    {prevEnabled()}
+                    <Button onClick={nextHandler} text='Next'/>
+                </div>
             </div>
         </div>
     )

@@ -6,10 +6,12 @@
 
 .contents.home .container.postView {
     margin: 20px 0px;
+    width: clamp(270px, 100%, 550px);
+
 }
 
 .contents.home .searchBar {
-    width: clamp(280px, 50%, 500px);
+    width: clamp(270px, 100%, 550px);
 }
 
 .contents.home .css-1s2u09g-control, 
@@ -18,4 +20,10 @@
     background-color: var(--bg-field) !important;
     cursor: text !important;
     color: var(--text) !important;
+}
+
+.contents.home .footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }

@@ -104,7 +104,7 @@ const PostView = () => {
 
     return (
         post && (<div className='container postView'>
-            <div className='contents'>
+            <div className='contents presetSize'>
                 <div className='userInfo'>
                     <div>
                         <Link to ={"/profile/" + post.author.username}>

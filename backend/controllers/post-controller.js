@@ -220,6 +220,72 @@ const postById = async(req,res,next) => {
     res.status(200).json({post})
 }
 
+const fetchRecentPosts = async(req,res,next) => {
+    let pastPosts = [];
+    let followed = [];
+    let topics = [];
+    const userID = req.session.userID;
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    //adds followed users into followed
+    try {
+        //currUser = await User.findById(userID);
+        for (let i = 0; i < currUser.users_followed.length; i++) {
+            tempFollowed = await User.findById(currUser.users_followed[i]);
+            followed.push(tempFollowed)
+        }
+    } catch (error) {
+        return next(error);
+    }
+
+    //adds posts of followed users into pastposts
+    try {
+        
+        for (let i = 0; i < followed.length; i++) {
+            tempPost = await Post.findById(followed[i].posts);
+            pastPosts.push(tempPost)
+        }
+    } catch (error) {
+        return next(error);
+    }
+
+    //adds all topics followed into topics array
+    try {
+        
+        for (let i = 0; i < currUser.topics_followed.length; i++) {
+            tempTopics = await Topic.findById(currUser.topics_followed[i]);
+            topics.push(tempTopics)
+        }
+    } catch (error) {
+        return next(error);
+    }
+    
+    //adds all posts from topics into post array
+    try {
+        
+        for (let i = 0; i < topics.length; i++) {
+            for (let j = 0; j < topics[i].posts.length; i++) {
+                tempPost = await Post.findById(topics[i].posts[j]);
+                pastPosts.push(tempPost)
+            }
+            
+        }
+    } catch (error) {
+        return next(error);
+    }
+    pastPosts.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.date) - new Date(a.date);
+      });
+
+    res.status(200).json({pastPosts});
+}
 exports.create = create
 exports.like = like
 exports.unlike = unlike
@@ -227,3 +293,4 @@ exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts
 exports.postById = postById
+exports.fetchRecentPosts = fetchRecentPosts

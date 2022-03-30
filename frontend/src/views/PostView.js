@@ -31,6 +31,7 @@ const PostView = () => {
             setLikes(response.data.post.likes)
             setNumComments(response.data.post.comments.length)
             setPostedAnon(response.data.post.postedAnon)
+            console.log(response.data.post)
         })
     },[postID,newComment])
 
@@ -128,48 +129,55 @@ const PostView = () => {
                         </Link>}
                         
                     </div>
-                {renderUsername()}
-                <div className='dot'>•</div>
-                <div className='date'>{formatDate(post.datePosted)}</div>
-                <div className='pushRight'>
-                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
+                    {renderUsername()}
+                    <div className='dot'>•</div>
+                    <div className='date'>{formatDate(post.datePosted)}</div>
+                    <div className='pushRight'>
+                        <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
+                    </div>
+                </div>
+                <div className='topics'>
+                    <div className='topicsTitle'>Topics:</div>
+                    {post.topicNames.map((topic) => {
+                        const num = Math.round(Math.random() * 1000000)
+                        return <div key={num}>&nbsp;{topic}</div>
+                    })}
+                </div>
+                <p className='post'>
+                    {post.message}
+                </p>
+                <div className='comments'>
+                    <ul>
+                        {(numComments > 0) ? post.comments.map((comment) => {
+                            
+                            return (
+                                <div key={comment._id} className='postComment'>
+                                    <div className='commentHeader'>
+                                        <div>
+                                            <Link 
+                                                to ={"/profile/" + comment.author.username} 
+                                                style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                                    {comment.author.username}
+                                            </Link>
+                                        </div>
+                                        <div>·</div>
+                                        <div className='date'>{formatDate(comment.datePosted)}</div>
+                                    </div>
+                                    <div>{comment.message}</div>
+                                </div>
+                            )
+                        }) : <div className='commentLabel'>There are no comments yet...</div>}
+                    </ul>
+                    <div className='commentError'>
+                        {hasError('commentField') ? commentError : ''}
+                    </div>
+                    <form className='newComment' onSubmit={handleNewComment}>
+                        <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
+                        <ButtonBlue type='formSubmit' text={'Reply'} />
+                    </form>
                 </div>
             </div>
-            <p className='post'>
-                {post.message}
-            </p>
-            <div className='comments'>
-            <ul>
-                {(numComments > 0) ? post.comments.map((comment) => {
-                    
-                    return (
-                        <div key={comment._id} className='postComment'>
-                            <div className='commentHeader'>
-                            <div>
-                            <Link 
-                                to ={"/profile/" + comment.author.username} 
-                                style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                                    {comment.author.username}
-                            </Link>
-                            </div>
-                                <div>·</div>
-                                <div className='date'>{formatDate(comment.datePosted)}</div>
-                            </div>
-                            <div>{comment.message}</div>
-                        </div>
-                    )
-                }) : <div className='commentLabel'>There are no comments yet...</div>}
-            </ul>
-            <div className='commentError'>
-                {hasError('commentField') ? commentError : ''}
-            </div>
-            <form className='newComment' onSubmit={handleNewComment}>
-                <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
-                <ButtonBlue type='formSubmit' text={'Reply'} />
-            </form>
-            </div>
         </div>
-    </div>
     ))
 } //PostView
 

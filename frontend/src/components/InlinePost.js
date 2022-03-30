@@ -3,6 +3,7 @@ import {Link} from "react-router-dom"
 import axios from "axios"
 
 import '../styles/PostView.css'
+import formatDate from '../utils/formatDate'
 
 const InlinePost = (props) => {
     const { post } = props
@@ -13,7 +14,7 @@ const InlinePost = (props) => {
     const profilePic = post.author.profile_img;
     const authorName = post.postedAnon ? "-----" : post.author.username
     const message = post.message
-    const date = new Date(post.datePosted).toLocaleString('en-us', {month: 'long', day: 'numeric'})
+    const date = formatDate(post.datePosted)
     const numComments = post.comments.length
 
     const [isLiked, setIsLiked] = useState(post.hasLiked)
@@ -58,6 +59,13 @@ const InlinePost = (props) => {
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments} post={post}/>
+                <div className='topics'>
+                    <div className='topicsTitle'>Topics:</div>
+                    {post.topicNames.map((topic) => {
+                        const num = Math.round(Math.random() * 1000000)
+                        return <div key={num}>&nbsp;{topic}</div>
+                    })}
+                </div>
                 
                 <Link 
                 to={"/post/" + post._id}

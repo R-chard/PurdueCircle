@@ -227,7 +227,7 @@ const fetchRecentPosts = async(req,res,next) => {
     const userID = req.session.userID;
 
     try {
-        currUser = await User.findById(userID);
+        currUser = await User.findById("624217aac4de80b0c3af3c67");
     } catch (error) {
         return next(error);
     }
@@ -269,22 +269,26 @@ const fetchRecentPosts = async(req,res,next) => {
     try {
         
         for (let i = 0; i < topics.length; i++) {
-            for (let j = 0; j < topics[i].posts.length; i++) {
+            for (let j = 0; j < topics[i].posts.length; j++) {
                 tempPost = await Post.findById(topics[i].posts[j]);
+                
                 pastPosts.push(tempPost)
+                
             }
             
         }
     } catch (error) {
         return next(error);
     }
-    pastPosts.sort(function(a,b){
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.date) - new Date(a.date);
+    
+   
+    var droppedNull = pastPosts.filter(function (x) {
+        return x != null;
       });
-
-    res.status(200).json({pastPosts});
+    droppedNull.sort(function(a,b){
+        return new Date(b.datePosted) - new Date(a.datePosted)
+      })
+    res.status(200).json({droppedNull});
 }
 exports.create = create
 exports.like = like

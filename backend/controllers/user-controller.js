@@ -309,3 +309,4 @@ exports.getProfile = getProfile
 exports.getUser = getUser
 exports.followUser = followUser
 exports.unfollowUser = unfollowUser
+exports.retrieveInteractions = retrieveInteractions

@@ -38,6 +38,11 @@
     font-weight: bold;
 }
 
+.popup.cornerMenu hr {
+    background-color: var(--light-gray);
+    margin: auto;
+}
+
 .popup.cornerMenu .button:hover {
     background-color: var(--button-bg-hover);
     transition: 100ms;

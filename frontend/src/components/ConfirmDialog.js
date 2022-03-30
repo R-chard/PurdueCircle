@@ -25,8 +25,8 @@ const ConfirmDialog = (props) => {
         <div className='confirm popup'>
             <h3>{title}</h3>
             <div className='buttonContainer'>
-                <Button className='alert' onClick={confirmHandler} text={buttonText} /> 
-                <Button className='cancel' onClick={cancelHandler} text='Cancel' />
+                <Button className='popupAlert' onClick={confirmHandler} text={buttonText} /> 
+                <Button className='popupCancel' onClick={cancelHandler} text='Cancel' />
             </div>
         </div>
     )

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from "axios"
 
-import Divider from "@material-ui/core/Divider";
 import { useHistory } from 'react-router-dom';
 
 import '../styles/SettingsPopup.css'
@@ -75,12 +74,12 @@ const SettingsPopup = (props) => {
                 <button className={`button ${isSelected('colorLight')}`} onClick={() => setUserScheme('colorLight')}>Light</button>
             </div>
             <div className='divider'>
-            <Divider />
+                <hr />
             </div>
             <button className='button' onClick={openProfile}>User Settings</button>
             <button className='button' onClick={logout}>Log out</button> 
             <div className='divider'>
-            <Divider />
+                <hr />
             </div>
             <button className='button cancel' onClick={() => setShowPopup(false)}>Cancel</button>
         </div>

@@ -3,6 +3,7 @@
     cursor: pointer;
     transition: 250ms;
     background-color: var(--bg-sec);
+    line-height: normal;
 }
 
 .button:hover {
@@ -49,7 +50,12 @@
 
 .button.disabled {
     cursor: auto;
-    color: rgb(107, 107, 107);
+    color: rgb(161, 161, 161);
+}
+
+.button.disabled:hover {
+    cursor: auto;
+    background-color: #dfdede;
 }
 
 .link {
@@ -63,17 +69,3 @@
     font-weight: 900;
     transition: 250ms;
 }
-
-/* form submission button, inherits from .button */
-/* input.field.button[type='submit'] {
-    min-width: 50px;
-    width: 100%;
-    background-color: var(--blue);
-
-    font-weight: bolder;
-    color: white;
-}
-
-input.field.button[type='submit']:hover {
-    background-color: var(--blue-hover);
-} */

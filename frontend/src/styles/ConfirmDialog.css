@@ -28,33 +28,8 @@
     justify-content: space-evenly;
 }
 
-.confirm.popup .button {
-    font-weight: bold;
-    /* color: inherit;
-    font-family: inherit;
-    text-align: inherit;
-    width: 100%;
-    margin-top: 1px;
-    padding: 10px 0px 10px 30px;
-    border: none;
-    cursor: pointer;
-    background-color: #ffffff;
-    transition: 100ms;
-    text-decoration: none;
-    font-weight: bold; */
-}
-
-/* .confirm.popup .button:hover {
-    background-color: #ececec;
-    transition: 100ms;
-} */
-
-.confirm.popup .button.alert {
+.confirm.popup .button.popupAlert {
     color: var(--error-red)
-}
-
-.confirm.popup .button.cancel {
-    /* font-weight: lighter; */
 }
 
 .confirm.popup .link {
@@ -69,4 +44,5 @@
     color: var(--text-field);
     font-family: inherit;
     margin: 0;
+    font: inherit;
 }

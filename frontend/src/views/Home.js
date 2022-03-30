@@ -54,9 +54,9 @@ const Home = () => {
     //disables previous button if at start
     const prevEnabled = () => {
         if (page === 1) {
-                return <ButtonTwoColor text='Previous' className={'secondary disabled'}/>
+                return <Button text='Previous' className={'disabled'}/>
         } else {
-            return <ButtonTwoColor onClick={prevHandler} text='Previous' className={'primary'}/>
+            return <Button onClick={prevHandler} text='Previous'/>
         }
     }
     

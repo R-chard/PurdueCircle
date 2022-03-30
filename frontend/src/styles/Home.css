@@ -6,12 +6,11 @@
 
 .contents.home .container.postView {
     margin: 20px 0px;
-    width: clamp(270px, 100%, 550px);
-
+    width: min(100%, 550px);
 }
 
 .contents.home .searchBar {
-    width: clamp(270px, 100%, 550px);
+    width: min(100%, 550px);
 }
 
 .contents.home .css-1s2u09g-control, 

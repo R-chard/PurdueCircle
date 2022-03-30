@@ -227,7 +227,7 @@ const fetchRecentPosts = async(req,res,next) => {
     const userID = req.session.userID;
 
     try {
-        currUser = await User.findById("624217aac4de80b0c3af3c67");
+        currUser = await User.findById(userID);
     } catch (error) {
         return next(error);
     }

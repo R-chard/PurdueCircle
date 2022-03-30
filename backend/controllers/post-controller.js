@@ -85,9 +85,21 @@ const unlike = async(req,res,next) => {
     let post
     try{
         post = await Post.findById(postID)
+        currUser = await User.findById(user)
         const userLikedIndex = post.usersLiked.indexOf(user._id)
         post.usersLiked.splice(userLikedIndex,1)
         post.likes--
+        const intIndex = -1;
+        for (let i = 0; i < currUser.interactions.length; i++) {
+            if (currUser.interactions(i).post == post) {
+                intIndex = i;
+            }    
+        }
+
+        if (intIndex > -1) {
+            currUser.interactions.splice(intIndex, 1)
+        }
+        await currUser.save()
         await post.save()
     } catch(error){
         return next(error)

@@ -11,6 +11,7 @@ router.get("/profile/:username",userController.getProfile)
 router.get("/following/:username",userController.retrieveFollowingUsers)
 router.get("/followers/:username",userController.retrieveFollowedUsers)
 router.get("/topics/:username",userController.retrieveFollowedTopics)
+router.get("/interactions/:username",userController.retrieveInteractions)
 
 router.post("/follow/",validation,userController.followUser)
 router.post("/unfollow/",validation,userController.unfollowUser)

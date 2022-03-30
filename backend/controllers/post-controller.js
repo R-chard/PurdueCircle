@@ -63,9 +63,16 @@ const like = async(req,res,next) => {
     let post
     try{
         post = await Post.findById(postID)
+        currUser = await User.findById(user)
         post.usersLiked.push(user)
         post.likes++
+        currUser.interactions.push({
+            post: post,
+            date: new Date(),
+            type: "like"
+        })
         await post.save()
+        await currUser.save()
     } catch(error){
         return next(error)
     }
@@ -101,8 +108,15 @@ const comment = async(req,res,next)=>{
     // save comment 
     try{
         let post = await Post.findById(postID)
+        let currUser = await User.findById(user)
         post.comments.push(comment)
-        post.save()
+        currUser.interactions.push({
+            post: post,
+            date: new Date(),
+            type: "comment"
+        })
+        await post.save()
+        await currUser.save()
     } catch(error){
         return next(error)
     }

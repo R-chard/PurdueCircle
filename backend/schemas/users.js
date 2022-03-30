@@ -12,7 +12,12 @@ const userSchema = new mongoose.Schema({
     users_followed: [{type:mongoose.Types.ObjectId, ref:"User"}],
     users_following: [{type:mongoose.Types.ObjectId, ref:"User"}],
     posts: [{type:mongoose.Types.ObjectId, ref:"Post"}],
-    saved_posts:[{type:mongoose.Types.ObjectId, ref:"Post"}]
+    saved_posts:[{type:mongoose.Types.ObjectId, ref:"Post"}],
+    interactions:[{
+        post: {type:mongoose.Types.ObjectId, ref:"Post"},
+        date: Date,
+        type: String
+    }]
 })
 
 // Tell mongoDB this is a database schema

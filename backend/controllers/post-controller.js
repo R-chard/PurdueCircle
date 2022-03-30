@@ -67,7 +67,7 @@ const like = async(req,res,next) => {
         post.usersLiked.push(user)
         post.likes++
         currUser.interactions.push({
-            post: postID,
+            post: post,
             date: new Date(),
             type: "like"
         })
@@ -91,7 +91,7 @@ const unlike = async(req,res,next) => {
         post.likes--
         const intIndex = -1;
         for (let i = 0; i < currUser.interactions.length; i++) {
-            if (currUser.interactions(i).post == postID) {
+            if (currUser.interactions(i).post == post) {
                 intIndex = i;
             }    
         }
@@ -123,7 +123,7 @@ const comment = async(req,res,next)=>{
         let currUser = await User.findById(user)
         post.comments.push(comment)
         currUser.interactions.push({
-            post: postID,
+            post: post,
             date: new Date(),
             type: "comment"
         })
@@ -287,8 +287,24 @@ const fetchRecentPosts = async(req,res,next) => {
       });
     droppedNull.sort(function(a,b){
         return new Date(b.datePosted) - new Date(a.datePosted)
-      })
-    res.status(200).json({droppedNull});
+      }
+    )
+
+    
+    let authorList = []
+    try {
+        
+        for (let i = 0; i < droppedNull.length; i++) {
+            let tempUser = await User.findById(droppedNull[i].author);
+            let name = tempUser.username;
+            let img = tempUser.profile_img;
+            let tuple = [name, img];
+            authorList.push(tuple);
+        }
+    } catch (error) {
+        return next(error);
+    }
+    res.status(200).json({authorList, droppedNull});
 }
 exports.create = create
 exports.like = like

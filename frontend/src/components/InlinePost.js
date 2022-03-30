@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import {Link} from "react-router-dom"
 import axios from "axios"
 
 import '../styles/PostView.css'
 
 const InlinePost = (props) => {
     const { post } = props
+    let { presetSize } = props
 
     // console.log("post: ", post);
 
@@ -17,7 +19,13 @@ const InlinePost = (props) => {
     const [isLiked, setIsLiked] = useState(post.hasLiked)
     const [likes, setLikes] = useState(post.likes)
 
-    //sends update likes
+    //if unspecified, uses preset size in PostView.css, otherwise uses that specified in another CSS
+    if (presetSize === undefined) {
+        presetSize = ' presetSize'
+    } else {
+        presetSize = ''
+    }
+
     const likeHandler = () => {
         //TODO add to user's likes
         //TODO send to backend
@@ -46,33 +54,48 @@ const InlinePost = (props) => {
     }
 
     return (
-        // <div className='contaiasfdner postasdfView'>
-            <div className='contents'>
+            <div className={`contents${presetSize}`}>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
-                    likeHandler={likeHandler} numComments={numComments}/>
-                <p className='post'>
+                    likeHandler={likeHandler} numComments={numComments} post={post}/>
+                
+                <Link 
+                to={"/post/" + post._id}
+                style={{ color: 'inherit', textDecoration: 'inherit'}} className='post'>
+                    <p>
                     {message}
-                </p>
+                    </p>
+                </Link>
             </div>
-        // </div>
     )
 } //PostView
 
 const PostMetadata = (props) => {
-    const { authorName, profilePic, date, likes, likeHandler, liked, isLiked, numComments } = props
+    const { authorName, profilePic, date, likes, likeHandler, liked, isLiked, numComments, post } = props
 
     return (
         <div className='userInfo'>
-            <div>
+
+                <Link to ={"/profile/" + authorName}>
                 <img className='profilePic'
                     src={profilePic}
                     alt="profile"
                 />
-            </div>
+                </Link>
+
+            <Link
+                to ={"/profile/" + authorName} 
+                style={{ color: 'inherit', textDecoration: 'inherit'}}
+            >
             <div className='author'>{authorName}</div>
+            </Link>
+            
             <div className='dot'>•</div>
-            <div className='date'>{date}</div>
+            <Link 
+                to={"/post/" + post._id}
+                style={{ color: 'inherit', textDecoration: 'inherit'}} className='date'>
+                {date}
+            </Link>
             <div className='pushRight'>
                 <div className='likeButton'>
                     {likes}
@@ -80,7 +103,7 @@ const PostMetadata = (props) => {
                         {isLiked ? <img src='/likedIcon.png' alt='pic'/> : <img src='/unlikedIcon.png' alt='pic'/>}
                     </button>
                 </div>
-                <div className='numComments'>{numComments} comments</div>
+                <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>
             </div>
         </div>
     )

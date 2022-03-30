@@ -168,9 +168,36 @@ const retrieveFollowedPosts = async(req,res,next) => {
     res.status(200).json({pastPosts});
 
 }
+
+const postById = async(req,res,next) => {
+    const postID = req.params.postID
+    const userID = req.session.userID
+    let post
+    try{
+        post = (await Post.findById(postID).populate(["comments", 
+        {
+            path:"author",
+            select:"username profile_img",
+        },{
+            path:"comments.author",
+            select: "username profile_img"
+        }])).toObject()
+        post.hasLiked = false
+        for (let likedUsersID of post.usersLiked){
+            if (likedUsersID.toString() === userID){
+                post.hasLiked = true
+            }
+        }
+    } catch(error){
+        return next(error)
+    }
+    res.status(200).json({post})
+}
+
 exports.create = create
 exports.like = like
 exports.unlike = unlike
 exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts
+exports.postById = postById

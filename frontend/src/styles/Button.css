@@ -47,6 +47,11 @@
     background-color: #cfcfcf;
 }
 
+.button.disabled {
+    cursor: auto;
+    color: rgb(107, 107, 107);
+}
+
 .link {
     color: var(--blue);
     transition: 250ms;

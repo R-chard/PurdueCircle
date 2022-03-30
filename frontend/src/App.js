@@ -72,7 +72,7 @@ const App = () => {
                         <PrivateRoute component={CreatePost}/>
                     </Route>
 
-                    <Route exact path='/post'>
+                    <Route path='/post'>
                         <PrivateRoute component={PostView} />
                     </Route>
 

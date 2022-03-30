@@ -17,7 +17,6 @@ const PostView = () => {
     const [isLiked, setIsLiked] = useState(false)
     const [likes, setLikes] = useState(0)
     const [newComment,setNewComment] = useState("")
-    const [numComments, setNumComments] = useState(0)
     
     useEffect(()=>{
         
@@ -28,7 +27,6 @@ const PostView = () => {
             setPost(response.data.post)
             setIsLiked(response.data.post.hasLiked)
             setLikes(response.data.post.likes)
-            setNumComments(response.data.post.comments.length)
         })
     },[postID,newComment])
 
@@ -65,8 +63,6 @@ const PostView = () => {
 
         if (newComment.length === 0) {
             setCommentError('Enter a comment')
-        } else if (newComment.length > 250) {
-            setCommentError('Comment must be less than 250 characters')
         } else {
             axios.post("/api/post/comment",{
                 postID:post._id,
@@ -87,9 +83,6 @@ const PostView = () => {
                 if (commentError === 'Enter a comment') {
                     return 'fieldError'
                 }
-                if (commentError === 'Comment must be less than 250 characters') {
-                    return 'fieldError'
-                }
                 break;
             default:
                 break;
@@ -104,7 +97,7 @@ const PostView = () => {
 
     return (
         post && (<div className='container postView'>
-            <div className='contents presetSize'>
+            <div className='contents'>
                 <div className='userInfo'>
                     <div>
                         <Link to ={"/profile/" + post.author.username}>
@@ -117,7 +110,7 @@ const PostView = () => {
                 <div className='dot'>•</div>
                 <div className='date'>{formatDate(post.datePosted)}</div>
                 <div className='pushRight'>
-                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
+                    <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} likes`} />
                 </div>
             </div>
             <p className='post'>
@@ -125,14 +118,14 @@ const PostView = () => {
             </p>
             <div className='comments'>
             <ul>
-                {(numComments > 0) ? post.comments.map((comment) => {
+                {post.comments.map((comment) => {
                     
                     return (
                         <div key={comment._id} className='postComment'>
                             <div className='commentHeader'>
                             <div>
                             <Link 
-                                to ={"/profile/" + comment.author.username} 
+                                to ={"/profile/" + post.author.username} 
                                 style={{ color: 'inherit', textDecoration: 'inherit'}}>
                                     {comment.author.username}
                             </Link>
@@ -143,11 +136,8 @@ const PostView = () => {
                             <div>{comment.message}</div>
                         </div>
                     )
-                }) : <div className='commentLabel'>There are no comments yet...</div>}
+                })}
             </ul>
-            <div className='commentError'>
-                {hasError('commentField') ? commentError : ''}
-            </div>
             <form className='newComment' onSubmit={handleNewComment}>
                 <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
                 <ButtonBlue type='formSubmit' text={'Reply'} />

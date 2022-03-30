@@ -135,6 +135,10 @@
     color: var(--placeholder);
 }
 
+.container.postView .commentError {
+    color: var(--red);
+}
+
 .container.postView .commentHeader {
     display: flex;
 }

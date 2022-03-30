@@ -65,6 +65,8 @@ const PostView = () => {
 
         if (newComment.length === 0) {
             setCommentError('Enter a comment')
+        } else if (newComment.length > 250) {
+            setCommentError('Comment must be less than 250 characters')
         } else {
             axios.post("/api/post/comment",{
                 postID:post._id,
@@ -83,6 +85,9 @@ const PostView = () => {
         switch (input) {
             case 'commentField':
                 if (commentError === 'Enter a comment') {
+                    return 'fieldError'
+                }
+                if (commentError === 'Comment must be less than 250 characters') {
                     return 'fieldError'
                 }
                 break;
@@ -140,6 +145,9 @@ const PostView = () => {
                     )
                 }) : <div className='commentLabel'>There are no comments yet...</div>}
             </ul>
+            <div className='commentError'>
+                {hasError('commentField') ? commentError : ''}
+            </div>
             <form className='newComment' onSubmit={handleNewComment}>
                 <Field className={`multiLine ${hasError('commentField')} comment`} rows={3} value={newComment} onChange={commentFieldHandler} placeholder={'Add a comment'} focus={false}/>
                 <ButtonBlue type='formSubmit' text={'Reply'} />

@@ -1,9 +1,0 @@
-.contents.profile .timeline {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.contents.profile .post {
-    width: 30%;
-}

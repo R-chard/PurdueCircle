@@ -354,10 +354,16 @@ const unfollowUser = async(req,res,next) => {
 
     if(!repeatedUnfollow){
         const followingUserIndex = user.users_following.indexOf(otherUserID)
+        if(followingUserIndex === -1){
+            return new Error("Unexpected missing otherUser from the user's following list")
+        }
         user.users_following.splice(followingUserIndex,1)
         user.save()
 
         const selfIndex = otherUser.users_followed.indexOf(userID)
+        if(selfIndex === -1){
+            return new Error("Unexpected missing user from the otherUser's following list")
+        }
         otherUser.users_followed.splice(selfIndex,1)
         otherUser.save()
 

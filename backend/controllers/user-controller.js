@@ -179,7 +179,8 @@ const retrieveInteractions = async (req, res, next) => {
 const getProfile = async(req,res,next)=>{
     const currUserID = req.session.userID
     const username = req.params.username
-      
+    
+    let postObjects = []
     let reqUser
     try{
         reqUser = await User.findOne({username})
@@ -187,6 +188,11 @@ const getProfile = async(req,res,next)=>{
         // user does not exist
         if(!reqUser){
             res.status(404).json({isFound:false})
+        }
+
+        for (let i = 0; i < reqUser.posts.length; i++) {
+            tempPost = await Post.findById(reqUser.posts[i])
+            postObjects.push(tempPost)
         }
         
         if(currUserID){
@@ -207,7 +213,10 @@ const getProfile = async(req,res,next)=>{
     } catch (err){
         return next(err)
     }
-    res.status(200).json({reqUser})
+    res.status(200).json({
+        user: reqUser,
+        posts: postObjects
+    })
 }
 
 const getUser = async (req,res,next) => {

@@ -32,14 +32,16 @@ const Profile = (props) => {
         .then(response=>{
             console.log("profile data", response.data)
             setData(response.data.user)
+            const posts = response.data.posts
+            const intr = response.data.interactions
             setTabContent([
                 {
                     title: "Posts",
-                    content: response.data.posts
+                    content: posts
                 },
                 {
                     title: "Interactions",
-                    content: []
+                    content: intr
                 }
             ])
         })

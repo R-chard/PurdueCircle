@@ -138,10 +138,16 @@ const PostView = () => {
                 </div>
                 <div className='topics'>
                     <div className='topicsTitle'>Topics:</div>
-                    {post.topicNames.map((topic) => {
-                        const num = Math.round(Math.random() * 1000000)
-                        return <div key={num}>&nbsp;{topic}</div>
-                    })}
+                    {post.topicNames.length === 0 ? <div>&nbsp;No topics.</div> : (
+                        post.topicNames.map((topic, i) => {
+                            const num = Math.round(Math.random() * 1000000)
+                            if (i === 0) {
+                                return <div key={num}>&nbsp;{topic}</div>
+                            } else {
+                            return <div key={num}>,&nbsp;{topic}</div>
+                            }
+                        })
+                    )}
                 </div>
                 <p className='post'>
                     {post.message}

@@ -16,6 +16,7 @@ const InlinePost = (props) => {
     const message = post.message
     const date = formatDate(post.datePosted)
     const numComments = post.comments.length
+    const topics = post.topicNames
 
     const [isLiked, setIsLiked] = useState(post.hasLiked)
     const [likes, setLikes] = useState(post.likes)
@@ -61,10 +62,16 @@ const InlinePost = (props) => {
                     likeHandler={likeHandler} numComments={numComments} post={post}/>
                 <div className='topics'>
                     <div className='topicsTitle'>Topics:</div>
-                    {post.topicNames.map((topic) => {
-                        const num = Math.round(Math.random() * 1000000)
-                        return <div key={num}>&nbsp;{topic}</div>
-                    })}
+                    {topics.length === 0 ? <div>&nbsp;No topics.</div> : (
+                        topics.map((topic, i) => {
+                            const num = Math.round(Math.random() * 1000000)
+                            if (i === 0) {
+                                return <div key={num}>&nbsp;{topic}</div>
+                            } else {
+                            return <div key={num}>,&nbsp;{topic}</div>
+                            }
+                        })
+                    )}
                 </div>
                 
                 <Link 

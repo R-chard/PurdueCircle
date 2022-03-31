@@ -66,11 +66,12 @@ const like = async(req,res,next) => {
         currUser = await User.findById(user)
         post.usersLiked.push(user)
         post.likes++
-        currUser.interactions.push({
-            post: post,
+        const inter = {
+            post: postID,
             date: new Date(),
-            type: "like"
-        })
+            interactionType: "like"
+        }
+        currUser.interactions.push(inter)
         await post.save()
         await currUser.save()
     } catch(error){
@@ -91,7 +92,7 @@ const unlike = async(req,res,next) => {
         post.likes--
         const intIndex = -1;
         for (let i = 0; i < currUser.interactions.length; i++) {
-            if (currUser.interactions(i).post == post) {
+            if (currUser.interactions[i].post == postID) {
                 intIndex = i;
             }    
         }
@@ -122,11 +123,12 @@ const comment = async(req,res,next)=>{
         let post = await Post.findById(postID)
         let currUser = await User.findById(user)
         post.comments.push(comment)
-        currUser.interactions.push({
-            post: post,
+        const inter = {
+            post: postID,
             date: new Date(),
-            type: "comment"
-        })
+            interactionType: "comment"
+        }
+        currUser.interactions.push(inter)
         await post.save()
         await currUser.save()
     } catch(error){

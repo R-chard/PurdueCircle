@@ -182,6 +182,9 @@ const getProfile = async(req,res,next)=>{
     
     let postObjects = []
     let reqUser
+    let interactions
+    let intUserObjects = []
+    
     try{
         reqUser = await User.findOne({username})
         reqUser = reqUser.toObject()
@@ -189,10 +192,23 @@ const getProfile = async(req,res,next)=>{
         if(!reqUser){
             res.status(404).json({isFound:false})
         }
+        interactions = currUser.interactions;
 
         for (let i = 0; i < reqUser.posts.length; i++) {
             tempPost = await Post.findById(reqUser.posts[i])
             postObjects.push(tempPost)
+        }
+
+        let intUserObjects = []; 
+        for (let i = 0; i < interactions.length; i++) {
+            tempPost = await Post.findById(interactions[i].post);
+            if (tempPost){
+                intUserObjects.push({
+                post: tempPost,
+                date: interactions[i].date,
+                type: interactions[i].interactionType
+                })
+            }
         }
         
         if(currUserID){
@@ -215,7 +231,8 @@ const getProfile = async(req,res,next)=>{
     }
     res.status(200).json({
         user: reqUser,
-        posts: postObjects
+        posts: postObjects,
+        interactions: intUserObjects 
     })
 }
 

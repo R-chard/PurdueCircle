@@ -34,6 +34,7 @@ const Profile = (props) => {
             setData(response.data.user)
             const posts = response.data.posts
             const intr = response.data.interactions
+            
             setTabContent([
                 {
                     title: "Posts",

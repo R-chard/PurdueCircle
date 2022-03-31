@@ -204,14 +204,14 @@ const getProfile = async(req,res,next)=>{
             post.author.profile_img = author.profile_img
             postObjects.push(post)
         }
-        
+
         for (let i = 0; i < interactions.length; i++) {
             tempPost = await Post.findById(interactions[i].post);
             if (tempPost){
                 intUserObjects.push({
                 post: tempPost,
                 date: interactions[i].date,
-                type: interactions[i].interactionType
+                interactionType: interactions[i].interactionType
                 })
             }
         }

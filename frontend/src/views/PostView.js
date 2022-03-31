@@ -19,6 +19,7 @@ const PostView = () => {
     const [newComment,setNewComment] = useState("")
     const [numComments, setNumComments] = useState(0)
     const [postedAnon, setPostedAnon] = useState(false)
+    const [updatedPost, setUpdatedPost] = useState(false)
     
     useEffect(()=>{
         
@@ -33,7 +34,7 @@ const PostView = () => {
             setPostedAnon(response.data.post.postedAnon)
             console.log(response.data.post)
         })
-    },[postID])
+    },[postID, updatedPost])
 
 
     const likeHandler = () => {
@@ -77,8 +78,10 @@ const PostView = () => {
             },{
                 withCredentials: true, credentials:"include"
             }).then(response=>{
+                console.log("comment res", response)
                 if (response.data.success){
                     setNewComment("")
+                    setUpdatedPost(updatedPost ? false : true)
                 }})
         }
     }

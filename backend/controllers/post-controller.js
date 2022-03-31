@@ -227,7 +227,7 @@ const fetchRecentPosts = async(req,res,next) => {
     const userID = req.session.userID;
 
     try {
-        currUser = await User.findById("624217aac4de80b0c3af3c67");
+        currUser = await User.findById(userID);
     } catch (error) {
         return next(error);
     }
@@ -304,8 +304,16 @@ const fetchRecentPosts = async(req,res,next) => {
     } catch (error) {
         return next(error);
     }
-    let arr3 = authorList.map((item, i) => Object.assign({}, item, droppedNull[i]));
-    res.status(200).json({arr3});
+    
+    finalList = []
+    for (let i = 0; i < authorList.length; i++) {
+        finalList.push({
+            username: authorList[i][0],
+            img_path: authorList[i][0],
+            post: droppedNull[i]
+         })
+    }
+    res.status(200).json({finalList});
 
 }
 exports.create = create

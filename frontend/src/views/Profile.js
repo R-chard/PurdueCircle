@@ -21,7 +21,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             console.log("profile data", response.data)
-            setData(response.data.reqUser)
+            setData(response.data.user)
         })
 
         //replace with api
@@ -47,7 +47,7 @@ const Profile = (props) => {
         likes: 10, datePosted: new Date("2022-03-05T22:11:12.129+00:00"), 
             comments: objCommentsArray2, topicNames: ["posts", "society"], hasLiked: false }
 
-        const post3 = { ...post2, _id: 239487123}
+        const post3 = { ...post2, _id: 239487123, topicNames: []}
         const post4 = { ...post2, _id: 321847134}
         
         setTabContent([

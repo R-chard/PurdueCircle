@@ -125,6 +125,14 @@
     border-color: var(--border);
 }
 
+.container.postView .topics {
+    display: flex;
+}
+
+.container.postView .topicsTitle {
+    font-weight: bold;
+}
+
 .container.postView .postComment {
     padding: 5px 0px;
 }

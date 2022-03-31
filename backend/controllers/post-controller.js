@@ -175,8 +175,8 @@ const retrieveFollowedPosts = async(req,res,next) => {
 
     try {
         //currUser = await User.findById(userID);
-        for (let i = 0; i < currUser.users_followed.length; i++) {
-            tempFollowed = await User.findById(currUser.users_followed[i]);
+        for (let i = 0; i < currUser.users_following.length; i++) {
+            tempFollowed = await User.findById(currUser.users_following[i]);
             followed.push(tempFollowed)
         }
     } catch (error) {
@@ -186,8 +186,11 @@ const retrieveFollowedPosts = async(req,res,next) => {
     try {
         //currUser = await User.findById(userID);
         for (let i = 0; i < followed.length; i++) {
-            tempPost = await Post.findById(followed[i].posts);
-            pastPosts.push(tempPost)
+            for (let j = 0; j < followed[i].posts.length; j++){
+                tempPost = await Post.findById(followed[i].posts[j]);
+                pastPosts.push(tempPost)
+            }
+            
         }
     } catch (error) {
         return next(error);

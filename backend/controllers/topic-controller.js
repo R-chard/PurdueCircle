@@ -48,7 +48,13 @@ const getPostsByTopic = async(req,res,next) => {
 
         for(let postID of topic.posts){
             let post = await Post.findById(postID)
+            if(!post){
+                continue
+            }
             const author = await User.findById(post.author)
+            if(!author){
+                continue
+            }
             post = post.toObject()
             post.author = {}
             post.author.username = author.username

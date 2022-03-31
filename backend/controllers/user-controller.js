@@ -196,7 +196,13 @@ const getProfile = async(req,res,next)=>{
 
         for (let i = 0; i < reqUser.posts.length; i++) {
             tempPost = await Post.findById(reqUser.posts[i])
-            postObjects.push(tempPost)
+            let post = tempPost
+            const author = await User.findById(post.author)
+            post = post.toObject()
+            post.author = {}
+            post.author.username = author.username
+            post.author.profile_img = author.profile_img
+            postObjects.push(post)
         }
 
         let intUserObjects = []; 

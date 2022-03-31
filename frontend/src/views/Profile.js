@@ -150,13 +150,11 @@ const Profile = (props) => {
                             {tab.content.length === 0 ? <div>There are no posts to show </div> : (
                                 tab.interactions ? 
                                     (tab.interactions.map(post => (
-                                        <div style={{}}>
-                                            <InteractionView key={post.post_id} post={post.post} username={data.username} interaction={post}></InteractionView>
-                                        </div>
+                                            <InteractionView key={post.post_id} post={post.post} username={data.username} interaction={post} presetSize={false}></InteractionView>
                                     ))) 
                                     : (tab.content.map(post => (
                                         <div className="container postView">
-                                            <InlinePost key={post._id} post={post}/>
+                                            <InlinePost key={post._id} post={post} presetSize={false}/>
                                         </div>
                                     )))
                                 )

@@ -44,8 +44,8 @@ const Home = () => {
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
-            console.log(response.data.droppedNull)
-            setData({ posts: response.data.droppedNull })
+            console.log("home data", response.data.finalList)
+            setData({ posts: response.data.finalList })
         })
     }, [])
 

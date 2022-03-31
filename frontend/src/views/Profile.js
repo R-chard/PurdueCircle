@@ -33,19 +33,17 @@ const Profile = (props) => {
         .then(response=>{
             console.log("profile data", response.data)
             setData(response.data.user)
+            setTabContent([
+                {
+                    title: "Posts",
+                    content: response.data.user.posts
+                },
+                {
+                    title: "Interactions",
+                    content: response.data.user.interactions
+                }
+            ])
         })
-        
-        setTabContent([
-            {
-                title: "Posts",
-                content: []
-            },
-            {
-                title: "Interactions",
-                content: []
-            }
-        ])
-    //replace with api
     },[location.pathname,refresh])
 
 

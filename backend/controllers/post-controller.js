@@ -90,9 +90,9 @@ const unlike = async(req,res,next) => {
         const userLikedIndex = post.usersLiked.indexOf(user._id)
         post.usersLiked.splice(userLikedIndex,1)
         post.likes--
-        const intIndex = -1;
+        let intIndex = -1;
         for (let i = 0; i < currUser.interactions.length; i++) {
-            if (currUser.interactions(i).post == postID) {
+            if (currUser.interactions[i].post == postID) {
                 intIndex = i;
             }    
         }

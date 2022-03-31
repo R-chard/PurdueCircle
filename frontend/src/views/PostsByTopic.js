@@ -1,22 +1,28 @@
 import axios from "axios"
 import React,{ useState,useEffect } from "react"
-import {Button, ButtonBlue} from "../components/Button"
+import {ButtonTwoColor} from "../components/Button"
 import {useLocation, Link} from "react-router-dom"
 
 import InlinePost from "../components/InlinePost"
 
 const PostsByTopic = () => {
-    const [data,setData] = useState(null)
+    const [data,setData] = useState(null);
+    const [followed, setFollowed] = useState(0);
     const location = useLocation() 
     const title = location.pathname.split("/")[2]
 
     useEffect(()=>{
         axios.get("/api/topic/getposts/" + title,{
             withCredentials: true, credentials:"include"
-          }).then((response)=>{console.log(response.data.data);setData(response.data.data)})
+          }).then((response)=>{
+              console.log(response.data.data);
+              setData(response.data.data)
+              setFollowed(response.data.data.following)
+            })
     },[location.pathname,title])
 
     const followHandler =() => {
+        setFollowed(true);
         axios.post("/api/topic/follow",{
             title
         },{
@@ -24,11 +30,12 @@ const PostsByTopic = () => {
         })
         .then(response=>{
             if(response.data.success){
-                alert("Followed " + title)
+                //alert("Followed " + title)
         }})
     }
     
     const unfollowHandler =() =>{
+        setFollowed(false)
         axios.post("/api/topic/unfollow",{
             title
         },{
@@ -36,14 +43,10 @@ const PostsByTopic = () => {
         })
         .then(response=>{
             if(response.data.success){
-                alert("Unfollowed " + title)
+                //alert("Unfollowed " + title)
         }})
     }
-    const renderFollowButton = () => {
-        if(data.following)
-            return ( <Button text={"Unfollow"} onClick={()=>{unfollowHandler()}}></Button>)
-        return (<ButtonBlue text={"Follow"} onClick={()=>{followHandler()}}></ButtonBlue>)
-    }
+
     // TODO: check data.following. Null means no buttons. True = should have unfollow. False = should have follow
     return(
         // TODO: pass data as props into post components
@@ -52,7 +55,7 @@ const PostsByTopic = () => {
             <div style={{display:"flex", justifyContent:"space-around", margin:"5px px", height:"20%"}}>
                         <h1>{title}</h1>
                         <div style={{margin: "5px 10px"}}>
-                            {renderFollowButton()}
+                            <ButtonTwoColor className={`button ${followed ? "secondary" : "primary"}`} text={followed ? 'Unfollow' : "Follow"} onClick={()=>{followed ? unfollowHandler() : followHandler()}}/>
                         </div>     
             </div>   
         {(data.posts.length === 0 ? <div>There are no posts with the topic "{title}" </div> : (

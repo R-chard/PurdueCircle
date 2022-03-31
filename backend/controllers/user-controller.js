@@ -180,60 +180,45 @@ const getProfile = async(req,res,next)=>{
     const currUserID = req.session.userID
     const username = req.params.username
     
-    let postObjects = []
     let reqUser
-    let interactions
-    let intUserObjects = []
+    let currUser
     
     try{
-        reqUser = await User.findOne({username})
-        reqUser = reqUser.toObject()
+
+        // user is logged in
+        if(currUserID){
+            reqUser = await User.findOne({username}).populate("posts interactions")
+            currUser = await User.findById(currUserID)
+            
+        } else{
+            reqUser = await User.findOne({username})
+        }
+        
         // user does not exist
         if(!reqUser){
             res.status(404).json({isFound:false})
-        }
-        interactions = currUser.interactions;
-
-        for (let i = 0; i < reqUser.posts.length; i++) {
-            tempPost = await Post.findById(reqUser.posts[i])
-            postObjects.push(tempPost)
+            return
         }
 
-        let intUserObjects = []; 
-        for (let i = 0; i < interactions.length; i++) {
-            tempPost = await Post.findById(interactions[i].post);
-            if (tempPost){
-                intUserObjects.push({
-                post: tempPost,
-                date: interactions[i].date,
-                type: interactions[i].interactionType
-                })
-            }
-        }
-        
+        reqUser = reqUser.toObject()
         if(currUserID){
-            if(currUserID == reqUser._id){
+            reqUser.loggedIn = true
+            if (currUserID == reqUser._id){
                 reqUser.selfProfile = true
-            // if the user is logged in and looking at someone else's account
             } else{
-                if (reqUser.users_following.includes(currUserID)){
-                    // current user is following the selected user
-                    reqUser.following = true
-                } else{
-                    // current user is not following the selected user
-                    reqUser.following = false
+                // current user is not following the selected user
+                reqUser.following = false
+                for (let user of reqUser.users_followed){
+                    if (user.toString() === currUserID){
+                        reqUser.following = true
+                    }
                 }
             }
-            
         }
     } catch (err){
         return next(err)
     }
-    res.status(200).json({
-        user: reqUser,
-        posts: postObjects,
-        interactions: intUserObjects 
-    })
+    res.status(200).json({user:reqUser})
 }
 
 const getUser = async (req,res,next) => {
@@ -287,10 +272,10 @@ const followUser = async(req,res,next) => {
         return
     }
 
-    user.users_followed.push(otherUserID)
+    user.users_following.push(otherUserID)
     user.save()
 
-    otherUser.users_following.push(userID)
+    otherUser.users_followed.push(userID)
     otherUser.save()
 
     res.status(200).json({success:true})
@@ -315,12 +300,12 @@ const unfollowUser = async(req,res,next) => {
         return
     }
 
-    const followedUserIndex = user.users_followed.indexOf(otherUserID)
-    user.users_followed.splice(followedUserIndex,1)
+    const followingUserIndex = user.users_following.indexOf(otherUserID)
+    user.users_following.splice(followingUserIndex,1)
     user.save()
 
-    const selfIndex = otherUser.users_following.indexOf(userID)
-    otherUser.users_following.splice(selfIndex,1)
+    const selfIndex = otherUser.users_followed.indexOf(userID)
+    otherUser.users_followed.splice(selfIndex,1)
     otherUser.save()
 
     res.status(200).json({success:true})

@@ -11,6 +11,7 @@ const Profile = (props) => {
     const history = useHistory()
     const [data, setData] = useState(null)
     const [tabContent, setTabContent] = useState([])
+    const [refresh,setRefresh] = useState(false)
     const [followed, setFollowed] = useState(null);
     const [followedHandler, setFollowedHandler] = useState(null);
     
@@ -61,7 +62,7 @@ const Profile = (props) => {
             }
         ])
     //replace with api
-    },[location.pathname])
+    },[location.pathname,refresh])
 
 
     const followHandler =() => {
@@ -72,7 +73,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             if(response.data.success){
-                alert("Followed " + data.username)
+                setRefresh(!refresh)
         }}
         )
     }
@@ -85,7 +86,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             if(response.data.success){
-                alert("Unfollowed " + data.username)
+                setRefresh(!refresh)
         }}
         )
     }

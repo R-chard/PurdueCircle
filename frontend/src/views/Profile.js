@@ -20,7 +20,7 @@ const Profile = (props) => {
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
-            console.log(response.data)
+            console.log("profile data", response.data)
             setData(response.data.reqUser)
         })
 
@@ -38,14 +38,14 @@ const Profile = (props) => {
         const objProfilePic = "https://imageio.forbes.com/specials-images/imageserve/5fe74d45a9c2a2d204db2948/0x0.jpg?format=jpg&width=1200&fit=bounds";
         const post1 = { _id: 23451234312, author: { username: "jimothy", profile_img: objProfilePic }, postedAnon: false, message: `This is a post with some text that shows how a post with some text can be
         displayed`, likes: 4, datePosted: new Date("2022-02-24T22:11:12.129+00:00"), 
-            comments: objCommentsArray1, topics: ["posts", "society"], hasLiked: true }
+            comments: objCommentsArray1, topicNames: ["posts", "society"], hasLiked: true }
 
         const post2 = { _id: 8973241613, author: { username: "dave", profile_img: objProfilePic }, postedAnon: false, message: `This is a very long post to show how
         a long post would be displayed. This message has been brought to you by Raid Shadow Legeneds. Raid: Shadow Legends is a mobile-fantasy 
         RPG game for mobile and PC developed by Plarium Games. The game takes place in Teleria, which has been subjugated by the Dark Lord 
         Siroth. The player goes through twelve levels in single player mode, with a multiplayer PVP mode deciding player rankings`, 
         likes: 10, datePosted: new Date("2022-03-05T22:11:12.129+00:00"), 
-            comments: objCommentsArray2, topics: ["posts", "society"], hasLiked: false }
+            comments: objCommentsArray2, topicNames: ["posts", "society"], hasLiked: false }
 
         const post3 = { ...post2, _id: 239487123}
         const post4 = { ...post2, _id: 321847134}
@@ -53,7 +53,7 @@ const Profile = (props) => {
         setTabContent([
             {
                 title: "Posts",
-                content: [post1, post2, post2, post2]
+                content: [post1, post2, post3, post4]
             },
             {
                 title: "Interactions",

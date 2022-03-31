@@ -92,7 +92,7 @@ const unlike = async(req,res,next) => {
         post.likes--
         const intIndex = -1;
         for (let i = 0; i < currUser.interactions.length; i++) {
-            if (currUser.interactions(i).post == postID) {
+            if (currUser.interactions[i].post == postID) {
                 intIndex = i;
             }    
         }

@@ -33,7 +33,7 @@ const PostView = () => {
             setPostedAnon(response.data.post.postedAnon)
             console.log(response.data.post)
         })
-    },[postID,newComment])
+    },[postID])
 
 
     const likeHandler = () => {
@@ -102,7 +102,7 @@ const PostView = () => {
     const renderUsername = () => {
         if (postedAnon) {
             return (
-                <div className='author'>------</div>
+                <div className='author'>Anonymous</div>
             )
         } else {
             return (

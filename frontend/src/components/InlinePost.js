@@ -12,7 +12,7 @@ const InlinePost = (props) => {
     // console.log("post: ", post);
 
     const profilePic = post.author.profile_img;
-    const authorName = post.postedAnon ? "-----" : post.author.username
+    const authorName = post.postedAnon ? "Anonymous" : post.author.username
     const message = post.message
     const date = formatDate(post.datePosted)
     const numComments = post.comments.length
@@ -91,7 +91,7 @@ const PostMetadata = (props) => {
     const renderUsername = () => {
         if (post.postedAnon) {
             return (
-                <div className='author'>------</div>
+                <div className='author'>Anonymous</div>
             )
         } else {
             return (

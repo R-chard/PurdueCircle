@@ -204,8 +204,7 @@ const getProfile = async(req,res,next)=>{
             post.author.profile_img = author.profile_img
             postObjects.push(post)
         }
-
-        let intUserObjects = []; 
+        
         for (let i = 0; i < interactions.length; i++) {
             tempPost = await Post.findById(interactions[i].post);
             if (tempPost){

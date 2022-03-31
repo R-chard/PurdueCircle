@@ -30,7 +30,7 @@ const Profile = (props) => {
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
-            console.log(response.data)
+            console.log("profile data", response.data)
             setData(response.data.reqUser)
             setTabContent[0].content(response.data.posts)
         })

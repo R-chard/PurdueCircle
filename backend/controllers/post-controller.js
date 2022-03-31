@@ -286,25 +286,27 @@ const fetchRecentPosts = async(req,res,next) => {
     } catch (error) {
         return next(error);
     }
+
+    let droppedNull = pastPosts.filter(function (x) {
+        return x != null;
+      });
     
     //idk how it works but it removes duplicates and thats all i care about
-    const uniqueSet = new Set(pastPosts.map(post => JSON.stringify(post)))
+    const uniqueSet = new Set(droppedNull.map(post => JSON.stringify(post)))
     const noDuplicates = [...uniqueSet].map((item) => {
         if (typeof item === 'string') return JSON.parse(item);
         else if (typeof item === 'object') return item;
       })
 
     //used to use pastPosts, now noDuplicates
-    var droppedNull = noDuplicates.filter(function (x) {
-        return x != null;
-      });
-    droppedNull.sort(function(a,b){
+    
+    noDuplicates.sort(function(a,b){
         return new Date(b.datePosted) - new Date(a.datePosted)
       }
     )
     let finalList = []
-    for (let i = 0; i < droppedNull.length; i++) {
-        let post = droppedNull[i]
+    for (let i = 0; i < noDuplicates.length; i++) {
+        let post = noDuplicates[i]
         const author = await User.findById(post.author)
         //removed this because removing duplicates makes everything objects or something idk
         // post = post.toObject()

@@ -2,18 +2,19 @@ import React,{ useEffect,useState } from "react"
 import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
-import {Button, ButtonBlue} from "../components/Button"
+import {Button, ButtonBlue, ButtonTwoColor} from "../components/Button"
 import Tab from "../components/Tab"
 import InlinePost from "../components/InlinePost"
 import { useHistory } from 'react-router-dom';
+import { TabPane } from "react-bootstrap"
+import InteractionView from "../components/InteractionView"
 
 const Profile = (props) => {
     const history = useHistory()
     const [data, setData] = useState(null)
     const [refresh,setRefresh] = useState(false)
     const [page, setPage] = useState(1)
-    const [followed, setFollowed] = useState(null);
-    const [followedHandler, setFollowedHandler] = useState(null);
+    const [followed, setFollowed] = useState(0);
     const [tabContent, setTabContent] = useState([
         {
             title: "Posts",
@@ -33,6 +34,7 @@ const Profile = (props) => {
         .then(response=>{
             console.log("profile data", response.data)
             setData(response.data.user)
+            setFollowed(response.data.user.following)
             const posts = response.data.user.posts
             const interactions = response.data.user.interactions
             const intrPosts = [];
@@ -46,7 +48,8 @@ const Profile = (props) => {
                 },
                 {
                     title: "Interactions",
-                    content: intrPosts
+                    content: intrPosts,
+                    interactions: interactions
                 }
             ])
         })
@@ -54,6 +57,7 @@ const Profile = (props) => {
 
 
     const followHandler =() => {
+        setFollowed(true);
         axios.post("/api/user/follow",{
             otherUser: data._id
         },{
@@ -67,6 +71,7 @@ const Profile = (props) => {
     }
     
     const unfollowHandler =() =>{
+        setFollowed(false);
         axios.post("/api/user/unfollow",{
             otherUser: data._id
         },{
@@ -97,14 +102,6 @@ const Profile = (props) => {
         }
     }
 
-    const renderFollowButton = () => {
-        if(data.selfProfile)
-            return (<Button text={"Edit Profile"} onClick={()=>{history.push("/settings")}}></Button>) 
-        else if(data.following)
-            return ( <Button text={"Unfollow"} onClick={()=>{unfollowHandler()}}></Button>)
-        return (<ButtonBlue text={"Follow"} onClick={()=>{followHandler()}}></ButtonBlue>)
-    }
-
     return (
         <div>
             {data && tabContent && (<div className={'contents profile'}>
@@ -127,7 +124,9 @@ const Profile = (props) => {
                     <div style={{display:"flex", justifyContent:"space-around", margin:"5px px", height:"20%"}}>
                         <h1>{data.username}</h1>
                         <div style={{margin: "5px 10px"}}>
-                            {renderFollowButton()}
+                            {data.selfProfile ? <ButtonTwoColor className={`button secondary`} text = "Edit Profile" onClick={()=>{history.push("/settings")}}/>
+                                :<ButtonTwoColor className={`button ${followed ? "secondary" : "primary"}`} text={followed ? 'Unfollow' : "Follow"} onClick={()=>{followed ? unfollowHandler() : followHandler()}}/>
+                            }
                         </div>     
                     </div>         
                     <div style={{display:"flex",justifyContent:"space-between", margin: "15px 0px", width:"120%"}}>
@@ -150,7 +149,10 @@ const Profile = (props) => {
                         {<div className="container postView">
                             {tab.content.length === 0 ? <div>There are no posts to show </div> : (
                                 tab.content.map(post => (
-                                    <InlinePost key={post._id} post={post}/>
+                                    <div className="container postView">
+                                        {tab.interactions ? <h1>inte</h1> : (null)}
+                                        <InlinePost key={post._id} post={post}/>
+                                    </div>
                                 )))}
                             <div className="footer">
                                     {prevEnabled()}

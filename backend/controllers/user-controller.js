@@ -306,14 +306,23 @@ const followUser = async(req,res,next) => {
         res.status(404).json({isFound:false})
         return
     }
+    let repeatedFollow = false
+    for(let userFollowing of user.users_following){
+        if (userFollowing.toString() == req.session.userID){
+            repeatedFollow = true
+        }
+    }
+    if(!repeatedFollow){
+        user.users_following.push(otherUserID)
+        user.save()
 
-    user.users_following.push(otherUserID)
-    user.save()
-
-    otherUser.users_followed.push(userID)
-    otherUser.save()
-
-    res.status(200).json({success:true})
+        otherUser.users_followed.push(userID)
+        otherUser.save()
+        res.status(200).json({success:true}) 
+    }
+    else{
+        res.status(200).json({success:false})
+    }
 }
 
 const unfollowUser = async(req,res,next) => {
@@ -335,15 +344,27 @@ const unfollowUser = async(req,res,next) => {
         return
     }
 
-    const followingUserIndex = user.users_following.indexOf(otherUserID)
-    user.users_following.splice(followingUserIndex,1)
-    user.save()
+    let repeatedUnfollow = false
+    for(let userFollowing of user.users_following){
+        if (userFollowing.toString() == req.session.userID){
+            repeatedFollow = true
+        }
+    }
 
-    const selfIndex = otherUser.users_followed.indexOf(userID)
-    otherUser.users_followed.splice(selfIndex,1)
-    otherUser.save()
+    if(!repeatedUnfollow){
+        const followingUserIndex = user.users_following.indexOf(otherUserID)
+        user.users_following.splice(followingUserIndex,1)
+        user.save()
 
-    res.status(200).json({success:true})
+        const selfIndex = otherUser.users_followed.indexOf(userID)
+        otherUser.users_followed.splice(selfIndex,1)
+        otherUser.save()
+
+        res.status(200).json({success:true})
+    }
+    else{
+        res.status(200).json({success:false})
+    }
 }
 
 exports.editUserInfo = editUserInfo;

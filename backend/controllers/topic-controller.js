@@ -89,9 +89,21 @@ const followTopic = async(req,res,next) => {
         return
     }
 
-    user.topics_followed.push(topic._id)
-    user.save()
-    res.status(200).json({success:true})
+    
+    let repeatedFollow = false
+    for(let topicfollowed of user.topics_followed){
+        if (topicfollowed.toString() == req.session.userID){
+            repeatedFollow = true
+        }
+    }
+    if(!repeatedFollow){
+        user.topics_followed.push(topic._id)
+        user.save()
+        res.status(200).json({success:true}) 
+    }
+    else{
+        res.status(200).json({success:false})
+    }
 }
 
 const unfollowTopic = async(req,res,next) => {

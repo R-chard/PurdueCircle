@@ -187,7 +187,7 @@ const getProfile = async(req,res,next)=>{
 
         // user is logged in
         if(currUserID){
-            reqUser = await User.findOne({username}).populate("posts interactions")
+            reqUser = await User.findOne({username}).populate("posts interactions.post")
             currUser = await User.findById(currUserID)
             
         } else{
@@ -203,6 +203,27 @@ const getProfile = async(req,res,next)=>{
         reqUser = reqUser.toObject()
         if(currUserID){
             reqUser.loggedIn = true
+
+            // iterate through posts to add hasLiked
+            for(let i = 0; i<reqUser.posts.length;i++){
+                reqUser.posts[i].hasLiked = false
+                for(let j=0;j<reqUser.posts[i].usersLiked.length;j++){
+                    if(reqUser.posts[i].usersLiked[j].toString() === currUserID){
+                        reqUser.posts[i].hasLiked = true
+                    }
+                }
+            }
+            
+            // iterate thorugh interactions to add hasLiked
+            for(let i = 0; i<reqUser.interactions.length;i++){
+                reqUser.interactions[i].post.hasLiked = false
+                for(let j =0; j<reqUser.interactions[i].post.usersLiked.length;j++){
+                    if (reqUser.interactions[i].post.usersLiked[j].toString() === currUserID){
+                        reqUser.interactions[i].post.hasLiked = true
+                    }
+                }
+            }
+
             if (currUserID == reqUser._id){
                 reqUser.selfProfile = true
             } else{

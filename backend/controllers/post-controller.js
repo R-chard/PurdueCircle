@@ -1,3 +1,4 @@
+const { post } = require("../routes/post-routes");
 const Post = require("../schemas/posts")
 const Topic = require("../schemas/topics")
 const User = require("../schemas/users")
@@ -316,28 +317,13 @@ const fetchRecentPosts = async(req,res,next) => {
         finalList.push(post)
     }
 
-    // let authorList = []
-    // try {
-        
-    //     for (let i = 0; i < droppedNull.length; i++) {
-    //         let tempUser = await User.findById(droppedNull[i].author);
-    //         let name = tempUser.username;
-    //         let img = tempUser.profile_img;
-    //         let tuple = [name, img];
-    //         authorList.push(tuple);
-    //     }
-    // } catch (error) {
-    //     return next(error);
-    // }
-    
-    // finalList = []
-    // for (let i = 0; i < authorList.length; i++) {
-    //     finalList.push({
-    //         username: authorList[i][0],
-    //         img_path: authorList[i][0],
-    //         post: droppedNull[i]
-    //      })
-    // }
+    for(let list of finalList){
+        if (list.usersLiked.includes(userID)){
+            list.hasLiked = true
+        } else{
+            list.hasLiked = false
+        }
+    }
     res.status(200).json({finalList});
 
 }

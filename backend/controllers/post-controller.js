@@ -240,8 +240,9 @@ const fetchRecentPosts = async(req,res,next) => {
     //adds followed users into followed
     try {
         //currUser = await User.findById(userID);
-        for (let i = 0; i < currUser.users_followed.length; i++) {
-            tempFollowed = await User.findById(currUser.users_followed[i]);
+        //gets users in the following item (following means people the requesting-user is following)
+        for (let i = 0; i < currUser.users_following.length; i++) {
+            tempFollowed = await User.findById(currUser.users_following[i]);
             followed.push(tempFollowed)
         }
     } catch (error) {
@@ -286,8 +287,15 @@ const fetchRecentPosts = async(req,res,next) => {
         return next(error);
     }
     
-   
-    var droppedNull = pastPosts.filter(function (x) {
+    //idk how it works but it removes duplicates and thats all i care about
+    const uniqueSet = new Set(pastPosts.map(post => JSON.stringify(post)))
+    const noDuplicates = [...uniqueSet].map((item) => {
+        if (typeof item === 'string') return JSON.parse(item);
+        else if (typeof item === 'object') return item;
+      })
+
+    //used to use pastPosts, now noDuplicates
+    var droppedNull = noDuplicates.filter(function (x) {
         return x != null;
       });
     droppedNull.sort(function(a,b){
@@ -298,7 +306,8 @@ const fetchRecentPosts = async(req,res,next) => {
     for (let i = 0; i < droppedNull.length; i++) {
         let post = droppedNull[i]
         const author = await User.findById(post.author)
-        post = post.toObject()
+        //removed this because removing duplicates makes everything objects or something idk
+        // post = post.toObject()
         post.author = {}
         post.author.username = author.username
         post.author.profile_img = author.profile_img

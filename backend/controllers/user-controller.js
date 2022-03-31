@@ -187,7 +187,19 @@ const getProfile = async(req,res,next)=>{
 
         // user is logged in
         if(currUserID){
-            reqUser = await User.findOne({username}).populate("posts interactions.post")
+            reqUser = await User.findOne({username})
+            .populate("posts interactions.post")
+            .populate([{
+                path:"posts",
+                populate:{
+                    path:"author",
+                    select:"username profile_img",
+                }},{
+                path:"interactions",
+                populate:{
+                    path:"author",
+                    select:"username profile_img"
+                }}])
             currUser = await User.findById(currUserID)
             
         } else{
@@ -203,6 +215,7 @@ const getProfile = async(req,res,next)=>{
         reqUser = reqUser.toObject()
         if(currUserID){
             reqUser.loggedIn = true
+            reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon)
 
             // iterate through posts to add hasLiked
             for(let i = 0; i<reqUser.posts.length;i++){

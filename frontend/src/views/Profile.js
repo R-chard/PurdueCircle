@@ -148,12 +148,19 @@ const Profile = (props) => {
                     <Tab.TabPane key={`Tab-${idx}`} tab={tab.title}>
                         {<div className="container postView">
                             {tab.content.length === 0 ? <div>There are no posts to show </div> : (
-                                tab.content.map(post => (
-                                    <div className="container postView">
-                                        {tab.interactions ? <h1>inte</h1> : (null)}
-                                        <InlinePost key={post._id} post={post}/>
-                                    </div>
-                                )))}
+                                tab.interactions ? 
+                                    (tab.interactions.map(post => (
+                                        <div style={{}}>
+                                            <InteractionView key={post.post_id} post={post.post} username={data.username} interaction={post}></InteractionView>
+                                        </div>
+                                    ))) 
+                                    : (tab.content.map(post => (
+                                        <div className="container postView">
+                                            <InlinePost key={post._id} post={post}/>
+                                        </div>
+                                    )))
+                                )
+                            }
                             <div className="footer">
                                     {prevEnabled()}
                                     <Button onClick={nextHandler} text='Next'/>

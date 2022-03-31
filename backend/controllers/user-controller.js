@@ -308,8 +308,9 @@ const followUser = async(req,res,next) => {
     }
     let repeatedFollow = false
     for(let userFollowing of user.users_following){
-        if (userFollowing.toString() == req.session.userID){
+        if (userFollowing.toString() == otherUserID){
             repeatedFollow = true
+            break
         }
     }
     if(!repeatedFollow){
@@ -346,7 +347,7 @@ const unfollowUser = async(req,res,next) => {
 
     let repeatedUnfollow = false
     for(let userFollowing of user.users_following){
-        if (userFollowing.toString() == req.session.userID){
+        if (userFollowing.toString() == otherUserID){
             repeatedFollow = true
         }
     }

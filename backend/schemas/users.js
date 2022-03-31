@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     interactions:[{
         post: {type:mongoose.Types.ObjectId, ref:"Post"},
         date: Date,
-        type: String
+        interactionType: String
     }]
 })
 

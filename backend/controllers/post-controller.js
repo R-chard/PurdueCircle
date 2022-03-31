@@ -227,7 +227,7 @@ const fetchRecentPosts = async(req,res,next) => {
     const userID = req.session.userID;
 
     try {
-        currUser = await User.findById(userID);
+        currUser = await User.findById("624217aac4de80b0c3af3c67");
     } catch (error) {
         return next(error);
     }
@@ -304,7 +304,9 @@ const fetchRecentPosts = async(req,res,next) => {
     } catch (error) {
         return next(error);
     }
-    res.status(200).json({authorList, droppedNull});
+    let arr3 = authorList.map((item, i) => Object.assign({}, item, droppedNull[i]));
+    res.status(200).json({arr3});
+
 }
 exports.create = create
 exports.like = like

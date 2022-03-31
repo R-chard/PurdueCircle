@@ -195,7 +195,7 @@ const getProfile = async(req,res,next)=>{
                     path:"author",
                     select:"username profile_img",
                 }},{
-                path:"interactions",
+                path:"interactions.post",
                 populate:{
                     path:"author",
                     select:"username profile_img"
@@ -215,7 +215,8 @@ const getProfile = async(req,res,next)=>{
         reqUser = reqUser.toObject()
         if(currUserID){
             reqUser.loggedIn = true
-            reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon)
+            reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon).reverse()
+            reqUser.interactions.posts = reqUser.interactions.reverse() 
 
             // iterate through posts to add hasLiked
             for(let i = 0; i<reqUser.posts.length;i++){

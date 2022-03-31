@@ -31,7 +31,7 @@ const Profile = (props) => {
         })
         .then(response=>{
             console.log("profile data", response.data)
-            setData(response.data.reqUser)
+            setData(response.data.user)
             setTabContent([
                 {
                     title: "Posts",
@@ -122,7 +122,7 @@ const Profile = (props) => {
                         </div>     
                     </div>         
                     <div style={{display:"flex",justifyContent:"space-between", margin: "15px 0px", width:"120%"}}>
-                        <h6>{/*data.posts.length*/} 0 posts</h6>
+                        <h6>{data.posts.length} posts</h6>
                         <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
                         <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
                         <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>

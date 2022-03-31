@@ -289,30 +289,39 @@ const fetchRecentPosts = async(req,res,next) => {
         return new Date(b.datePosted) - new Date(a.datePosted)
       }
     )
+    let finalList = []
+    for (let i = 0; i < droppedNull.length; i++) {
+        let post = droppedNull[i]
+        const author = await User.findById(post.author)
+        post = post.toObject()
+        post.author = {}
+        post.author.username = author.username
+        post.author.profile_img = author.profile_img
+        finalList.push(post)
+    }
 
-    
-    let authorList = []
-    try {
+    // let authorList = []
+    // try {
         
-        for (let i = 0; i < droppedNull.length; i++) {
-            let tempUser = await User.findById(droppedNull[i].author);
-            let name = tempUser.username;
-            let img = tempUser.profile_img;
-            let tuple = [name, img];
-            authorList.push(tuple);
-        }
-    } catch (error) {
-        return next(error);
-    }
+    //     for (let i = 0; i < droppedNull.length; i++) {
+    //         let tempUser = await User.findById(droppedNull[i].author);
+    //         let name = tempUser.username;
+    //         let img = tempUser.profile_img;
+    //         let tuple = [name, img];
+    //         authorList.push(tuple);
+    //     }
+    // } catch (error) {
+    //     return next(error);
+    // }
     
-    finalList = []
-    for (let i = 0; i < authorList.length; i++) {
-        finalList.push({
-            username: authorList[i][0],
-            img_path: authorList[i][0],
-            post: droppedNull[i]
-         })
-    }
+    // finalList = []
+    // for (let i = 0; i < authorList.length; i++) {
+    //     finalList.push({
+    //         username: authorList[i][0],
+    //         img_path: authorList[i][0],
+    //         post: droppedNull[i]
+    //      })
+    // }
     res.status(200).json({finalList});
 
 }

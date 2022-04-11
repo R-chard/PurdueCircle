@@ -56,7 +56,7 @@ const InlinePost = (props) => {
     }
 
     return (
-            <div className={`contents${presetSize}`}>
+            <div className={`inlinePost contents${presetSize}`}>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments} post={post}/>
@@ -95,8 +95,8 @@ const PostMetadata = (props) => {
             )
         } else {
             return (
-                <Link to ={"/profile/" + authorName} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                    <div className='author'>{authorName}</div>
+                <Link to ={"/profile/" + authorName} className='author'>
+                    {authorName}
                 </Link>
             )
         }
@@ -112,19 +112,22 @@ const PostMetadata = (props) => {
                 />
                 </Link>}
 
-            {renderUsername()}
-            
-            <div className='dot'>•</div>
-            <Link 
-                to={"/post/" + post._id}
-                style={{ color: 'inherit', textDecoration: 'inherit'}} className='date'>
-                {date}
-            </Link>
+            <div className='postData'>
+                {renderUsername()}
+                
+                <div className='dot'>•</div>
+                <Link 
+                    to={"/post/" + post._id}
+                    style={{ color: 'inherit', textDecoration: 'inherit'}} className='date'>
+                    {date}
+                </Link>
+            </div>
+
             <div className='pushRight'>
                 <div className='likeButton'>
                     {likes}
                     <button className='button likeButton' onClick={likeHandler}>
-                        {isLiked ? <img src='/likedIcon.png' alt='pic'/> : <img src='/unlikedIcon.png' alt='pic'/>}
+                        {isLiked ? <img src='/likedIcon.png' alt='like icon'/> : <img src='/unlikedIcon.png' alt='pic'/>}
                     </button>
                 </div>
                 <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>

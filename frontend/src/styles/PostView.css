@@ -27,7 +27,23 @@
 }
 
 .container.postView .contents.presetSize {
-    width: clamp(270px, 90%, 500px);
+    width: clamp(270px, 100%, 500px);
+}
+
+
+
+.container.postView .contents.interaction {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.container.postView .interaction.userInfo {
+    margin-left: 10px;
+}
+
+.container.postView .contents.interaction .inlinePost {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .container.postView .contents > * {
@@ -49,11 +65,18 @@
     align-items: center;
 }
 
-.container.postView .userInfo > * {
+.container.postView .userInfo .postData {
+    color: var(--text-field);
+    display: flex;
+    align-items: center;
     margin-left: 10px;
 }
 
-.container.postView .userInfo > *:first-child {
+.container.postView .userInfo .postData > * {
+    margin-left: 10px;
+}
+
+.container.postView .userInfo .postData > *:first-child {
     margin-left: 0px;
 }
 
@@ -84,6 +107,7 @@
     /* margin: 0px 10px 0px 20px; */
     font-size: 17px;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .container.postView .date {
@@ -106,6 +130,8 @@
 .container.postView .post {
     margin-top: 10px !important;
     margin-bottom: 5px !important;
+
+    overflow-wrap: break-word;
 }
 
 .container.postView .newComment {
@@ -137,6 +163,11 @@
     padding: 5px 0px;
 }
 
+.container.postView .postComment p {
+    margin: 0;
+    overflow-wrap: break-word;
+}
+
 .container.postView .numComments {
     font-size: 13px;
 }
@@ -164,4 +195,19 @@
 
 .container.postView .formSubmit {
     margin-top: 10px;
+}
+
+@media (max-width: 500px) {
+    .dot {
+        display: none;
+    }
+
+    .postData {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .postData .date {
+        margin-left: 0 !important;
+    }
 }

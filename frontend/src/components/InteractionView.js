@@ -34,8 +34,8 @@ const InteractionView = (props) => {
     }
 
     return (
-        <div className={`contents${presetSize}`}>
-            <div className='userInfo'>
+        <div className={`interaction contents${presetSize}`}>
+            <div className='interaction userInfo'>
                 {renderUsername()}
             </div>
             <div className='container postView'>

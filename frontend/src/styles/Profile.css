@@ -19,6 +19,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    width: min(100%, 450px);
 }
 
 .contents.profile .userInfo1 {
@@ -28,6 +29,7 @@
 
 .contents.profile .userInfo1 h1 {
     margin: 0;
+    margin-right: auto;
 }
 
 .contents.profile .userInfo1 .button {
@@ -38,10 +40,14 @@
     /* display: flex;
     justify-content: space-between; */
     /* margin: 15px 0px; */
-
     display: grid;
     grid-template-columns: repeat(auto-fill, 100px);
-    grid-template-rows: repeat(auto-fill, 50px);
+}
+
+.contents.profile .name {
+    font-weight: bold;
+
+    margin-top: 15px !important;
 }
 
 /* .contents.profile .userInfo2 > * {
@@ -57,6 +63,11 @@
     height: 160px;
     border-radius: 80px;
     object-fit: cover;
+}
+
+.contents.profile .nav-link.active {
+    background-color: var(--bg-selected);
+    color: var(--text);
 }
 
 

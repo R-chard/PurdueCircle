@@ -132,9 +132,12 @@ const PostView = () => {
                         </Link>}
                         
                     </div>
-                    {renderUsername()}
-                    <div className='dot'>•</div>
-                    <div className='date'>{formatDate(post.datePosted)}</div>
+                    <div className='postData'>
+                        {renderUsername()}
+                        <div className='dot'>•</div>
+                        <div className='date'>{formatDate(post.datePosted)}</div>
+                    </div>
+                    
                     <div className='pushRight'>
                         <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
                     </div>
@@ -162,17 +165,15 @@ const PostView = () => {
                             return (
                                 <div key={comment._id} className='postComment'>
                                     <div className='commentHeader'>
-                                        <div>
-                                            <Link 
-                                                to ={"/profile/" + comment.author.username} 
-                                                style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                                                    {comment.author.username}
-                                            </Link>
-                                        </div>
+                                        <Link 
+                                            to ={"/profile/" + comment.author.username} 
+                                            style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                                {comment.author.username}
+                                        </Link>
                                         <div>·</div>
                                         <div className='date'>{formatDate(comment.datePosted)}</div>
                                     </div>
-                                    <div>{comment.message}</div>
+                                    <p>{comment.message}</p>
                                 </div>
                             )
                         }) : <div className='commentLabel'>There are no comments yet...</div>}

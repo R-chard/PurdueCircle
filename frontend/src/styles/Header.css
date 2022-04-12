@@ -9,3 +9,17 @@
 .mainHeader .button.settings {
     margin-left: auto;
 }
+
+@media (max-width: 450px) {
+    .mainHeader {
+        flex-direction: column;
+    }
+
+    .mainHeader .button.settings {
+        margin-left: 5px;
+    }
+
+    .mainHeader .headerButton {
+        margin: 0px inherit;
+    }
+}

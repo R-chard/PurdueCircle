@@ -103,46 +103,35 @@ const Profile = (props) => {
     }
 
     return (
-        <div>
+        <>
             {data && tabContent && (<div className={'contents profile'}>
-        <h1>Profile</h1>
-        <div style={{maxWidth:"800px",margin:"0px auto"}}>
-            <div style={{
-                display:"flex",
-                justifyContent:"space-around",
-                margin:"10px 0px",
-                borderBottom:"1px solid grey"
-            }}>
+            <div className="profileData">
                 {/* Profile Picture */}
-                <div>
-                    <img style={{width:"160px", height:"160px", borderRadius:"80px", objectFit: "cover"}}
+                    <img className="main profilePic" alt={`Profile pic for ${data.name}`}
                         src={data.profile_img}
                     />
-                </div>
                 {/* Right Side Info */}
-                <div>
-                    <div style={{display:"flex", justifyContent:"space-around", margin:"5px px", height:"20%"}}>
+                <div className='userInfo0'>
+                    <div className='userInfo1'>
                         <h1>{data.username}</h1>
-                        <div style={{margin: "5px 10px"}}>
                             {data.selfProfile ? <ButtonTwoColor className={`button secondary`} text = "Edit Profile" onClick={()=>{history.push("/settings")}}/>
                                 :<ButtonTwoColor className={`button ${followed ? "secondary" : "primary"}`} text={followed ? 'Unfollow' : "Follow"} onClick={()=>{followed ? unfollowHandler() : followHandler()}}/>
                             }
-                        </div>     
                     </div>         
-                    <div style={{display:"flex",justifyContent:"space-between", margin: "15px 0px", width:"120%"}}>
+                    <div className='userInfo2'>
                         <h6>{data.posts.length} posts</h6>
                         <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
                         <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
                         <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
                     </div>
-                    <h6>{data.name}</h6>
+                    <h6 className='name'>{data.name}</h6>
                     <h6>{data.biography}</h6>
                 </div>
             </div>
 
             {/* Userline tabs */}
             
-            <div>
+            <>
                 <Tab>
                 {tabContent.map((tab, idx) => (
                     <Tab.TabPane key={`Tab-${idx}`} tab={tab.title}>
@@ -168,11 +157,10 @@ const Profile = (props) => {
                     </Tab.TabPane>
                 ))}
                 </Tab>
-            </div>
+            </>
             
-        </div>
     </div>)}
-        </div>
+        </>
     ) 
 }
 

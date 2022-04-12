@@ -1,13 +1,17 @@
 .contents.profile {
-    width: min(100%, 800px);
+    width: min(100%, 700px);
     margin: 0px auto;
+}
+
+.contents.profile hr {
+    margin: 25px 0px;
 }
 
 .contents.profile .profileData {
     display: flex;
     justify-content: space-around;
     margin: 10px 0px;
-    border-bottom: 1px solid grey;
+    /* border-bottom: 1px solid grey; */
 }
 
 .contents.profile .profileData h6 {
@@ -70,6 +74,13 @@
     color: var(--text);
 }
 
+.contents.profile .tab-content {
+    border: 1px solid var(--border);
+}
+
+.contents.profile .nav-tabs {
+    border: none;
+}
 
 @media (max-width: 500px) {
     .contents.profile .main.profilePic {

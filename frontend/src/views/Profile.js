@@ -128,6 +128,7 @@ const Profile = (props) => {
                     <h6>{data.biography}</h6>
                 </div>
             </div>
+            <hr/>
 
             {/* Userline tabs */}
             

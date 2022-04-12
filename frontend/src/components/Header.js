@@ -33,15 +33,6 @@ const Header = (props) => {
         })
     }
 
-    // useEffect(() => {
-    //     console.log('%cheader effect','color:blue; font-weight: bold; font-size: 15px')
-    
-    //   return () => {
-    //     console.log('%cheader cleanup','color:blue; font-weight: bold; font-size: 15px')
-    //   }
-    // }, [])
-    
-
     return (
         <div className='contents mainHeader'>
             <ButtonBlue type={'link'} className='headerButton' pathTo='/' text='Home'/>

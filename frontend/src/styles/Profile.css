@@ -1,0 +1,94 @@
+.contents.profile {
+    width: min(100%, 700px);
+    margin: 0px auto;
+}
+
+.contents.profile hr {
+    margin: 25px 0px;
+}
+
+.contents.profile .profileData {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0px;
+    /* border-bottom: 1px solid grey; */
+}
+
+.contents.profile .profileData h6 {
+    margin: 0;
+    line-height: unset;
+}
+
+.contents.profile .userInfo0 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: min(100%, 450px);
+}
+
+.contents.profile .userInfo1 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.contents.profile .userInfo1 h1 {
+    margin: 0;
+    margin-right: auto;
+}
+
+.contents.profile .userInfo1 .button {
+    width: 120px;
+}
+
+.contents.profile .userInfo2 {
+    /* display: flex;
+    justify-content: space-between; */
+    /* margin: 15px 0px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+}
+
+.contents.profile .name {
+    font-weight: bold;
+
+    margin-top: 15px !important;
+}
+
+/* .contents.profile .userInfo2 > * {
+    margin-left: 10px;
+}
+
+.contents.profile .userInfo2 > *:first-child {
+    margin-left: 0;
+} */
+
+.contents.profile .main.profilePic {
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+    object-fit: cover;
+}
+
+.contents.profile .nav-link.active {
+    background-color: var(--bg-selected);
+    color: var(--text);
+}
+
+.contents.profile .tab-content {
+    border: 1px solid var(--border);
+}
+
+.contents.profile .nav-tabs {
+    border: none;
+}
+
+@media (max-width: 500px) {
+    .contents.profile .main.profilePic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .contents.profile .userInfo1 {
+        flex-direction: column;
+    }
+}

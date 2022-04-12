@@ -5,8 +5,9 @@
     color: var(--text-faded);
 
     background: var(--bg-sec);
+    border: 2px solid var(--border);
     border-radius: 10px;
-    box-shadow: 0px 0px 30px 10px #00000015;
+    box-shadow: 0px 0px 30px 10px var(--shadow);
 
     width: 220px;
     height: 220px;
@@ -76,4 +77,12 @@
     color: var(--blue);
     font-size: 17px;
     transition: 200ms;
+}
+
+@media (max-width: 450px) {
+    .popup.cornerMenu {
+        width: 100%;
+        top: 150px;
+        right: auto;
+    }
 }

@@ -33,9 +33,6 @@ const ImageSelector = (props) => {
 
     return(
         <div className="image-selector-component">
-            <div className="image-selector-div">
-                <img style={{width:"160px", height:"160px", borderRadius:"80px"}} src={picURL} alt="Profile pic"></img>
-            </div>
             <input className = "image-selector-uploader" type="file" onChange={fileSelectedHandler} />
             <button onClick={fileUploadHandler}>Upload</button>
         </div>

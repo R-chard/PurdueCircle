@@ -12,7 +12,7 @@ const postSchema = new mongoose.Schema({
         message: String
     }],
     likes: Number,
-    usersLiked: [{type:mongoose.Types.ObjectId, ref: "User"}]
+    usersLiked: [{type:mongoose.Types.ObjectId, ref: "User"}],
 })
 
 module.exports = mongoose.model("Post",postSchema);

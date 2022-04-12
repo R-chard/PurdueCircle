@@ -29,10 +29,6 @@ const ImageSelector = (props) => {
             method:"patch",
             withCredentials:true,
             headers:{"Content-Type":"multipart/form-data","boundary":fd.boundary}})
-        .then(response=>{
-            if (response.data.uploaded){
-            alert("Profile picture updated successfully")
-        }})
     }
 
     return(

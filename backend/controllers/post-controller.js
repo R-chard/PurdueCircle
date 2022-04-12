@@ -65,6 +65,9 @@ const like = async(req,res,next) => {
     try{
         post = await Post.findById(postID)
         currUser = await User.findById(user)
+        if(!post || !currUser){
+            return next(new Error("User or post cannot be found"))
+        }
         post.usersLiked.push(user)
         post.likes++
         const inter = {
@@ -88,6 +91,9 @@ const unlike = async(req,res,next) => {
     try{
         post = await Post.findById(postID)
         currUser = await User.findById(user)
+        if(!post || !currUser){
+            return next(new Error("User or post cannot be found"))
+        }
         const userLikedIndex = post.usersLiked.indexOf(user._id)
         post.usersLiked.splice(userLikedIndex,1)
         post.likes--
@@ -123,6 +129,9 @@ const comment = async(req,res,next)=>{
     try{
         let post = await Post.findById(postID)
         let currUser = await User.findById(user)
+        if(!post || !currUser){
+            return next(new Error("User or post cannot be found"))
+        }
         post.comments.push(comment)
         const inter = {
             post: postID,
@@ -331,9 +340,36 @@ const fetchRecentPosts = async(req,res,next) => {
     res.status(200).json({finalList});
 
 }
+
+const save = async(req,res,next) => {
+    const postID = req.body.postID
+    const user = req.session.userID
+    let post
+    try{
+        post = await Post.findById(postID)
+        const currUser = await User.findById(user)
+        if(!post || !currUser){
+            return next(new Error("User or post cannot be found"))
+        }
+        currUser.saved_posts.push(postID)
+        const inter = {
+            post: postID,
+            date: new Date(),
+            interactionType: "save"
+        }
+        currUser.interactions.push(inter)
+        await currUser.save()
+
+    } catch(err){
+        return next(error)
+    }
+    res.status(200).json({success:true})
+}
+
 exports.create = create
 exports.like = like
 exports.unlike = unlike
+exports.save = save
 exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts

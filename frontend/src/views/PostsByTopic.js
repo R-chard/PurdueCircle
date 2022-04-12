@@ -41,10 +41,6 @@ const PostsByTopic = () => {
         },{
             withCredentials: true, credentials:"include"
         })
-        .then(response=>{
-            if(response.data.success){
-                //alert("Unfollowed " + title)
-        }})
     }
 
     // TODO: check data.following. Null means no buttons. True = should have unfollow. False = should have follow

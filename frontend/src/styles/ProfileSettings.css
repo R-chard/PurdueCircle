@@ -1,3 +1,22 @@
-.contents.profileSettings .button.primary {
-    /* width: auto; */
+.contents.profileSettings {
+    padding: 0px 10px;
+}
+
+.contents.profileSettings .profilePic {
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+    object-fit: cover;
+
+}
+
+.contents.profileSettings .userInfo.wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+@media (max-width: 700px) {
+    .contents.profileSettings .userInfo.wrapper {
+        flex-direction: column;
+    }
 }

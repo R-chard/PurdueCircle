@@ -177,21 +177,20 @@ const ProfileSettings = (props) => {
       {data && (<div>
         <h1>ProfileSettings</h1>
         <h4>Profile</h4>
-        {showConfirmDialog ? <ConfirmDialog title={dialogTitle} buttonText='Delete Account' mainHandler={mainDialogHandler} cancelHandler={cancelDialogHandler}/> : ''}
+        {showConfirmDialog ? <ConfirmDialog title={dialogTitle} buttonText='Delete Account' 
+          mainHandler={mainDialogHandler} cancelHandler={cancelDialogHandler}/> : ''}
 
-        <div style={{
-          display:"flex",
-          justifyContent:"space-around",
-          margin:"50px 20px",
-        }}>
-          <ImageSelector profPic={data.profile_img}/>
+        <div className='userInfo wrapper'>
+          <img className='profilePic' src={data.profile_img} alt={`Profile pic for ${data.username}`}></img>
           <div>
             <label htmlFor="name">Name *</label>
             <label htmlFor="name" style={{color:'red'}}>{nameError}</label>
             <Field id="name" value={name} onChange={nameHandler} placeholder={'Edit Name'}/>
             <label htmlFor="bio">Bio</label>
             <Field id="bio" value={bio} onChange={bioHandler} placeholder={'Edit Bio'}/>
+            <ImageSelector profPic={data.profile_img}/>
           </div>
+
         </div>
 
         <h4>Account</h4>

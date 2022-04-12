@@ -1,0 +1,72 @@
+.contents.profile {
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+.contents.profile .profileData {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0px;
+    border-bottom: 1px solid grey;
+}
+
+.contents.profile .profileData h6 {
+    margin: 0;
+    line-height: unset;
+}
+
+.contents.profile .userInfo0 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.contents.profile .userInfo1 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.contents.profile .userInfo1 h1 {
+    margin: 0;
+}
+
+.contents.profile .userInfo1 .button {
+    width: 120px;
+}
+
+.contents.profile .userInfo2 {
+    /* display: flex;
+    justify-content: space-between; */
+    /* margin: 15px 0px; */
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-template-rows: repeat(auto-fill, 50px);
+}
+
+/* .contents.profile .userInfo2 > * {
+    margin-left: 10px;
+}
+
+.contents.profile .userInfo2 > *:first-child {
+    margin-left: 0;
+} */
+
+.contents.profile .main.profilePic {
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+    object-fit: cover;
+}
+
+
+@media (max-width: 500px) {
+    .contents.profile .main.profilePic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .contents.profile .userInfo1 {
+        flex-direction: column;
+    }
+}

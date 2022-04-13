@@ -1,0 +1,11 @@
+.contents.not-found {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 30px;
+}
+
+.contents.not-found * {
+    font-size: 20px;
+    font-weight: bold;
+}

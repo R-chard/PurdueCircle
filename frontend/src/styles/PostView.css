@@ -78,8 +78,41 @@
     margin-left: 0px;
 }
 
+.save-svg {
+    fill: none;
+    stroke: var(--text); 
+    height: var(--svg-size); 
+    width: var(--svg-size);
+    stroke-linecap: round; 
+    stroke-linejoin: round; 
+    stroke-width: 2;
+
+    transition: none;
+}
+
+.save-svg.primary {
+    fill: var(--blue);
+    stroke: var(--blue);
+}
+
+.like-svg { 
+    fill: none;
+    stroke: var(--text);
+    stroke-width: 15px;
+    height: var(--svg-size);
+    width: var(--svg-size);
+
+    transition: 0ms;
+}
+
+.primary .like-svg {
+    fill: var(--blue);
+    stroke: var(--blue);
+}
+
 .container.postView .likeButton {
     font-size: 13px;
+    font-weight: bold;
 
     display: flex;
     justify-content: center;
@@ -88,9 +121,8 @@
     background-color: var(--bg-sec);
 }
 
-.container.postView .likeButton img {
-    height: 20px;
-    width: 20px;
+.container.postView .primary.likeButton {
+    color: var(--blue);
 }
 
 .container.postView .profilePic {
@@ -168,6 +200,7 @@
 
 .container.postView .numComments {
     font-size: 13px;
+    font-weight: 600;
 }
 
 .container.postView .commentLabel {

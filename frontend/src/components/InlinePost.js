@@ -86,7 +86,15 @@ const InlinePost = (props) => {
 } //PostView
 
 const PostMetadata = (props) => {
-    const { authorName, profilePic, date, likes, likeHandler, liked, isLiked, numComments, post } = props
+    const { authorName, profilePic, date, likes, likeHandler, isLiked, numComments, post } = props
+    
+    const likedClass = () => {
+        if (isLiked) {
+            return ' primary'
+        } else {
+            return ''
+        }
+    }
 
     const renderUsername = () => {
         if (post.postedAnon) {
@@ -124,10 +132,18 @@ const PostMetadata = (props) => {
             </div>
 
             <div className='pushRight'>
-                <div className='likeButton'>
+                <div className={`likeButton${likedClass()}`}>
                     {likes}
                     <button className='button likeButton' onClick={likeHandler}>
-                        {isLiked ? <img src='/likedIcon.png' alt='Like icon'/> : <img src='/unlikedIcon.png' alt='Unliked icon'/>}
+                        {/* {isLiked ? <img src='/likedIcon.png' alt='Like icon'/> : <img src='/unlikedIcon.png' alt='Unliked icon'/>} */}
+                        <svg className={'like-svg'} viewBox="0 0 179 159">
+                            <path d="M 122.824997 13.062027 C 111.565033 13.062027 100.956482 17.466751 92.98455 25.438675 L 89.696526 28.726715 L 86.346451 25.376648 
+                                C 78.374527 17.404709 67.765976 13 56.506016 13 C 45.277077 13 34.699543 17.373688 26.727617 25.345627 C 18.755692 33.317551 14.381989 
+                                43.895088 14.381989 55.155045 C 14.381989 66.415001 18.786711 76.992538 26.758636 84.964462 L 85.850143 144.055969 L 85.974228 144.180054 
+                                C 86.997856 145.20369 88.362701 145.699982 89.696526 145.699982 C 91.061363 145.699982 92.426216 145.172668 93.449844 144.149033 L 152.541351 
+                                85.057518 C 160.51329 77.085602 164.917999 66.508064 164.917999 55.2481 C 164.917999 43.988144 160.544312 33.379585 152.572372 25.438675 
+                                C 144.63147 17.43573 134.053925 13.062027 122.824997 13.062027 Z"/>
+                        </svg>
                     </button>
                 </div>
                 <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>

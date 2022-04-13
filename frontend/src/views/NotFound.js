@@ -1,12 +1,12 @@
 import React from "react"
 import {Link} from "react-router-dom"
 
+import '../styles/NotFound.css'
+
 const NotFound = () => {
     return (
-        <div>
-            <h2>Sorry...</h2>
-            <p>That page cannot be found</p>
-            <p>Click <Link to="/">here</Link> to get back to the home page</p>
+        <div className='contents not-found'>
+            <p>Page not found. <Link to="/">Go back to home page?</Link></p>
         </div>
     )
 }

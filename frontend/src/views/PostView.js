@@ -16,6 +16,7 @@ const PostView = () => {
     const [post,setPost] = useState(null)
     const [isLiked, setIsLiked] = useState(false)
     const [likes, setLikes] = useState(0)
+    const [isSaved, setIsSaved] = useState(false)
     const [newComment,setNewComment] = useState("")
     const [numComments, setNumComments] = useState(0)
     const [postedAnon, setPostedAnon] = useState(false)
@@ -33,6 +34,8 @@ const PostView = () => {
             setNumComments(response.data.post.comments.length)
             setPostedAnon(response.data.post.postedAnon)
             console.log(response.data.post)
+
+            setIsSaved(true)
         })
     },[postID, updatedPost])
 
@@ -58,14 +61,27 @@ const PostView = () => {
         }
     }
 
-    const liked = () => {
+    const savedHandler = () => {
+        if (isSaved) {
+            setIsSaved(false)
+            //TODO axios
+        } else {
+            setIsSaved(true)
+            //TODO axios
+        }
+    }
+
+    const likedClass = () => {
         return isLiked ? 'primary' : 'secondary'
+    }
+
+    const savedClass = () => {
+        return isSaved ? 'primary' : ''
     }
 
     //sends new comment
     const handleNewComment = (e) => {
         e.preventDefault()
-        //TODO add to user's comments
 
         if (newComment.length === 0) {
             setCommentError('Enter a comment')
@@ -139,8 +155,15 @@ const PostView = () => {
                     </div>
                     
                     <div className='pushRight'>
-                        <ButtonTwoColor className={`button ${liked()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
+                        <button onClick={savedHandler} className='button'>
+                            <svg className={`save-svg ${savedClass()}`}>
+                                <polygon points="20 21 12 13.44 4 21 4 3 20 3 20 21"></polygon>
+                            </svg>
+                        </button>
+                        
                     </div>
+                    <ButtonTwoColor className={`button ${likedClass()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
+                    
                 </div>
                 <div className='topics'>
                     <div className='topicsTitle'>Topics:</div>

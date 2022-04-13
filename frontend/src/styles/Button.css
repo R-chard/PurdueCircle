@@ -20,7 +20,7 @@
     text-align: center;
 
     /* border & bounds */
-    background-color: var(--blue);
+    background-color: var(--blue-button);
     padding: 10px 20px;
     border-radius: 4px;
 }

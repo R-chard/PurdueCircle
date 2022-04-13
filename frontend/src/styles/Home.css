@@ -23,7 +23,7 @@
 }
 
 .contents.home .css-1n7v3ny-option {
-    background-color: var(--bg-selected) !important;
+    background-color: var(--selected-item) !important;
 }
 
 .contents.home .footer {

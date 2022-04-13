@@ -108,7 +108,7 @@ const PostMetadata = (props) => {
             {!post.postedAnon && <Link to ={"/profile/" + authorName}>
                 <img className='profilePic'
                     src={profilePic}
-                    alt="profile"
+                    alt={`Profile pic for ${authorName}`}
                 />
                 </Link>}
 
@@ -127,7 +127,7 @@ const PostMetadata = (props) => {
                 <div className='likeButton'>
                     {likes}
                     <button className='button likeButton' onClick={likeHandler}>
-                        {isLiked ? <img src='/likedIcon.png' alt='like icon'/> : <img src='/unlikedIcon.png' alt='pic'/>}
+                        {isLiked ? <img src='/likedIcon.png' alt='Like icon'/> : <img src='/unlikedIcon.png' alt='Unliked icon'/>}
                     </button>
                 </div>
                 <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>

@@ -3,7 +3,7 @@ import {useLocation,Link} from "react-router-dom"
 import axios from "axios"
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
-import Field from './Field'
+import Field from '../components/Field'
 import formatDate from "../utils/formatDate"
 
 const PostView = () => {
@@ -128,7 +128,7 @@ const PostView = () => {
                 <div className='userInfo'>
                     <div>
                         {!postedAnon && <Link to ={"/profile/" + post.author.username}>
-                            <img className='profilePic' src={post.author.profile_img} alt="profile" />
+                            <img className='profilePic' src={post.author.profile_img} alt={`Profile pic for ${post.author.username}`} />
                         </Link>}
                         
                     </div>

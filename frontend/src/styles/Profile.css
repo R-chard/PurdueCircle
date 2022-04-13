@@ -70,8 +70,12 @@
 }
 
 .contents.profile .nav-link.active {
-    background-color: var(--bg-selected);
+    background-color: var(--selected-bg);
     color: var(--text);
+}
+
+.contents.profile .nav-link {
+    color: var(--selected-text);
 }
 
 .contents.profile .tab-content {

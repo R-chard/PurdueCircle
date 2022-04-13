@@ -11,13 +11,13 @@
     --placeholder-color: rgb(77, 77, 77);
     --blue: #3a8efc;
     --blue-hover: #1770e6;
+    --blue-button: #0468EC;
     --dark-blue: #0c428a;
     --dark-gray: #464646;
     --light-gray: #cccccc;
-    --error-red: red;
     --red: red;
     --dark-red: hsl(0, 74%, 40%);
-    --warning: orange;
+    --warning: #ffa500;
 
     height: 100%;
     width: 100%;
@@ -56,17 +56,24 @@ h1 {
     .colorAuto {
         --bg-base: rgb(33, 33, 36);
         --bg-sec: #282828;
-        --bg-selected: #616161;
         --bg-field: #353535;
+
         --text-field: rgb(221, 221, 221);
         --text: white;
         --text-faded: var(--light-gray);
+
         --button-bg: var(--bg-sec);
         --button-bg-hover: rgb(58, 58, 63);
         --placeholder: var(--light-gray);
+
         --border: var(--dark-gray);
-        --error-red: var(--dark-red);
         --shadow: #5d5b5b35;
+        --error-red: #ff4f4f;
+        --blue-link: var(--blue);
+        
+        --selected-bg: #373737;
+        --selected-item: #616161;
+        --selected-text: #aaaaaa;
         
         background-color: var(--bg-base);
         color: var(--text);
@@ -77,7 +84,6 @@ h1 {
     .colorAuto {
         --bg-base: #f7f8fa;
         --bg-sec: rgb(255, 255, 255);
-        --bg-selected: #d4dffd;
         --bg-field: rgb(255, 255, 255);
         --text-field: rgb(77, 77, 77);
         --text: black;
@@ -87,6 +93,12 @@ h1 {
         --placeholder: #808080;
         --border: #eeeeee;
         --shadow: #00000015;
+        --error-red: #EB0000;
+        --blue-link: #0468EC;
+
+        --selected-bg: #e1e1e0;
+        --selected-item: #d4dffd;
+        --selected-text: #777777;
 
         background-color: var(--bg-base);
         color: var(--text);
@@ -96,7 +108,6 @@ h1 {
 .colorDark {
     --bg-base: rgb(33, 33, 36);
     --bg-sec: #282828;
-    --bg-selected: #616161;
     --bg-field: #353535;
     --text-field: rgb(221, 221, 221);
     --text: white;
@@ -107,6 +118,12 @@ h1 {
     --border: var(--dark-gray);
     --error-red: var(--dark-red);
     --shadow: #5d5b5b35;
+    --error-red: #ff4f4f;
+    --blue-link: var(--blue);
+
+    --selected-bg: #373737;
+    --selected-item: #616161;
+    --selected-text: #aaaaaa;
     
     background-color: var(--bg-base);
     color: var(--text);
@@ -115,7 +132,6 @@ h1 {
 .colorLight {
     --bg-base: #f7f8fa;
     --bg-sec: rgb(255, 255, 255);
-    --bg-selected: #d4dffd;
     --bg-field: rgb(255, 255, 255);
     --text-field: rgb(77, 77, 77);
     --text: black;
@@ -125,17 +141,13 @@ h1 {
     --placeholder: #808080;
     --border: #eeeeee;
     --shadow: #00000015;
+    --error-red: #EB0000;
+    --blue-link: #0468EC;
+
+    --selected-bg: #e1e1e0;
+    --selected-item: #d4dffd;
+    --selected-text: #777777;
 
     background-color: var(--bg-base);
     color: var(--text);
-}
-
-.bgBase {
-    /* background-color: var(--bg-base);
-    color: var(--text); */
-}
-
-.bgSec {
-    /* background-color: var(--bg-sec);
-    color: var(--text); */
 }

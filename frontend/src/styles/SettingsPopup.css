@@ -74,7 +74,7 @@
 }
 
 .popup.cornerMenu .colorSchemeButtons button.selected {
-    color: var(--blue);
+    color: var(--blue-link);
     font-size: 17px;
     transition: 200ms;
 }

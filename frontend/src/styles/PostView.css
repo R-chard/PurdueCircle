@@ -30,8 +30,6 @@
     width: clamp(270px, 100%, 500px);
 }
 
-
-
 .container.postView .contents.interaction {
     padding-left: 5px;
     padding-right: 5px;
@@ -177,7 +175,7 @@
 }
 
 .container.postView .commentError {
-    color: var(--red);
+    color: var(--error-red);
 }
 
 .container.postView .commentHeader {

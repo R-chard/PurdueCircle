@@ -19,6 +19,10 @@
     line-height: unset;
 }
 
+.contents.profile .profileData .name {
+    font-size: 20px;
+}
+
 .contents.profile .userInfo0 {
     display: flex;
     flex-direction: column;
@@ -86,7 +90,7 @@
     border: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .contents.profile .main.profilePic {
         width: 100px;
         height: 100px;
@@ -94,5 +98,11 @@
 
     .contents.profile .userInfo1 {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 650px) {
+    .contents.profile .userInfo0 {
+        margin-left: 15px;
     }
 }

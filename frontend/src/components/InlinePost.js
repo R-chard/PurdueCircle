@@ -56,7 +56,7 @@ const InlinePost = (props) => {
     }
 
     return (
-            <div className={`inlinePost contents${presetSize}`}>
+            <>
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments} post={post}/>
@@ -82,7 +82,7 @@ const InlinePost = (props) => {
                     {message}
                     </p>
                 </Link>
-            </div>
+            </>
     )
 } //PostView
 

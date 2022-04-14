@@ -5,6 +5,7 @@ import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
 import Field from '../components/Field'
 import formatDate from "../utils/formatDate"
+import { useRef } from 'react'
 
 const PostView = () => {
     //replace with api
@@ -21,6 +22,20 @@ const PostView = () => {
     const [numComments, setNumComments] = useState(0)
     const [postedAnon, setPostedAnon] = useState(false)
     const [updatedPost, setUpdatedPost] = useState(false)
+
+
+    const listInnerRef = useRef();
+    const onScroll = () => {
+        console.log(listInnerRef.current)
+        if (listInnerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+            console.log("scrollTop + clientHeight = scrollHeight", scrollTop + clientHeight, scrollHeight)
+            if (scrollTop + clientHeight === scrollHeight) {
+                console.log("reached bottom")
+            }
+        }
+    };
+
     
     useEffect(()=>{
         
@@ -189,7 +204,7 @@ const PostView = () => {
                     {post.message}
                 </p>
                 <div className='comments'>
-                    <ul>
+                    <ul onScroll={onScroll} ref={listInnerRef}>
                         {(numComments > 0) ? post.comments.map((comment) => {
                             
                             return (

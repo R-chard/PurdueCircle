@@ -56,7 +56,9 @@ const PostsByTopic = () => {
             </div>   
         {(data.posts.length === 0 ? <div>There are no posts with the topic "{title}" </div> : (
             data.posts.map(post => (
+                <div className={`inlinePost contents presetSize`}>
                     <InlinePost key={post._id} post={post}/>
+                </div>
                 // <div key={post._id} style={{display:"flex"}}>
                 //     <h2>{post.message}</h2> 
                 // </div>

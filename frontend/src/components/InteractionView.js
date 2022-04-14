@@ -39,7 +39,9 @@ const InteractionView = (props) => {
                 {renderUsername()}
             </div>
             <div className='container postView'>
+                <div className={`inlinePost contents presetSize`}>
                 <InlinePost key={post._id} post={post}/>
+                </div>
             </div>
         </div>
     )

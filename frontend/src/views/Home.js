@@ -35,6 +35,7 @@ const Home = () => {
             observer.current.observe(element)
         }
         
+        //REMOVE
         console.log('last', element)
     }, [loading, hasMore])
 
@@ -42,6 +43,7 @@ const Home = () => {
     useEffect(() => {
       setLoading(true)
 
+      //TODO update this with pages
       axios.get("/api/post/fetchRecentPosts",{
         withCredentials: true, credentials:"include"
         })
@@ -49,28 +51,36 @@ const Home = () => {
             console.log("home data", response.data.finalList)
             setLoading(false)
 
-            //this checks if there are more posts to send
-            // setHasMore(response.data.finalList.length > 0)
+            if (data){
+                console.log('concated', data.posts.concat(response.data.finalList))
+                setData(data => ({posts: data.posts.concat(response.data.finalList)}))
+            }
+            else 
+                setData({posts: response.data.finalList})
+
 
             //remove this once backend returns pages
             if (page === 3) {
                 setHasMore(false)
             }
+
+            //this checks if there are more posts to send
+            // setHasMore(response.data.finalList.length > 0)
         })
     
     }, [page])
     
 
     //remove this once backend can send pages
-    useEffect(() => {
-        axios.get("/api/post/fetchRecentPosts",{
-            withCredentials: true, credentials:"include"
-        })
-        .then(response=>{
-            console.log("home data", response.data.finalList)
-            setData({ posts: response.data.finalList })
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get("/api/post/fetchRecentPosts",{
+    //         withCredentials: true, credentials:"include"
+    //     })
+    //     .then(response=>{
+    //         console.log("home data", response.data.finalList)
+    //         setData({ posts: response.data.finalList })
+    //     })
+    // }, [])
 
     const prevHandler = () => {
         console.log('prev')
@@ -113,6 +123,7 @@ const Home = () => {
                         }
                     }))
                 )}
+                {loading ? <div className="loading">Loading...</div> : ''}
                 <div className="footer">
                     {prevEnabled()}
                     <Button onClick={nextHandler} text='Next'/>

@@ -144,7 +144,9 @@ const Profile = (props) => {
                                     ))) 
                                     : (tab.content.map(post => (
                                         <div className="container postView">
-                                            <InlinePost key={post._id} post={post} presetSize={false}/>
+                                            <div className={`inlinePost contents`}>
+                                                <InlinePost key={post._id} post={post}/>
+                                            </div>
                                         </div>
                                     )))
                                 )

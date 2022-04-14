@@ -33,9 +33,9 @@ const PostView = () => {
             setLikes(response.data.post.likes)
             setNumComments(response.data.post.comments.length)
             setPostedAnon(response.data.post.postedAnon)
+            setIsSaved(response.data.post.isSaved)
             console.log(response.data.post)
 
-            setIsSaved(true)
         })
     },[postID, updatedPost])
 
@@ -64,10 +64,18 @@ const PostView = () => {
     const savedHandler = () => {
         if (isSaved) {
             setIsSaved(false)
-            //TODO axios
+            axios.post("/api/post/unsave",{
+                postID:post._id,
+            },{
+                withCredentials: true, credentials:"include"
+            })
         } else {
             setIsSaved(true)
-            //TODO axios
+            axios.post("/api/post/save",{
+                postID:post._id,
+            },{
+                withCredentials: true, credentials:"include"
+            })
         }
     }
 

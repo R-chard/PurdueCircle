@@ -229,6 +229,12 @@ const postById = async(req,res,next) => {
                 post.hasLiked = true
             }
         }
+        let user = await User.findById(userID)
+        for (let savedPost of user.saved_posts){
+            if (savedPost.toString() === postID){
+                post.isSaved = true
+            }
+        }
     } catch(error){
         return next(error)
     }
@@ -361,7 +367,38 @@ const save = async(req,res,next) => {
         await currUser.save()
 
     } catch(err){
-        return next(error)
+        return next(err)
+    }
+    res.status(200).json({success:true})
+}
+
+const unsave = async(req,res,next)=>{
+    const postID = req.body.postID
+    const user = req.session.userID
+    let post
+    try{
+        post = await Post.findById(postID)
+        const currUser = await User.findById(user)
+        if(!post || !currUser){
+            return next(new Error("User or post cannot be found"))
+        }
+        const savedIndex = currUser.saved_posts.indexOf(postID)
+        currUser.saved_posts.splice(savedIndex,1)
+
+        let intIndex = -1;
+        for (let i = 0; i < currUser.interactions.length; i++) {
+            if (currUser.interactions[i].post == postID) {
+                intIndex = i;
+            }    
+        }
+
+        if (intIndex > -1) {
+            currUser.interactions.splice(intIndex, 1)
+        }
+        await currUser.save()
+
+    } catch(err){
+        return next(err)
     }
     res.status(200).json({success:true})
 }
@@ -370,6 +407,7 @@ exports.create = create
 exports.like = like
 exports.unlike = unlike
 exports.save = save
+exports.unsave = unsave
 exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts

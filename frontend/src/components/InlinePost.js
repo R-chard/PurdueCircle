@@ -60,6 +60,7 @@ const InlinePost = (props) => {
                 {/* <UserInfo profilePic={profilePic} author={authorName} date={date} likes={likes} liked={liked} likeHandler={likeHandler}/> */}
                 <PostMetadata authorName={authorName} profilePic={profilePic} date={date} likes={likes} liked={liked} isLiked={isLiked}
                     likeHandler={likeHandler} numComments={numComments} post={post}/>
+                <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>
                 <div className='topics'>
                     <div className='topicsTitle'>Topics:</div>
                     {topics.length === 0 ? <div>&nbsp;No topics.</div> : (
@@ -86,7 +87,7 @@ const InlinePost = (props) => {
 } //PostView
 
 const PostMetadata = (props) => {
-    const { authorName, profilePic, date, likes, likeHandler, isLiked, numComments, post } = props
+    const { authorName, profilePic, date, likes, likeHandler, isLiked, post } = props
     
     const likedClass = () => {
         if (isLiked) {
@@ -146,7 +147,6 @@ const PostMetadata = (props) => {
                         </svg>
                     </button>
                 </div>
-                <div className='numComments'>{numComments} {numComments === 1 ? 'comment' : 'comments'}</div>
             </div>
         </div>
     )

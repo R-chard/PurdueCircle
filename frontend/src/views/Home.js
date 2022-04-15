@@ -51,13 +51,15 @@ const Home = () => {
             console.log("home data", response.data.finalList)
             setLoading(false)
 
-            if (data){
-                console.log('concated', data.posts.concat(response.data.finalList))
-                setData(data => ({posts: data.posts.concat(response.data.finalList)}))
-            }
-            else 
-                setData({posts: response.data.finalList})
+            setData(data => {
+                console.log('DATA FOUND', data)
+                // console.log('concated', data.posts.concat(response.data.finalList))
 
+                if (data)
+                    return { posts: data.posts.concat(response.data.finalList) }
+                else
+                    return { posts: response.data.finalList }
+            })
 
             //remove this once backend returns pages
             if (page === 3) {

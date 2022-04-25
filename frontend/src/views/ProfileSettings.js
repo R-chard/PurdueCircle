@@ -106,7 +106,6 @@ const ProfileSettings = (props) => {
       }).then(response => {
           if (response.data.success) {
               history.push('/signup')
-              alert("account deleted")
           }
       })
 
@@ -152,10 +151,6 @@ const ProfileSettings = (props) => {
     if(checkError()) {
       axios.patch("/api/user/update",updateObject,{
         withCredentials: true, credentials:"include"
-      }).then(response => {
-        if(response.data.success){
-          alert("Changes successful")
-        }
       })
     } else {
         console.log('check errors in fields');

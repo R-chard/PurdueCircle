@@ -155,14 +155,10 @@ const retrieveInteractions = async (req, res, next) => {
     }
 
     interactions = currUser.interactions;
-    /*if (topicList.length = 0) {
-        return next(error)
-    }*/
-    //not sure if this is the correct way of sending info to frontend
-    //return followingUsers
     let intUserObjects = []; //added changes to find actual users
     for (let i = 0; i < interactions.length; i++) {
         tempPost = await Post.findById(interactions[i].post);
+        // prevents deleted posts from being added
         if (tempPost){
             intUserObjects.push({
                 post: tempPost,
@@ -228,15 +224,22 @@ const getProfile = async(req,res,next)=>{
                 }
             }
             
+            let filteredInteractions = []
             // iterate thorugh interactions to add hasLiked
             for(let i = 0; i<reqUser.interactions.length;i++){
-                reqUser.interactions[i].post.hasLiked = false
-                for(let j =0; j<reqUser.interactions[i].post.usersLiked.length;j++){
-                    if (reqUser.interactions[i].post.usersLiked[j].toString() === currUserID){
-                        reqUser.interactions[i].post.hasLiked = true
+                if (reqUser.interactions[i].post){
+                    reqUser.interactions[i].post.hasLiked = false
+                    for(let j =0; j<reqUser.interactions[i].post.usersLiked.length;j++){
+                        if (reqUser.interactions[i].post.usersLiked[j].toString() === currUserID){
+                            reqUser.interactions[i].post.hasLiked = true
+                        }
                     }
+                    filteredInteractions.push(reqUser.interactions[i])
                 }
+                
             }
+
+            reqUser.interactions = filteredInteractions
 
             if (currUserID == reqUser._id){
                 reqUser.selfProfile = true

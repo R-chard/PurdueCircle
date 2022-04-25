@@ -1,4 +1,5 @@
 const User = require("../schemas/users")
+const Post = require("../schemas/posts")
 const bcrypt = require("bcryptjs")
 
 const signup = async (req,res,next) => {
@@ -107,18 +108,73 @@ const logout = async(req,res,next) => {
 const deleteAccount = async (req, res, next) => {
 
     const userID = req.session.userID;
+    let user;
 
-    try {
-        await User.findByIdAndDelete(userID);
-    } catch (error) {
+    try{
+        user = await User.findById(userID)
+    } catch(error){
+        return next(error)
+    }
+
+    // Delete user posts
+    try{
+        for(let postID of user.posts){
+            await Post.findByIdAndDelete(postID)
+        }
+    } catch(error){
+        return next(error)
+    }
+
+    //Remove self from users following and followed
+    try{
+        for(let usersFollowedID of user.users_followed){
+            let usersFollowed = await User.findById(usersFollowedID)
+            let indexToDel = -1
+            for(let i = 0; i<usersFollowed.users_following.length; i++){
+                if (usersFollowed.users_following[i] == userID.toString()){
+                    indexToDel = i
+                }
+            }
+            if(indexToDel === -1){
+                return next(new Error("Unexpected missing following user from the user's followed list"))
+            }
+            usersFollowed.users_following.splice(indexToDel,1)
+            usersFollowed.save()
+        }
+
+        for(let usersFollowingID of user.users_following){
+            let usersFollowing = await User.findById(usersFollowingID)
+            let indexToDel = -1
+            for(let i = 0; i<usersFollowing.users_followed.length; i++){
+                if (usersFollowing.users_followed[i] == userID.toString()){
+                    indexToDel = i
+                }
+            }
+            if(indexToDel === -1){
+                return next(new Error("Unexpected missing followed user from the user's following list"))
+            }
+            usersFollowing.users_followed.splice(indexToDel,1)
+            usersFollowing.save()
+        }
+
+    } catch(error){
         return next(error);
     }
 
-    req.session.destroy(err=>{
-        if(err){
-            return next(err)
+    // Delete users
+    try{
+        await User.findByIdAndDelete(userID);
+    } catch(error){
+        return next(error)
+    }
+
+    // Delete login sessions
+    req.session.destroy(error=>{
+        if(error){
+            return next(error)
         }
     })
+
     res.status(200).json({success:true})
 
 }

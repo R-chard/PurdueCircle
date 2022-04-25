@@ -1,4 +1,3 @@
-const { post } = require("../routes/post-routes");
 const Post = require("../schemas/posts")
 const Topic = require("../schemas/topics")
 const User = require("../schemas/users")

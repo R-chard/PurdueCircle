@@ -151,6 +151,7 @@ const comment = async(req,res,next)=>{
 const retrievePastPosts = async(req,res,next) => {
     let pastPosts = [];
     const userID = req.session.userID;
+    let currUser
 
     try {
         currUser = await User.findById(userID);
@@ -159,7 +160,6 @@ const retrievePastPosts = async(req,res,next) => {
     }
 
     try {
-        //currUser = await User.findById(userID);
         for (let i = 0; i < currUser.posts.length; i++) {
             tempPost = await Post.findById(currUser.posts[i]);
             pastPosts.push(tempPost)
@@ -175,6 +175,7 @@ const retrieveFollowedPosts = async(req,res,next) => {
     let pastPosts = [];
     let followed = [];
     const userID = req.session.userID;
+    let currUser
 
     try {
         currUser = await User.findById(userID);
@@ -183,7 +184,6 @@ const retrieveFollowedPosts = async(req,res,next) => {
     }
 
     try {
-        //currUser = await User.findById(userID);
         for (let i = 0; i < currUser.users_following.length; i++) {
             tempFollowed = await User.findById(currUser.users_following[i]);
             followed.push(tempFollowed)
@@ -193,7 +193,6 @@ const retrieveFollowedPosts = async(req,res,next) => {
     }
 
     try {
-        //currUser = await User.findById(userID);
         for (let i = 0; i < followed.length; i++) {
             for (let j = 0; j < followed[i].posts.length; j++){
                 tempPost = await Post.findById(followed[i].posts[j]);
@@ -207,6 +206,18 @@ const retrieveFollowedPosts = async(req,res,next) => {
 
     res.status(200).json({pastPosts});
 
+}
+
+const retrieveSavedPosts = async(req,res,next) => {
+    const userID = req.session.userID
+    let currUser
+    try{
+        currUser = await User.findById(userID).populate("saved_posts")
+    } catch(error){
+        return next(error)
+    }
+
+    res.status(200).json({savedPosts:currUser.saved_posts})
 }
 
 const postById = async(req,res,next) => {
@@ -254,7 +265,6 @@ const fetchRecentPosts = async(req,res,next) => {
 
     //adds followed users into followed
     try {
-        //currUser = await User.findById(userID);
         //gets users in the following item (following means people the requesting-user is following)
         for (let i = 0; i < currUser.users_following.length; i++) {
             
@@ -296,7 +306,6 @@ const fetchRecentPosts = async(req,res,next) => {
         for (let i = 0; i < topics.length; i++) {
             for (let j = 0; j < topics[i].posts.length; j++) {
                 tempPost = await Post.findById(topics[i].posts[j]);
-                
                 pastPosts.push(tempPost)
                 
             }
@@ -327,8 +336,6 @@ const fetchRecentPosts = async(req,res,next) => {
     for (let i = 0; i < noDuplicates.length; i++) {
         let post = noDuplicates[i]
         const author = await User.findById(post.author)
-        //removed this because removing duplicates makes everything objects or something idk
-        // post = post.toObject()
         post.author = {}
         post.author.username = author.username
         post.author.profile_img = author.profile_img
@@ -410,5 +417,6 @@ exports.unsave = unsave
 exports.comment = comment
 exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts
+exports.retrieveSavedPosts = retrieveSavedPosts
 exports.postById = postById
 exports.fetchRecentPosts = fetchRecentPosts

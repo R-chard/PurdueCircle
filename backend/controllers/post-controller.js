@@ -220,7 +220,7 @@ const retrieveSavedPosts = async(req,res,next) => {
     }
 
     // sorted array of posts by date
-    let sortedPosts = currUser.saved_posts.sort((a,b) => (a.datePosted > b.datePosted) ? 1 : -1)
+    let sortedPosts = currUser.saved_posts.sort((a,b) => (a.datePosted < b.datePosted) ? 1 : -1)
     let sendPosts = [];
 
     // loop through corresponding posts to send

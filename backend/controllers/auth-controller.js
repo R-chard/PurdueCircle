@@ -125,6 +125,40 @@ const deleteAccount = async (req, res, next) => {
         return next(error)
     }
 
+    // Delete post interactions and saves that deleted user made
+    try{
+        let interactedUsers = await User.find({
+            $or:[
+                {"interactions.post":user.posts},
+                {"saved_posts":user.posts}
+            ]
+        })
+        let post_ids = user.posts.map(id=>id.toString())
+        for(let interactedUser of interactedUsers){
+            let unaffectedInteractions = []
+            for (let interaction of interactedUser.interactions){
+                if (!post_ids.includes(interaction.post.toString())){
+                    unaffectedInteractions.push(interaction)
+                }
+            }
+            interactedUser.interactions = unaffectedInteractions
+            
+            let unaffectedSaves = []
+            for (let savedPost of interactedUser.saved_posts){
+                if (!post_ids.includes(savedPost.toString())){
+                    unaffectedSaves.push(savedPost)
+                }
+            }
+            interactedUser.saved_posts = unaffectedSaves
+            await interactedUser.save()
+        }
+
+    } catch(error){
+        return next(error)
+    }
+
+    // TODO: Comments and likes if have time
+
     //Remove self from users following and followed
     try{
         for(let usersFollowedID of user.users_followed){

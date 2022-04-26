@@ -210,6 +210,8 @@ const retrieveFollowedPosts = async(req,res,next) => {
 
 const retrieveSavedPosts = async(req,res,next) => {
     const userID = req.session.userID
+    let page = 0; // change for request parameter
+    const limit = 5; // max number of posts to be returned
     let currUser
     try{
         currUser = await User.findById(userID).populate("saved_posts")
@@ -217,7 +219,20 @@ const retrieveSavedPosts = async(req,res,next) => {
         return next(error)
     }
 
-    res.status(200).json({savedPosts:currUser.saved_posts})
+    // sorted array of posts by date
+    let sortedPosts = currUser.saved_posts.sort((a,b) => (a.datePosted < b.datePosted) ? 1 : -1)
+    let sendPosts = [];
+
+    // loop through corresponding posts to send
+    for (let i = 0; i < limit; i++) {
+        let index = page + i;
+        if (index < sortedPosts.length) {
+            sendPosts.push(sendPosts(index))
+        }
+        
+    }
+    res.status(200).json({savedPosts:sendPosts})
+    //res.status(200).json({savedPosts:currUser.saved_posts})
 }
 
 const postById = async(req,res,next) => {

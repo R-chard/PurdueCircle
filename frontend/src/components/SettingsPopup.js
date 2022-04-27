@@ -69,9 +69,9 @@ const SettingsPopup = (props) => {
     return (
         <div className='popup cornerMenu' ref={popupRef}>
             <div className='colorSchemeButtons'>
-                <button className={`button ${isSelected('colorDark')}`} onClick={() => setUserScheme('colorDark')}>Dark</button>
-                <button className={`button ${isSelected('colorAuto')}`} onClick={() => setUserScheme('colorAuto')}>Auto</button>
-                <button className={`button ${isSelected('colorLight')}`} onClick={() => setUserScheme('colorLight')}>Light</button>
+                <button className={`button ${isSelected('colorDark')}`} onClick={() => setUserScheme('colorDark')} data-testid="dark-button">Dark</button>
+                <button className={`button ${isSelected('colorAuto')}`} onClick={() => setUserScheme('colorAuto')} data-testid="auto-button">Auto</button>
+                <button className={`button ${isSelected('colorLight')}`} onClick={() => setUserScheme('colorLight')} data-testid="light-button">Light</button>
             </div>
             <div className='divider'>
                 <hr />

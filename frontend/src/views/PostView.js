@@ -3,6 +3,7 @@ import {useLocation,Link} from "react-router-dom"
 import axios from "axios"
 import '../styles/PostView.css'
 import { ButtonBlue, ButtonTwoColor } from '../components/Button'
+import SaveButton from '../components/SaveButton'
 import Field from '../components/Field'
 import formatDate from "../utils/formatDate"
 import { useRef } from 'react'
@@ -36,7 +37,6 @@ const PostView = () => {
         }
     };
 
-    
     useEffect(()=>{
         
         axios.get("/api/post/postById/" + postID,{
@@ -96,10 +96,6 @@ const PostView = () => {
 
     const likedClass = () => {
         return isLiked ? 'primary' : 'secondary'
-    }
-
-    const savedClass = () => {
-        return isSaved ? 'primary' : ''
     }
 
     //sends new comment
@@ -177,12 +173,9 @@ const PostView = () => {
                         <div className='date'>{formatDate(post.datePosted)}</div>
                     </div>
                     
-                    <div className='pushRight' data-testid="save-button">
-                        <button onClick={savedHandler} className='save button' title='save post'>
-                            <svg className={`save-svg ${savedClass()}`}>
-                                <polygon points="20 21 12 13.44 4 21 4 3 20 3 20 21"></polygon>
-                            </svg>
-                        </button>
+                    <div className='pushRight'>
+                        <SaveButton savedHandler={savedHandler} isSaved = {isSaved}/>
+                        
                         <ButtonTwoColor className={`button ${likedClass()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
                     </div>
                     

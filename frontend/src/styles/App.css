@@ -108,7 +108,7 @@ h1 {
 }
 
 .colorDark {
-    --bg-base: rgb(33, 33, 36);
+    --bg-base: #212124;
     --bg-sec: #282828;
     --bg-field: #353535;
     --text-field: rgb(221, 221, 221);

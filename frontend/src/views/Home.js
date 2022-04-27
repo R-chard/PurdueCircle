@@ -126,10 +126,6 @@ const Home = () => {
                     }))
                 )}
                 {loading ? <div className="loading">Loading...</div> : ''}
-                <div className="footer">
-                    {prevEnabled()}
-                    <Button onClick={nextHandler} text='Next'/>
-                </div>
             </div>
         </div>
     )

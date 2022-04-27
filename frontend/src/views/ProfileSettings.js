@@ -61,6 +61,8 @@ const ProfileSettings = (props) => {
         setUsername(e.target.value)
         if(e.target.value === '') {
           setUsernameError(" - Please enter a username")
+        } else if(e.target.value.length > 32) {
+          setUsernameError(" - Cannot exceed 32 characters");
         } else {
           setUsernameError('')
         }
@@ -71,6 +73,8 @@ const ProfileSettings = (props) => {
           setPasswordError('')
         } else if (e.target.value.length < 8) {
           setPasswordError(" - Password length must be at least 8 characters")
+        } else if(e.target.value.length > 32) {
+          setPasswordError(" - Cannot exceed 32 characters");
         } else {
           setPasswordError('')
         }
@@ -90,6 +94,8 @@ const ProfileSettings = (props) => {
       setName(e.target.value)
       if(e.target.value === '') {
         setNameError(" - Please enter a name")
+      } else if(e.target.value.length > 32) {
+        setNameError(" - Cannot exceed 32 characters");
       } else {
         setNameError('')
       }

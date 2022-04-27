@@ -50,7 +50,16 @@ const SignUp = () => {
 
         } else if (!(email.includes('@') && email.includes('.'))) {
             tempMessage = { field: 'email', message: 'Invalid email format' }
-
+        } else if (name.length > 32) {
+            tempMessage = { field: 'name', message: 'Cannot exceed 32 characters' }
+        } else if (email.length > 32) {
+            tempMessage = { field: 'email', message: 'Cannot exceed 32 characters' }
+        } else if (username.length > 32) {
+            tempMessage = { field: 'username', message: 'Cannot exceed 32 characters' }
+        } else if (password.length > 32) {
+            tempMessage = { field: 'password', message: 'Cannot exceed 32 characters' }
+        } else if (confirmPassword.length > 32) {
+            tempMessage = { field: 'confirmPassword', message: 'Cannot exceed 32 characters' }
         }
 
         // return if unsuccessful

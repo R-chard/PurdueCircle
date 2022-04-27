@@ -21,6 +21,12 @@ const Login = () => {
         } else if (password === '') {
             setErrorMessage({ field: 'password', message: 'Password field is empty' })
             return
+        } else if (password.length > 32) {
+            setErrorMessage({ field: 'password', message: 'Cannot exceed 32 characters' })
+            return
+        } else if (username.length > 32) {
+            setErrorMessage({ field: 'username', message: 'Cannot exceed 32 characters' })
+            return
         }
 
         axios.post("/api/auth/login", {

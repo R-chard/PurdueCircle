@@ -6,17 +6,24 @@ import SettingsPopup from "../components/SettingsPopup";
 import '@testing-library/jest-dom/extend-expect'
 
 // User story 3
-test("save button white when unsaved",()=>{
-    const {getByTestId} = render(<SaveButton isSaved={false} />)
-    const unsave_svg = getByTestId("test-save-svg")
+test("Save button initial colour depends on isSaved",()=>{
+    const {getByTestId:getByTestId1,unmount} = render(<SaveButton isSaved={false} />)
+    const unsave_svg = getByTestId1("test-save-svg")
     expect(unsave_svg).toHaveClass("save-svg")
+    unmount()
 
+    const {getByTestId} = render(<SaveButton isSaved={true} />)
+    const save_svg = getByTestId("test-save-svg")
+    expect(save_svg).toHaveClass("save-svg primary")
 })
 
-test("save button blue when saved",()=>{
+test("Save button toggles when clicked",()=>{
     const {getByTestId} = render(<SaveButton isSaved={true} />)
-    const saved_svg = getByTestId("test-save-svg")
-    expect(saved_svg).toHaveClass("save-svg primary")
+    const svg = getByTestId("test-save-svg")
+
+    expect(svg).toHaveClass("save-svg primary")
+    fireEvent.click(svg)
+    expect(svg).toHaveClass("save-svg")
 })
 
 // User story 5

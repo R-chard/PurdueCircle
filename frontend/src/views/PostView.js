@@ -18,7 +18,6 @@ const PostView = () => {
     const [post,setPost] = useState(null)
     const [isLiked, setIsLiked] = useState(false)
     const [likes, setLikes] = useState(0)
-    const [isSaved, setIsSaved] = useState(false)
     const [newComment,setNewComment] = useState("")
     const [numComments, setNumComments] = useState(0)
     const [postedAnon, setPostedAnon] = useState(false)
@@ -48,7 +47,6 @@ const PostView = () => {
             setLikes(response.data.post.likes)
             setNumComments(response.data.post.comments.length)
             setPostedAnon(response.data.post.postedAnon)
-            setIsSaved(response.data.post.isSaved)
             console.log(response.data.post)
 
         })
@@ -70,24 +68,6 @@ const PostView = () => {
             setLikes(likes + 1)
             axios.post("/api/post/like",{
                 postID:post._id
-            },{
-                withCredentials: true, credentials:"include"
-            })
-        }
-    }
-
-    const savedHandler = () => {
-        if (isSaved) {
-            setIsSaved(false)
-            axios.post("/api/post/unsave",{
-                postID:post._id,
-            },{
-                withCredentials: true, credentials:"include"
-            })
-        } else {
-            setIsSaved(true)
-            axios.post("/api/post/save",{
-                postID:post._id,
             },{
                 withCredentials: true, credentials:"include"
             })
@@ -174,7 +154,7 @@ const PostView = () => {
                     </div>
                     
                     <div className='pushRight'>
-                        <SaveButton savedHandler={savedHandler} isSaved = {isSaved}/>
+                        <SaveButton isSaved={post.isSaved} postID ={post._id} />
                         
                         <ButtonTwoColor className={`button ${likedClass()}`} onClick={likeHandler} text={`${likes} ${likes === 1 ? 'like' : 'likes'}`} />
                     </div>

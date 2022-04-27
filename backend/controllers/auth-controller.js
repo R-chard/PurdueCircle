@@ -6,6 +6,10 @@ const signup = async (req,res,next) => {
     // Expecting the frontend to send username, email, and password
     const {username,email,password,name} = req.body
     
+    if (username.length > 32 || email.length > 32 || password.length > 32 || name.length > 32) {
+        res.status(404).json({isValid: false})
+        return
+    }
     // check if user/email exists
     const userBool = await User.findOne({username});
     const emailBool = await User.findOne({email});
@@ -48,6 +52,10 @@ const login = async (req, res, next) => {
     let currUser;
     let success;
 
+    if (credentials.length > 32 || password.length > 32) {
+        res.status(404).json({isValid: false})
+        return
+    }
     try {
         currUser = await User.findOne({ username: credentials });
     } catch (err) {

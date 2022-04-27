@@ -37,11 +37,27 @@ const Profile = (props) => {
             setFollowed(response.data.user.following)
             const posts = response.data.user.posts
             const interactions = response.data.user.interactions
+            const savedPosts = response.data.user.saved_posts;
             const intrPosts = [];
             interactions.forEach(element => {
                 intrPosts.push(element.post)
             });
-            setTabContent([
+            setTabContent(response.data.user.selfProfile ? [
+                {
+                    title: "Posts",
+                    content: posts
+                },
+                {
+                    title: "Interactions",
+                    content: intrPosts,
+                    interactions: interactions
+                },
+                {
+                    title: "Saved",
+                    content: savedPosts
+                }
+            ] : 
+            [
                 {
                     title: "Posts",
                     content: posts
@@ -152,8 +168,7 @@ const Profile = (props) => {
                                 )
                             }
                             <div className="footer">
-                                    {prevEnabled()}
-                                    <Button onClick={nextHandler} text='Next'/>
+                                    
                             </div> 
                         </div>
                         }

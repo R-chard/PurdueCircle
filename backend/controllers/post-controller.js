@@ -210,11 +210,34 @@ const retrieveFollowedPosts = async(req,res,next) => {
 
 const retrieveSavedPosts = async(req,res,next) => {
     const userID = req.session.userID
+    let currUser
+    try{
+        currUser = (await User.findById(userID).populate("saved_posts")).toObject()
+        if(currUser.saved_posts){
+            for(let i=0;i< currUser.saved_posts.length;i++){
+                let authorID = currUser.saved_posts[i].author
+                currUser.saved_posts[i].author = await User.findById(authorID,{"username":1,"profile_img":1})
+            }
+        }
+        
+    } catch(error){
+        return next(error)
+    }
+
+    res.status(200).json({savedPosts:currUser.saved_posts})
+}
+
+/*
+const retrieveSavedPosts = async(req,res,next) => {
+    const userID = req.session.userID
     let page = 0; // change for request parameter
     const limit = 5; // max number of posts to be returned
     let currUser
     try{
-        currUser = await User.findById(userID).populate("saved_posts")
+        currUser = await User.findById(userID).populate("saved_posts",{
+            path:"author",
+            select:"username profile_img",
+        })
     } catch(error){
         return next(error)
     }
@@ -234,6 +257,7 @@ const retrieveSavedPosts = async(req,res,next) => {
     res.status(200).json({savedPosts:sendPosts})
     //res.status(200).json({savedPosts:currUser.saved_posts})
 }
+*/
 
 const postById = async(req,res,next) => {
     const postID = req.params.postID

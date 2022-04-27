@@ -177,7 +177,7 @@ const PostView = () => {
                         <div className='date'>{formatDate(post.datePosted)}</div>
                     </div>
                     
-                    <div className='pushRight'>
+                    <div className='pushRight' data-testid="save-button">
                         <button onClick={savedHandler} className='save button' title='save post'>
                             <svg className={`save-svg ${savedClass()}`}>
                                 <polygon points="20 21 12 13.44 4 21 4 3 20 3 20 21"></polygon>

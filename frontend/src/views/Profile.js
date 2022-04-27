@@ -42,7 +42,7 @@ const Profile = (props) => {
             interactions.forEach(element => {
                 intrPosts.push(element.post)
             });
-            setTabContent([
+            setTabContent(response.data.user.selfProfile ? [
                 {
                     title: "Posts",
                     content: posts
@@ -55,6 +55,17 @@ const Profile = (props) => {
                 {
                     title: "Saved",
                     content: savedPosts
+                }
+            ] : 
+            [
+                {
+                    title: "Posts",
+                    content: posts
+                },
+                {
+                    title: "Interactions",
+                    content: intrPosts,
+                    interactions: interactions
                 }
             ])
         })

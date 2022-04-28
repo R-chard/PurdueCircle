@@ -209,6 +209,7 @@ const Profile = (props) => {
                                             )
                                         }else{
                                             return(
+                                                <div>
                                                 <InteractionView 
                                                     key={post.post_id} 
                                                     post={post.post} 
@@ -216,6 +217,7 @@ const Profile = (props) => {
                                                     interaction={post} 
                                                     presetSize={false} 
                                                 />
+                                                </div>
                                             )
                                         }
                                     }))
@@ -258,7 +260,6 @@ const Profile = (props) => {
 )
                                 )
                             }
-                            {loading ? <div className="loading">Loading...</div> : ''}
                             <div className="footer" />
                         </div>
                         }

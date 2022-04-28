@@ -183,7 +183,31 @@ const retrieveFollowedPosts = async(req,res,next) => {
     res.status(200).json({pastPosts});
 
 }
+const retrieveSavedPosts = async(req,res,next) => {
+    let savedPosts = [];
 
+    const userID = req.session.userID;
+    let currUser
+
+    try {
+        currUser = await User.findById(userID);
+    } catch (error) {
+        return next(error);
+    }
+
+    try {
+        for (let i = 0; i < currUser.saved_posts.length; i++) {
+            tempPost = await Post.findById(currUser.saved_posts[i]);
+            savedPosts.push(tempPost)
+            
+        }
+    } catch (error) {
+        return next(error);
+    }
+
+    res.status(200).json({savedPosts});
+
+}
 const postById = async(req,res,next) => {
     const postID = req.params.postID
     const userID = req.session.userID
@@ -390,5 +414,6 @@ exports.save = save
 exports.unsave = unsave
 exports.comment = comment
 exports.retrieveFollowedPosts = retrieveFollowedPosts
+exports.retrieveSavedPosts = retrieveSavedPosts
 exports.postById = postById
 exports.fetchRecentPosts = fetchRecentPosts

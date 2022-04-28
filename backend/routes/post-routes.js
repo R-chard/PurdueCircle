@@ -11,5 +11,6 @@ router.post("/unsave",validation,postController.unsave)
 router.get("/postById/:postID",validation,postController.postById)
 
 router.get("/retrieveFollowedPosts", validation, postController.retrieveFollowedPosts)
+router.get("/retrieveSavedPosts", validation, postController.retrieveSavedPosts)
 router.get("/fetchRecentPosts/:page", validation, postController.fetchRecentPosts)
 module.exports = router

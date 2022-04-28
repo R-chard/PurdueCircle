@@ -50,7 +50,7 @@ const Profile = (props) => {
             observer.current.observe(element)
         }
         
-    }, [loading, hasMore])
+    }, [loading, hasMore,user])
     useEffect(()=>{
         if(user.length > 0 && location.pathname != user){
             setUser(location.pathname)

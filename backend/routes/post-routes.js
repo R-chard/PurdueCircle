@@ -10,8 +10,6 @@ router.post("/save",validation,postController.save)
 router.post("/unsave",validation,postController.unsave)
 router.get("/postById/:postID",validation,postController.postById)
 
-router.get("/retrievePastPosts", validation, postController.retrievePastPosts)
 router.get("/retrieveFollowedPosts", validation, postController.retrieveFollowedPosts)
-router.get("/retrieveSavedPosts/:page",validation,postController.retrieveSavedPosts)
 router.get("/fetchRecentPosts/:page", validation, postController.fetchRecentPosts)
 module.exports = router

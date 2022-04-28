@@ -1,4 +1,4 @@
-import React,{ useEffect,useState } from "react"
+import React, { useEffect, useState, useRef,useCallback } from "react"
 import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
@@ -15,6 +15,10 @@ const Profile = (props) => {
     const [refresh,setRefresh] = useState(false)
     const [page, setPage] = useState(1)
     const [followed, setFollowed] = useState(0);
+    const [loading, setLoading] = useState(true)
+    const [hasMore, setHasMore] = useState(true)
+    const observer = useRef()
+    const location = useLocation()
     const [tabContent, setTabContent] = useState([
         {
             title: "Posts",
@@ -22,59 +26,110 @@ const Profile = (props) => {
         },
         {
             title: "Interactions",
-            content: []
-        },{
-            title: "Saved",
-            content: []
+            content: [],
+            interactions: []
         }
     ])
 
-    console.log(tabContent)
-    
-    const location = useLocation()
+    console.log("page is " + page)
+
+    const lastElement = useCallback(element => {
+        if (loading) return
+
+        if (observer.current) {
+            observer.current.disconnect()
+        }
+        observer.current = new IntersectionObserver(entires => {
+            console.log("yasd")
+            if (entires[0].isIntersecting && hasMore) {
+                console.log("hey")
+                setPage(page => page + 1)
+            }
+        })
+
+        if (element) {
+            observer.current.observe(element)
+        }
+        
+    }, [loading, hasMore])
     useEffect(()=>{
-        axios.get("/api/user" + location.pathname,{
+        setLoading(true)
+        axios.get("/api/user" + location.pathname + "?page=" + page.toString(),{
             withCredentials: true, credentials:"include"
         })
         .then(response=>{
-            console.log("profile data", response.data)
             setData(response.data.user)
             setFollowed(response.data.user.following)
+            setLoading(false)
             const posts = response.data.user.posts
             const interactions = response.data.user.interactions
             const savedPosts = response.data.user.saved_posts;
+            
+            if(response.data.user.selfProfile){
+                if(response.data.user.posts.length == 0 && 
+                    response.data.user.interactions.length == 0 &&
+                    response.data.user.saved_posts.length == 0){
+                    setHasMore(false)
+                }
+            } else{
+                if(response.data.user.posts.length == 0 && 
+                    response.data.user.interactions.length == 0){
+                    setHasMore(false)
+                }
+            }
             const intrPosts = [];
             interactions.forEach(element => {
                 intrPosts.push(element.post)
             });
-            setTabContent(response.data.user.selfProfile ? [
-                {
-                    title: "Posts",
-                    content: posts
-                },
-                {
-                    title: "Interactions",
-                    content: intrPosts,
-                    interactions: interactions
-                },
-                {
-                    title: "Saved",
-                    content: savedPosts
+
+            setTabContent(tabContent => {
+                if(response.data.user.selfProfile){
+                    if (tabContent.length == 3){
+                        return [
+                            {
+                                title: "Posts",
+                                content: tabContent[0].content.concat(posts)
+                            },
+                            {
+                                title: "Interactions",
+                                content: tabContent[1].content.concat(intrPosts),
+                                interactions: tabContent[1].interactions.concat(interactions)
+                            },{
+                                title: "Saved",
+                                content: tabContent[2].content.concat(savedPosts)
+                            }
+                        ]
+
+                    }
+                    return [
+                        {
+                            title: "Posts",
+                            content: tabContent[0].content.concat(posts)
+                        },
+                        {
+                            title: "Interactions",
+                            content: tabContent[1].content.concat(intrPosts),
+                            interactions: tabContent[1].interactions.concat(interactions)
+                        },{
+                            title: "Saved",
+                            content: response.data.user.saved_posts
+                        }
+                    ]
                 }
-            ] : 
-            [
-                {
-                    title: "Posts",
-                    content: posts
-                },
-                {
-                    title: "Interactions",
-                    content: intrPosts,
-                    interactions: interactions
-                }
-            ])
+                return [
+                    {
+                        title: "Posts",
+                        content: tabContent[0].content.concat(posts)
+                    },
+                    {
+                        title: "Interactions",
+                        content: tabContent[1].interactions.content.concat(intrPosts),
+                        interactions: tabContent[1].interactions.concat(interactions)
+                    }
+                ]
+            })        
         })
-    },[location.pathname,refresh])
+    },[location.pathname,refresh,page])
 
 
     const followHandler =() => {
@@ -103,24 +158,6 @@ const Profile = (props) => {
                 setRefresh(!refresh)
         }}
         )
-    }
-
-    const prevHandler = () => {
-        console.log('prev')
-        setPage(page - 1)
-    }
-
-    const nextHandler = () => {
-        console.log('next')
-        setPage(page + 1)
-    }
-    //disables previous button if at start
-    const prevEnabled = () => {
-        if (page === 1) {
-                return <Button text='Previous' className={'disabled'}/>
-        } else {
-            return <Button onClick={prevHandler} text='Previous'/>
-        }
     }
 
     return (
@@ -160,21 +197,70 @@ const Profile = (props) => {
                         {<div className="container postView">
                             {tab.content.length === 0 ? <div>There are no posts to show </div> : (
                                 tab.interactions ? 
-                                    (tab.interactions.map(post => (
-                                            <InteractionView key={post.post_id} post={post.post} username={data.username} interaction={post} presetSize={false}></InteractionView>
-                                    ))) 
-                                    : (tab.content.map(post => (
-                                        <div className="container postView">
-                                            <div className={`inlinePost contents`}>
+                                    (tab.interactions.map((post,index) => {
+                                        if (data.interactions.length === index + 1){
+                                            return (
+                                                <InteractionView 
+                                                    key={post.post_id} 
+                                                    post={post.post} 
+                                                    username={data.username} 
+                                                    interaction={post} 
+                                                    presetSize={false}
+                                                    ref = {lastElement}
+                                                />
+                                            )
+                                        }else{
+                                            return(
+                                                <InteractionView 
+                                                    key={post.post_id} 
+                                                    post={post.post} 
+                                                    username={data.username} 
+                                                    interaction={post} 
+                                                    presetSize={false} 
+                                                />
+                                            )
+                                        }
+                                    }))
+                                    : (tab.posts?(tab.posts.map((post,index) => {
+                                        if(data.posts.length === index+1){
+                                            return(
+                                                <div className="container postView" ref={lastElement}>
+                                                    <div className={`inlinePost contents`}>
                                                 <InlinePost key={post._id} post={post}/>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        return(
+                                            <div className="container postView">
+                                                <div className={`inlinePost contents`}>
+                                            <InlinePost key={post._id} post={post}/>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )))
+                                        )
+                                        
+                                    })):(tab.saved.map((post,index)=>{
+                                        if(data.saved.length === index+1){
+                                            return(
+                                                <div className="container postView" ref={lastElement}>
+                                                    <div className={`inlinePost contents`}>
+                                                <InlinePost key={post._id} post={post}/>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        return(
+                                            <div className="container postView">
+                                                <div className={`inlinePost contents`}>
+                                            <InlinePost key={post._id} post={post}/>
+                                                </div>
+                                            </div>
+                                        )
+                                    })))
                                 )
                             }
-                            <div className="footer">
-                                    
-                            </div> 
+                            {loading ? <div className="loading">Loading...</div> : ''}
+                            <div className="footer" />
                         </div>
                         }
                     </Tab.TabPane>

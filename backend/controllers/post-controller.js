@@ -147,30 +147,6 @@ const comment = async(req,res,next)=>{
 
 }
 
-//currently sends list of past post with all post properties
-const retrievePastPosts = async(req,res,next) => {
-    let pastPosts = [];
-    const userID = req.session.userID;
-    let currUser
-
-    try {
-        currUser = await User.findById(userID);
-    } catch (error) {
-        return next(error);
-    }
-
-    try {
-        for (let i = 0; i < currUser.posts.length; i++) {
-            tempPost = await Post.findById(currUser.posts[i]);
-            pastPosts.push(tempPost)
-        }
-    } catch (error) {
-        return next(error);
-    }
-    res.status(200).json({pastPosts});
-
-}
-
 const retrieveFollowedPosts = async(req,res,next) => {
     let pastPosts = [];
     let followed = [];
@@ -207,99 +183,6 @@ const retrieveFollowedPosts = async(req,res,next) => {
     res.status(200).json({pastPosts});
 
 }
-
-const retrieveSavedPosts = async(req,res,next) => {
-    const userID = req.session.userID
-    let currUser
-    try{
-        currUser = (await User.findById(userID).populate("saved_posts")).toObject()
-        if(currUser.saved_posts){
-            for(let i=0;i< currUser.saved_posts.length;i++){
-                let authorID = currUser.saved_posts[i].author
-                currUser.saved_posts[i].author = await User.findById(authorID,{"username":1,"profile_img":1})
-            }
-        }
-
-    } catch(error){
-        return next(error)
-    }
-
-    res.status(200).json({savedPosts:currUser.saved_posts})
-}
-/*
-
-const retrieveSavedPosts = async(req,res,next) => {
-    const userID = req.session.userID
-    const page = req.params.page; // change for request parameter
-    const limit = 5; // max number of posts to be returned
-    let currUser
-    try{
-        currUser = (await User.findById(userID).populate("saved_posts")).toObject()
-        if(currUser.saved_posts){
-            for(let i=0;i< currUser.saved_posts.length;i++){
-                let authorID = currUser.saved_posts[i].author
-                currUser.saved_posts[i].author = await User.findById(authorID,{"username":1,"profile_img":1})
-            }
-        }
-        
-    } catch(error){
-        return next(error)
-    }
-    // sorted array of posts by date
-    let sortedPosts = currUser.saved_posts.sort((a,b) => (a.datePosted < b.datePosted) ? 1 : -1)
-    let sendPosts = [];
-    let end = false;
-
-    // loop through corresponding posts to send
-    for (let i = 0; i < limit; i++) {
-        let index = page + i;
-        if (index < sortedPosts.length) {
-            sendPosts.push(sortedPosts[index])
-        } else {
-            end = true;
-            break;
-        }
-        
-    }
-
-    res.status(200).json({
-        savedPosts:sendPosts,
-        endReached:end
-    })
-    //res.status(200).json({savedPosts:currUser.saved_posts})
-}
-*/
-/*
-const retrieveSavedPosts = async(req,res,next) => {
-    const userID = req.session.userID
-    const page = req.params.page; // change for request parameter
-    const limit = 5; // max number of posts to be returned
-    let currUser
-    try{
-        currUser = await User.findById(userID).populate("saved_posts",{
-            path:"author",
-            select:"username profile_img",
-        })
-    } catch(error){
-        return next(error)
-    }
-
-    // sorted array of posts by date
-    const sortedPosts = currUser.saved_posts.sort((a,b) => (a.datePosted < b.datePosted) ? 1 : -1)
-    let sendPosts = [];
-
-    // loop through corresponding posts to send
-    for (let i = 0; i < limit; i++) {
-        let index = page + i;
-        if (index < sortedPosts.length) {
-            sendPosts.push(sortedPosts[index])
-        }
-        
-    }
-    res.status(200).json({savedPosts:sendPosts})
-    //res.status(200).json({savedPosts:currUser.saved_posts})
-}
-*/
 
 const postById = async(req,res,next) => {
     const postID = req.params.postID
@@ -506,8 +389,6 @@ exports.unlike = unlike
 exports.save = save
 exports.unsave = unsave
 exports.comment = comment
-exports.retrievePastPosts = retrievePastPosts
 exports.retrieveFollowedPosts = retrieveFollowedPosts
-exports.retrieveSavedPosts = retrieveSavedPosts
 exports.postById = postById
 exports.fetchRecentPosts = fetchRecentPosts

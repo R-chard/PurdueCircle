@@ -175,6 +175,8 @@ const retrieveInteractions = async (req, res, next) => {
 const getProfile = async(req,res,next)=>{
     const currUserID = req.session.userID
     const username = req.params.username
+    const page = req.query.page
+    const limit = 5;
     
     let reqUser
 
@@ -182,6 +184,7 @@ const getProfile = async(req,res,next)=>{
 
         // user is logged in
         if(currUserID){
+            // retrieve details to render page
             reqUser = await User.findOne({username})
             .populate("posts interactions.post")
             .populate([{
@@ -194,8 +197,15 @@ const getProfile = async(req,res,next)=>{
                 populate:{
                     path:"author",
                     select:"username profile_img"
-                }}])
-            
+                }},{
+                path:"saved_posts",
+                populate:{
+                    path:"author",
+                    select:"username profile_img"
+                }
+                }])
+
+        // user is not logged in. Details are unnecessary
         } else{
             reqUser = await User.findOne({username})
         }
@@ -213,6 +223,8 @@ const getProfile = async(req,res,next)=>{
             if (currUserID == reqUser._id){
                 reqUser.selfProfile = true
                 reqUser.posts = reqUser.posts.reverse()
+                reqUser.saved_posts = reqUser.saved_posts.reverse() 
+                reqUser.saved_posts = reqUser.saved_posts.slice((page-1)*limit,page*limit)
 
             // reqUser is another user
             } else{
@@ -225,8 +237,9 @@ const getProfile = async(req,res,next)=>{
                 }
                 reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon).reverse()
             }
-            
+            reqUser.posts = reqUser.posts.slice((page-1)*limit,page*limit)
             reqUser.interactions.posts = reqUser.interactions.reverse() 
+            reqUser.interactions.posts = reqUser.interactions.posts.slice((page-1)*limit,page*limit)
 
             // iterate through posts to add hasLiked
             for(let i = 0; i<reqUser.posts.length;i++){

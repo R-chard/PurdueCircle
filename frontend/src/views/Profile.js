@@ -181,6 +181,7 @@ const Profile = (props) => {
 
     return (
         <>
+            <Header/>
             {data && tabContent && !changing && (!data.isFound ? <h1>User Not Found</h1> : <div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}

@@ -212,7 +212,8 @@ const getProfile = async(req,res,next)=>{
         
         // user does not exist
         if(!reqUser){
-            res.status(404).json({isFound:false})
+            const user = {isFound:false}
+            res.status(404).json({user})
             return
         }
 

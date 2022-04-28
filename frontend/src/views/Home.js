@@ -12,7 +12,6 @@ const Home = () => {
     const [data, setData] = useState(null)
     const [page, setPage] = useState(1)
 
-
     const [loading, setLoading] = useState(true)
     const [hasMore, setHasMore] = useState(true)
     const observer = useRef()
@@ -41,10 +40,10 @@ const Home = () => {
 
 
     useEffect(() => {
+        console.log("page is ",page)
       setLoading(true)
 
-      //TODO update this with pages
-      axios.get("/api/post/fetchRecentPosts",{
+      axios.get("/api/post/fetchRecentPosts/" + page.toString(),{
         withCredentials: true, credentials:"include"
         })
         .then(response=>{

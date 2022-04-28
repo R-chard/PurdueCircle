@@ -177,7 +177,6 @@ const getProfile = async(req,res,next)=>{
     const username = req.params.username
     
     let reqUser
-    let currUser
 
     try{
 
@@ -196,7 +195,6 @@ const getProfile = async(req,res,next)=>{
                     path:"author",
                     select:"username profile_img"
                 }}])
-            currUser = await User.findById(currUserID)
             
         } else{
             reqUser = await User.findOne({username})
@@ -211,7 +209,23 @@ const getProfile = async(req,res,next)=>{
         reqUser = reqUser.toObject()
         if(currUserID){
             reqUser.loggedIn = true
-            reqUser.posts = reqUser.posts.reverse()
+            // reqUser is self
+            if (currUserID == reqUser._id){
+                reqUser.selfProfile = true
+                reqUser.posts = reqUser.posts.reverse()
+
+            // reqUser is another user
+            } else{
+                // current user is not following the selected user
+                reqUser.following = false
+                for (let user of reqUser.users_followed){
+                    if (user.toString() === currUserID){
+                        reqUser.following = true
+                    }
+                }
+                reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon).reverse()
+            }
+            
             reqUser.interactions.posts = reqUser.interactions.reverse() 
 
             // iterate through posts to add hasLiked
@@ -241,17 +255,6 @@ const getProfile = async(req,res,next)=>{
 
             reqUser.interactions = filteredInteractions
 
-            if (currUserID == reqUser._id){
-                reqUser.selfProfile = true
-            } else{
-                // current user is not following the selected user
-                reqUser.following = false
-                for (let user of reqUser.users_followed){
-                    if (user.toString() === currUserID){
-                        reqUser.following = true
-                    }
-                }
-            }
         }
     } catch (err){
         return next(err)

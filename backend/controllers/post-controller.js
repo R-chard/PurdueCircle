@@ -210,6 +210,26 @@ const retrieveFollowedPosts = async(req,res,next) => {
 
 const retrieveSavedPosts = async(req,res,next) => {
     const userID = req.session.userID
+    let currUser
+    try{
+        currUser = (await User.findById(userID).populate("saved_posts")).toObject()
+        if(currUser.saved_posts){
+            for(let i=0;i< currUser.saved_posts.length;i++){
+                let authorID = currUser.saved_posts[i].author
+                currUser.saved_posts[i].author = await User.findById(authorID,{"username":1,"profile_img":1})
+            }
+        }
+
+    } catch(error){
+        return next(error)
+    }
+
+    res.status(200).json({savedPosts:currUser.saved_posts})
+}
+/*
+
+const retrieveSavedPosts = async(req,res,next) => {
+    const userID = req.session.userID
     const page = req.params.page; // change for request parameter
     const limit = 5; // max number of posts to be returned
     let currUser
@@ -248,7 +268,7 @@ const retrieveSavedPosts = async(req,res,next) => {
     })
     //res.status(200).json({savedPosts:currUser.saved_posts})
 }
-
+*/
 /*
 const retrieveSavedPosts = async(req,res,next) => {
     const userID = req.session.userID
@@ -317,6 +337,8 @@ const fetchRecentPosts = async(req,res,next) => {
     let followed = [];
     let topics = [];
     const userID = req.session.userID;
+    const page = req.params.page;
+    const limit = 5;
 
     try {
         currUser = await User.findById(userID);
@@ -339,9 +361,9 @@ const fetchRecentPosts = async(req,res,next) => {
     //adds posts of followed users into pastposts
     try {
         //currUser = await User.findById(userID);
-        for (let i = 0; i < followed.length; i++) {
-            for (let j = 0; j < followed[i].posts.length; j++){
-                tempPost = await Post.findById(followed[i].posts[j]);
+        for (let followedUser of followed) {
+            for (let j = 0; j < followedUser.posts.length; j++){
+                tempPost = await Post.findById(followedUser.posts[j]);
                 pastPosts.push(tempPost)
             }
             
@@ -394,7 +416,15 @@ const fetchRecentPosts = async(req,res,next) => {
       }
     )
     let finalList = []
-    for (let i = 0; i < noDuplicates.length; i++) {
+    starting_i = (page-1)*limit
+    if(starting_i > noDuplicates.length){
+        res.status(200).json({finalList});
+        return
+    }
+
+    ending_i = Math.min(page*limit,noDuplicates.length)
+
+    for (let i = starting_i; i < ending_i; i++) {
         let post = noDuplicates[i]
         const author = await User.findById(post.author)
         post.author = {}

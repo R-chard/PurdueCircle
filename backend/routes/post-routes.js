@@ -13,5 +13,5 @@ router.get("/postById/:postID",validation,postController.postById)
 router.get("/retrievePastPosts", validation, postController.retrievePastPosts)
 router.get("/retrieveFollowedPosts", validation, postController.retrieveFollowedPosts)
 router.get("/retrieveSavedPosts/:page",validation,postController.retrieveSavedPosts)
-router.get("/fetchRecentPosts", validation, postController.fetchRecentPosts)
+router.get("/fetchRecentPosts/:page", validation, postController.fetchRecentPosts)
 module.exports = router

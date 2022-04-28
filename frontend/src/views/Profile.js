@@ -23,8 +23,13 @@ const Profile = (props) => {
         {
             title: "Interactions",
             content: []
+        },{
+            title: "Saved",
+            content: []
         }
     ])
+
+    console.log(tabContent)
     
     const location = useLocation()
     useEffect(()=>{

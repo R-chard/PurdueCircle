@@ -226,6 +226,17 @@ const getProfile = async(req,res,next)=>{
                 reqUser.saved_posts = reqUser.saved_posts.reverse() 
                 reqUser.saved_posts = reqUser.saved_posts.slice((page-1)*limit,page*limit)
 
+                for(let i =0;i<reqUser.saved_posts.length;i++){
+                    if (reqUser.saved_posts[i]){
+                        reqUser.saved_posts[i].hasLiked = false
+                        for(let j =0; j<reqUser.saved_posts[i].usersLiked.length;j++){
+                            if (reqUser.saved_posts[i].usersLiked[j].toString() === currUserID){
+                                reqUser.saved_posts[i].hasLiked = true
+                            }
+                        }
+                    }
+                }
+
             // reqUser is another user
             } else{
                 // current user is not following the selected user
@@ -267,18 +278,6 @@ const getProfile = async(req,res,next)=>{
             }
 
             reqUser.interactions = filteredInteractions
-
-            for(let i =0;i<reqUser.saved_posts.length;i++){
-                if (reqUser.saved_posts[i]){
-                    reqUser.saved_posts[i].hasLiked = false
-                    for(let j =0; j<reqUser.saved_posts[i].usersLiked.length;j++){
-                        if (reqUser.saved_posts[i].usersLiked[j].toString() === currUserID){
-                            reqUser.saved_posts[i].hasLiked = true
-                        }
-                    }
-                }
-            }
-            
         }
     } catch (err){
         return next(err)

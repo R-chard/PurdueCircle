@@ -2,11 +2,10 @@ import React, { useEffect, useState, useRef,useCallback } from "react"
 import { Link,useLocation } from "react-router-dom" 
 import "../styles/Profile.css"
 import axios from "axios"
-import {Button, ButtonBlue, ButtonTwoColor} from "../components/Button"
+import {ButtonTwoColor} from "../components/Button"
 import Tab from "../components/Tab"
 import InlinePost from "../components/InlinePost"
 import { useHistory } from 'react-router-dom';
-import { TabPane } from "react-bootstrap"
 import InteractionView from "../components/InteractionView"
 
 const Profile = (props) => {
@@ -17,6 +16,8 @@ const Profile = (props) => {
     const [followed, setFollowed] = useState(0);
     const [loading, setLoading] = useState(true)
     const [hasMore, setHasMore] = useState(true)
+    const [changing,setChanging] = useState(false)
+    const [user,setUser] = useState("")
     const observer = useRef()
     const location = useLocation()
     const [tabContent, setTabContent] = useState([
@@ -50,6 +51,23 @@ const Profile = (props) => {
         
     }, [loading, hasMore])
     useEffect(()=>{
+        if(user.length > 0 && location.pathname != user){
+            setUser(location.pathname)
+            setPage(1)
+            console.log("swap")
+            setChanging(true)
+            setTabContent([{
+                title: "Posts",
+                content: []
+            },
+            {
+                title: "Interactions",
+                content: [],
+                interactions: []
+            }])
+            return
+            
+        }
         setLoading(true)
         axios.get("/api/user" + location.pathname + "?page=" + page.toString(),{
             withCredentials: true, credentials:"include"
@@ -58,6 +76,8 @@ const Profile = (props) => {
             setData(response.data.user)
             setFollowed(response.data.user.following)
             setLoading(false)
+            setChanging(false)
+            setUser(location.pathname)
             const posts = response.data.user.posts
             const interactions = response.data.user.interactions
             const savedPosts = response.data.user.saved_posts;
@@ -78,10 +98,10 @@ const Profile = (props) => {
             interactions.forEach(element => {
                 intrPosts.push(element.post)
             });
-
+            
             setTabContent(tabContent => {
                 if(response.data.user.selfProfile){
-                    if (tabContent.length == 3){
+                    if (tabContent.length === 3){
                         return [
                             {
                                 title: "Posts",
@@ -101,15 +121,15 @@ const Profile = (props) => {
                     return [
                         {
                             title: "Posts",
-                            content: tabContent[0].content.concat(posts)
+                            content: posts
                         },
                         {
                             title: "Interactions",
-                            content: tabContent[1].content.concat(intrPosts),
-                            interactions: tabContent[1].interactions.concat(interactions)
+                            content: intrPosts,
+                            interactions: interactions
                         },{
                             title: "Saved",
-                            content: response.data.user.saved_posts
+                            content: savedPosts
                         }
                     ]
                 }
@@ -124,9 +144,10 @@ const Profile = (props) => {
                         interactions: tabContent[1].interactions.concat(interactions)
                     }
                 ]
+                
             })        
         })
-    },[location.pathname,refresh,page])
+    },[location.pathname,refresh,page,user])
 
 
     const followHandler =() => {
@@ -159,7 +180,7 @@ const Profile = (props) => {
 
     return (
         <>
-            {data && tabContent && (<div className={'contents profile'}>
+            {data && tabContent && !changing && (<div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}
                     <img className="main profilePic" alt={`Profile pic for ${data.name}`}
@@ -222,6 +243,8 @@ const Profile = (props) => {
                                         }
                                     }))
                                     : (tab.title === "Posts"?(tab.content.map((post,index) => {
+                                        console.log("index is " + index.toString())
+                                        console.log("tab.content.length is ", tab.content.length.toString())
                                         if(tab.content.length === index+1){
                                             return(
                                                 <div className="container postView" ref={lastElement}>
@@ -256,8 +279,7 @@ const Profile = (props) => {
                                                 </div>
                                             </div>
                                         )
-                                    }))
-)
+                                    })))
                                 )
                             }
                             <div className="footer" />
@@ -267,8 +289,7 @@ const Profile = (props) => {
                 ))}
                 </Tab>
             </>
-            
-    </div>)}
+        </div>)}
         </>
     ) 
 }

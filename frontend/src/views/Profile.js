@@ -197,7 +197,7 @@ const Profile = (props) => {
                                     (tab.interactions.map((post,index) => {
                                         if (tab.content.length === index + 1){
                                             return (
-                                                <div ref ={lastElement}>
+                                                <div ref ={lastElement} className={'interaction contents'}>
                                                 <InteractionView 
                                                     key={post.post_id} 
                                                     post={post.post} 
@@ -209,7 +209,7 @@ const Profile = (props) => {
                                             )
                                         }else{
                                             return(
-                                                <div>
+                                                <div className={'interaction contents'}>
                                                 <InteractionView 
                                                     key={post.post_id} 
                                                     post={post.post} 

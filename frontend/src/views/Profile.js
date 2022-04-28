@@ -30,8 +30,7 @@ const Profile = (props) => {
             interactions: []
         }
     ])
-
-    console.log("page is " + page)
+    
 
     const lastElement = useCallback(element => {
         if (loading) return
@@ -40,9 +39,7 @@ const Profile = (props) => {
             observer.current.disconnect()
         }
         observer.current = new IntersectionObserver(entires => {
-            console.log("yasd")
             if (entires[0].isIntersecting && hasMore) {
-                console.log("hey")
                 setPage(page => page + 1)
             }
         })
@@ -221,7 +218,7 @@ const Profile = (props) => {
                                             )
                                         }
                                     }))
-                                    : (tab.posts?(tab.posts.map((post,index) => {
+                                    : (tab.title === "Posts"?(tab.content.map((post,index) => {
                                         if(data.posts.length === index+1){
                                             return(
                                                 <div className="container postView" ref={lastElement}>
@@ -239,8 +236,8 @@ const Profile = (props) => {
                                             </div>
                                         )
                                         
-                                    })):(tab.saved.map((post,index)=>{
-                                        if(data.saved.length === index+1){
+                                    })):(tab.content.map((post,index)=>{
+                                        if(data.saved_posts.length === index+1){
                                             return(
                                                 <div className="container postView" ref={lastElement}>
                                                     <div className={`inlinePost contents`}>
@@ -256,7 +253,8 @@ const Profile = (props) => {
                                                 </div>
                                             </div>
                                         )
-                                    })))
+                                    }))
+)
                                 )
                             }
                             {loading ? <div className="loading">Loading...</div> : ''}

@@ -184,8 +184,8 @@ const Profile = (props) => {
 
     return (
         <>
-            <Header />
-            {data && tabContent && !changing && (!data.isFound ? <h1>User Not Found</h1> : <div className={'contents profile'}>
+            <Header/>
+            {data && tabContent && !changing && (/*!data.isFound ? <h1>User Not Found</h1> : */<div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}
                     <img className="main profilePic" alt={`Profile pic for ${data.name}`}
@@ -200,10 +200,10 @@ const Profile = (props) => {
                             }
                     </div>         
                     <div className='userInfo2'>
-                        <h6>{data.posts.length} posts</h6>
-                            <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
-                            <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
-                            <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
+                        {/*<h6>{data.posts.length} posts</h6>*/}
+                        <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
+                        <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
+                        <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
                     </div>
                     <h6 className='name'>{data.name}</h6>
                     <h6>{data.biography}</h6>

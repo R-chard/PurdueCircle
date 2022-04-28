@@ -195,9 +195,9 @@ const Profile = (props) => {
                 <div className='userInfo0'>
                     <div className='userInfo1'>
                         <h1>{data.username}</h1>
-                            {data.selfProfile ? <ButtonTwoColor className={`button secondary`} text = "Edit Profile" onClick={()=>{history.push("/settings")}}/>
+                            {data.loggedIn && (data.selfProfile ? <ButtonTwoColor className={`button secondary`} text = "Edit Profile" onClick={()=>{history.push("/settings")}}/>
                                 :<ButtonTwoColor className={`button ${followed ? "secondary" : "primary"}`} text={followed ? 'Unfollow' : "Follow"} onClick={()=>{followed ? unfollowHandler() : followHandler()}}/>
-                            }
+                            )}
                     </div>         
                     <div className='userInfo2'>
                         {/*<h6>{data.posts.length} posts</h6>*/}

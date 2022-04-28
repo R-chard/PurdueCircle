@@ -267,6 +267,17 @@ const getProfile = async(req,res,next)=>{
             }
 
             reqUser.interactions = filteredInteractions
+
+            for(let i =0;i<reqUser.saved_posts.length;i++){
+                if (reqUser.saved_posts[i]){
+                    reqUser.saved_posts[i].hasLiked = false
+                    for(let j =0; j<reqUser.saved_posts[i].usersLiked.length;j++){
+                        if (reqUser.saved_posts[i].usersLiked[j].toString() === currUserID){
+                            reqUser.saved_posts[i].hasLiked = true
+                        }
+                    }
+                }
+            }
             
         }
     } catch (err){

@@ -8,6 +8,7 @@ import InlinePost from "../components/InlinePost"
 import { useHistory } from 'react-router-dom';
 import { TabPane } from "react-bootstrap"
 import InteractionView from "../components/InteractionView"
+import Header from "../components/Header"
 
 const Profile = (props) => {
     const history = useHistory()
@@ -159,6 +160,7 @@ const Profile = (props) => {
 
     return (
         <>
+            <Header/>
             {data && tabContent && (<div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}

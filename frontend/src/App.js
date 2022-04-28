@@ -47,7 +47,8 @@ const App = () => {
                     </Route>
 
                     <Route path='/profile'>
-                        <PrivateRoute component={Profile}/>
+                        {/*<PrivateRoute component={Profile}/>*/}
+                        <Profile />
                     </Route>
 
                     <Route exact path='/settings'>

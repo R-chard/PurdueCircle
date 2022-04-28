@@ -181,6 +181,7 @@ const Profile = (props) => {
 
     return (
         <>
+            <Header />
             {data && tabContent && !changing && (<div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}

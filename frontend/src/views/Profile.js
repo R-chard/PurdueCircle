@@ -120,7 +120,7 @@ const Profile = (props) => {
                     },
                     {
                         title: "Interactions",
-                        content: tabContent[1].interactions.content.concat(intrPosts),
+                        content: tabContent[1].content.concat(intrPosts),
                         interactions: tabContent[1].interactions.concat(interactions)
                     }
                 ]
@@ -195,16 +195,17 @@ const Profile = (props) => {
                             {tab.content.length === 0 ? <div>There are no posts to show </div> : (
                                 tab.interactions ? 
                                     (tab.interactions.map((post,index) => {
-                                        if (data.interactions.length === index + 1){
+                                        if (tab.content.length === index + 1){
                                             return (
+                                                <div ref ={lastElement}>
                                                 <InteractionView 
                                                     key={post.post_id} 
                                                     post={post.post} 
                                                     username={data.username} 
                                                     interaction={post} 
                                                     presetSize={false}
-                                                    ref = {lastElement}
                                                 />
+                                                </div>
                                             )
                                         }else{
                                             return(
@@ -219,7 +220,7 @@ const Profile = (props) => {
                                         }
                                     }))
                                     : (tab.title === "Posts"?(tab.content.map((post,index) => {
-                                        if(data.posts.length === index+1){
+                                        if(tab.content.length === index+1){
                                             return(
                                                 <div className="container postView" ref={lastElement}>
                                                     <div className={`inlinePost contents`}>
@@ -237,7 +238,7 @@ const Profile = (props) => {
                                         )
                                         
                                     })):(tab.content.map((post,index)=>{
-                                        if(data.saved_posts.length === index+1){
+                                        if(tab.content.length === index+1){
                                             return(
                                                 <div className="container postView" ref={lastElement}>
                                                     <div className={`inlinePost contents`}>

@@ -235,11 +235,12 @@ const getProfile = async(req,res,next)=>{
                         reqUser.following = true
                     }
                 }
+                reqUser.saved_posts = null
                 reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon).reverse()
             }
             reqUser.posts = reqUser.posts.slice((page-1)*limit,page*limit)
-            reqUser.interactions.posts = reqUser.interactions.reverse() 
-            reqUser.interactions.posts = reqUser.interactions.posts.slice((page-1)*limit,page*limit)
+            reqUser.interactions = reqUser.interactions.reverse() 
+            reqUser.interactions = reqUser.interactions.slice((page-1)*limit,page*limit)
 
             // iterate through posts to add hasLiked
             for(let i = 0; i<reqUser.posts.length;i++){
@@ -263,11 +264,10 @@ const getProfile = async(req,res,next)=>{
                     }
                     filteredInteractions.push(reqUser.interactions[i])
                 }
-                
             }
 
             reqUser.interactions = filteredInteractions
-
+            
         }
     } catch (err){
         return next(err)

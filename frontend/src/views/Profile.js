@@ -120,7 +120,7 @@ const Profile = (props) => {
                     },
                     {
                         title: "Interactions",
-                        content: tabContent[1].interactions.content.concat(intrPosts),
+                        content: tabContent[1].content.concat(intrPosts),
                         interactions: tabContent[1].interactions.concat(interactions)
                     }
                 ]

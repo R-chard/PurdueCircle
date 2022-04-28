@@ -20,17 +20,7 @@ const Profile = (props) => {
     const [hasMore, setHasMore] = useState(true)
     const observer = useRef()
     const location = useLocation()
-    const [tabContent, setTabContent] = useState([
-        {
-            title: "Posts",
-            content: []
-        },
-        {
-            title: "Interactions",
-            content: [],
-            interactions: []
-        }
-    ])
+    const [tabContent, setTabContent] = useState([])
     
 
     const lastElement = useCallback(element => {
@@ -80,9 +70,27 @@ const Profile = (props) => {
                 intrPosts.push(element.post)
             });
 
-            setTabContent(tabContent => {
-                if(response.data.user.selfProfile){
-                    if (tabContent.length == 3){
+            console.log(response.data.user.loggedIn);
+            if(response.data.user.loggedIn) {
+                setTabContent(tabContent => {
+                    if(response.data.user.selfProfile){
+                        if (tabContent.length == 3){
+                            return [
+                                {
+                                    title: "Posts",
+                                    content: tabContent[0].content.concat(posts)
+                                },
+                                {
+                                    title: "Interactions",
+                                    content: tabContent[1].content.concat(intrPosts),
+                                    interactions: tabContent[1].interactions.concat(interactions)
+                                },{
+                                    title: "Saved",
+                                    content: tabContent[2].content.concat(savedPosts)
+                                }
+                            ]
+    
+                        }
                         return [
                             {
                                 title: "Posts",
@@ -94,10 +102,9 @@ const Profile = (props) => {
                                 interactions: tabContent[1].interactions.concat(interactions)
                             },{
                                 title: "Saved",
-                                content: tabContent[2].content.concat(savedPosts)
+                                content: response.data.user.saved_posts
                             }
                         ]
-
                     }
                     return [
                         {
@@ -108,24 +115,12 @@ const Profile = (props) => {
                             title: "Interactions",
                             content: tabContent[1].content.concat(intrPosts),
                             interactions: tabContent[1].interactions.concat(interactions)
-                        },{
-                            title: "Saved",
-                            content: response.data.user.saved_posts
                         }
                     ]
-                }
-                return [
-                    {
-                        title: "Posts",
-                        content: tabContent[0].content.concat(posts)
-                    },
-                    {
-                        title: "Interactions",
-                        content: tabContent[1].content.concat(intrPosts),
-                        interactions: tabContent[1].interactions.concat(interactions)
-                    }
-                ]
-            })        
+                })
+            } else {
+                console.log("Hello");
+            }        
         })
     },[location.pathname,refresh,page])
 
@@ -177,9 +172,9 @@ const Profile = (props) => {
                     </div>         
                     <div className='userInfo2'>
                         <h6>{data.posts.length} posts</h6>
-                        <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
-                        <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
-                        <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
+                            <Link to={'/followers/' +data.username} className="link">{data.users_followed.length} followers</Link>
+                            <Link to={'/following/' +data.username} className="link">{data.users_following.length} following</Link>
+                            <Link to={'/topics/' +data.username} className="link">{data.topics_followed.length} topics</Link>
                     </div>
                     <h6 className='name'>{data.name}</h6>
                     <h6>{data.biography}</h6>

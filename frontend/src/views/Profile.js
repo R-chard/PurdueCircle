@@ -21,17 +21,7 @@ const Profile = (props) => {
     const [user,setUser] = useState("")
     const observer = useRef()
     const location = useLocation()
-    const [tabContent, setTabContent] = useState([
-        {
-            title: "Posts",
-            content: []
-        },
-        {
-            title: "Interactions",
-            content: [],
-            interactions: []
-        }
-    ])
+    const [tabContent, setTabContent] = useState([])
     
 
     const lastElement = useCallback(element => {
@@ -56,15 +46,7 @@ const Profile = (props) => {
             setUser(location.pathname)
             setPage(1)
             setChanging(true)
-            setTabContent([{
-                title: "Posts",
-                content: []
-            },
-            {
-                title: "Interactions",
-                content: [],
-                interactions: []
-            }])
+            setTabContent([])
             return
             
         }

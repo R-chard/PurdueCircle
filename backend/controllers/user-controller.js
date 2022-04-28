@@ -178,7 +178,7 @@ const getProfile = async(req,res,next)=>{
     
     let reqUser
     let currUser
-    
+
     try{
 
         // user is logged in
@@ -211,7 +211,7 @@ const getProfile = async(req,res,next)=>{
         reqUser = reqUser.toObject()
         if(currUserID){
             reqUser.loggedIn = true
-            reqUser.posts = reqUser.posts.filter(post=>!post.postedAnon).reverse()
+            reqUser.posts = reqUser.posts.reverse()
             reqUser.interactions.posts = reqUser.interactions.reverse() 
 
             // iterate through posts to add hasLiked

@@ -21,7 +21,19 @@ const Profile = (props) => {
     const [user,setUser] = useState("")
     const observer = useRef()
     const location = useLocation()
-    const [tabContent, setTabContent] = useState([])
+    const [tabContent, setTabContent] = useState([{
+            title: "Posts",
+            content: []
+        },
+        {
+            title: "Interactions",
+            content: [],
+            interactions: []
+        },{
+            title: "Saved",
+            content: []
+        }
+    ])
     
 
     const lastElement = useCallback(element => {
@@ -46,7 +58,20 @@ const Profile = (props) => {
             setUser(location.pathname)
             setPage(1)
             setChanging(true)
-            setTabContent([])
+            setTabContent([
+                {
+                    title: "Posts",
+                    content: []
+                },
+                {
+                    title: "Interactions",
+                    content: [],
+                    interactions: []
+                },{
+                    title: "Saved",
+                    content: []
+                }
+            ])
             return
             
         }
@@ -196,7 +221,7 @@ const Profile = (props) => {
             {/* Userline tabs */}
             
             <>
-                <Tab>
+                {data.loggedIn && <Tab>
                 {tabContent.map((tab, idx) => (
                     <Tab.TabPane key={`Tab-${idx}`} tab={tab.title}>
                         {<div className="container postView">
@@ -274,7 +299,7 @@ const Profile = (props) => {
                         }
                     </Tab.TabPane>
                 ))}
-                </Tab>
+                </Tab>}
             </>
         </div>)}
         </>

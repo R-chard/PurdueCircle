@@ -106,7 +106,7 @@ const Profile = (props) => {
                 intrPosts.push(element.post)
             });
 
-            console.log(response.data.user.loggedIn);
+            console.log(response.data);
             if(response.data.user.loggedIn) {
                 setTabContent(tabContent => {
                     if(response.data.user.selfProfile){
@@ -192,7 +192,7 @@ const Profile = (props) => {
     return (
         <>
             <Header/>
-            {data && tabContent && !changing && (/*!data.isFound ? <h1>User Not Found</h1> : */<div className={'contents profile'}>
+            {data && tabContent && !changing && (data.isFound == false ? <h1>User Not Found</h1> : <div className={'contents profile'}>
             <div className="profileData">
                 {/* Profile Picture */}
                     <img className="main profilePic" alt={`Profile pic for ${data.name}`}

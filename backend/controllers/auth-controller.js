@@ -7,7 +7,7 @@ const signup = async (req,res,next) => {
     const {username,email,password,name} = req.body
     
     if (username.length > 32 || email.length > 32 || password.length > 32 || name.length > 32) {
-        res.status(404).json({isValid: false})
+        res.status(404).json({isValidLength: false})
         return
     }
     // check if user/email exists
@@ -53,7 +53,7 @@ const login = async (req, res, next) => {
     let success;
 
     if (credentials.length > 32 || password.length > 32) {
-        res.status(404).json({isValid: false})
+        res.status(404).json({isValidLength: false})
         return
     }
     try {
